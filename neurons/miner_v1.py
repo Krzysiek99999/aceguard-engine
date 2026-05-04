@@ -88,6 +88,10 @@ VARIANTS = {
     "v1_b_deeper_lgbm":      {"model_file": None, "description": "V1: B deeper perfect on train", "use_safe_cap": False, "cls": "lgbm", "lgbm_tag": "B_deeper"},
     "v1_c_paranoid_lgbm":    {"model_file": None, "description": "V1: C paranoid plus perfect on train", "use_safe_cap": False, "cls": "lgbm", "lgbm_tag": "C_paranoid_plus"},
     "v1_b_deeper_adaptive":  {"model_file": None, "description": "V1: B deeper per-batch adaptive 22%", "use_safe_cap": False, "cls": "lgbm", "lgbm_tag": "B_deeper", "use_batch_adaptive": True, "max_bot_fraction": 0.22},
+    "v1_top1_v2_dynamic":    {"model_file": None, "description": "V1: top1_v2 (98k) + dynamic per-batch cap", "use_safe_cap": False, "cls": "lgbm", "lgbm_tag": "v1_top1_v2", "use_dynamic_cap": True, "v1_features": True},
+    "v1_top1_v3_dynamic":    {"model_file": None, "description": "V1: top1_v3 (250k, 5x live weight) + dynamic cap", "use_safe_cap": False, "cls": "lgbm", "lgbm_tag": "v1_top1_v3", "use_dynamic_cap": True, "v1_features": True},
+    "v1_top1_v3_static_low": {"model_file": None, "description": "V1: top1_v3 + fixed cap 0.10 (anti-cliff)", "use_safe_cap": False, "cls": "lgbm", "lgbm_tag": "v1_top1_v3", "use_batch_adaptive": True, "max_bot_fraction": 0.10, "v1_features": True},
+    "v1_top1_v3_static_med": {"model_file": None, "description": "V1: top1_v3 + fixed cap 0.15", "use_safe_cap": False, "cls": "lgbm", "lgbm_tag": "v1_top1_v3", "use_batch_adaptive": True, "max_bot_fraction": 0.15, "v1_features": True},
     "v1_ensemble_mean":      {"model_file": "cnn_v1_adversarial.pt", "description": "V1: mean(cnn_adv, diversity, other_r) + Otsu 0.50", "use_safe_cap": True, "cls": "v1_ensemble", "max_bot_override": 0.50},
 }
 
@@ -252,8 +256,22 @@ class Miner(BaseMinerNeuron):
 
         variant_cfg = VARIANTS.get(self.variant, VARIANTS["hybrid"])
 
-        # Per-batch adaptive calibration (best for variable bot ratios)
-        if variant_cfg.get("use_batch_adaptive") and self.lgbm and len(chunks) > 0:
+        # Dynamic per-batch cap (auto-detects ratio, anti-cliff)
+        if variant_cfg.get("use_dynamic_cap") and self.lgbm and len(chunks) > 0:
+            from poker44.score.calibration import dynamic_safe_calibrate
+            raw_scores = [self._lgbm_score_raw(chunk) for chunk in chunks]
+            env_cap = os.getenv("POKER44_MAX_BOT_FRACTION")
+            abs_max = float(env_cap) if env_cap is not None else 0.50
+            cal = dynamic_safe_calibrate(
+                raw_scores,
+                isotonic_points=self.lgbm_isotonic,
+                safety_margin=0.05,
+                absolute_max=abs_max,
+                absolute_min=0.05,
+            )
+            scores = [round(float(v), 6) for v in cal]
+        # Per-batch adaptive calibration with FIXED cap (best for known ratio)
+        elif variant_cfg.get("use_batch_adaptive") and self.lgbm and len(chunks) > 0:
             raw_scores = [self._lgbm_score_raw(chunk) for chunk in chunks]
             # Allow env override for rapid cap tuning
             env_cap = os.getenv("POKER44_MAX_BOT_FRACTION")

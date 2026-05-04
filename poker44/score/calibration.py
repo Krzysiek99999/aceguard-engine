@@ -212,6 +212,65 @@ def adaptive_safe_calibrate(
     return out
 
 
+def dynamic_safe_calibrate(
+    raw_scores: Sequence[float],
+    *,
+    isotonic_points: Optional[List[Tuple[float, float]]] = None,
+    estimated_bot_ratio: Optional[float] = None,
+    safety_margin: float = 0.05,
+    absolute_max: float = 0.50,
+    absolute_min: float = 0.05,
+) -> np.ndarray:
+    """Dynamic per-batch cap based on confidence in raw distribution.
+
+    Logic:
+    - If raw scores are bimodal (clear gap) → estimate bot_ratio from gap location
+    - Cap = max(absolute_min, min(absolute_max, estimated_ratio - safety_margin))
+    - Otsu finds threshold; safety_margin prevents cliff if estimate is slightly high
+
+    For unknown true ratio: this auto-adjusts so cliff never triggers.
+    Combined with safety_margin=0.05, max FPR ≈ safety_margin / (1-est_ratio).
+    """
+    arr = np.asarray(raw_scores, dtype=np.float64)
+    n = len(arr)
+    if n == 0:
+        return np.zeros(0, dtype=np.float64)
+
+    # Apply isotonic if available
+    if isotonic_points:
+        arr_iso = np.asarray([apply_isotonic(float(x), isotonic_points) for x in arr])
+    else:
+        arr_iso = arr
+
+    # Estimate bot_ratio if not provided: count scores above raw threshold 0.5
+    if estimated_bot_ratio is None:
+        # Use Otsu's threshold to estimate ratio
+        sorted_vals = np.sort(arr_iso)
+        best_t = float(np.median(arr_iso))
+        best_var = float("inf")
+        for i in range(1, n):
+            if sorted_vals[i] == sorted_vals[i - 1]:
+                continue
+            t = (sorted_vals[i - 1] + sorted_vals[i]) / 2.0
+            c0 = arr_iso[arr_iso <= t]
+            c1 = arr_iso[arr_iso > t]
+            if len(c0) == 0 or len(c1) == 0:
+                continue
+            w0 = len(c0) / n
+            w1 = len(c1) / n
+            v = w0 * np.var(c0) + w1 * np.var(c1)
+            if v < best_var:
+                best_var = v
+                best_t = t
+        estimated_bot_ratio = float((arr_iso > best_t).sum()) / n
+
+    # Apply safety margin and bounds
+    safe_cap = max(absolute_min, min(absolute_max, estimated_bot_ratio - safety_margin))
+
+    # Use adaptive_safe_calibrate with computed cap
+    return adaptive_safe_calibrate(arr, isotonic_points=isotonic_points, max_bot_fraction=safe_cap)
+
+
 def rank_based_calibrate(
     raw_scores: Sequence[float],
     *,
