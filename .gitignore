@@ -9,6 +9,11 @@ __pycache__/
 *.pt
 *.pkl
 *.txt
+# Production model artifacts (LightGBM native format, kept in-repo for verifiability)
+!models/v14_live_stable.txt
+!models/v19_ranker.txt
+!models/v22_competitor_ranker.txt
+!requirements.txt
 *.gz
 data/
 wallets/

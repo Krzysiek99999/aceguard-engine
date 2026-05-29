@@ -1,0 +1,750 @@
+{
+  "model_name": "poker44-v14-live-stable",
+  "model_version": "14.0",
+  "feature_count": 21,
+  "feature_names": [
+    "h_action_entropy_max",
+    "h_action_entropy_std",
+    "h_action_run_share_iqr",
+    "h_action_run_share_min",
+    "h_actor_entropy_max",
+    "h_actor_entropy_mean",
+    "h_actor_entropy_min",
+    "h_actor_entropy_q90",
+    "h_actor_entropy_std",
+    "h_actor_run_share_q10",
+    "h_fold_share_min",
+    "h_hero_action_share_max",
+    "h_hero_action_share_q90",
+    "h_n_players_min",
+    "h_n_streets_q90",
+    "h_passive_share_iqr",
+    "h_postflop_share_iqr",
+    "h_preflop_share_iqr",
+    "hand_count",
+    "rate_high_actor_entropy",
+    "rate_low_action_entropy"
+  ],
+  "banned_hard_count": 58,
+  "banned_ks_count": 137,
+  "ks_stats": {
+    "chunk_action_count_iqr": {
+      "ks": null,
+      "reason": "constant"
+    },
+    "chunk_action_count_std": {
+      "ks": null,
+      "reason": "constant"
+    },
+    "chunk_showdown_rate": {
+      "ks": null,
+      "reason": "constant"
+    },
+    "h_action_entropy_iqr": {
+      "ks": 0.3671276013143483,
+      "banned": true
+    },
+    "h_action_entropy_max": {
+      "ks": 0.23116100766703176
+    },
+    "h_action_entropy_mean": {
+      "ks": 0.5107201533406353,
+      "banned": true
+    },
+    "h_action_entropy_min": {
+      "ks": 0.32765607886089815,
+      "banned": true
+    },
+    "h_action_entropy_q10": {
+      "ks": 0.586801752464403,
+      "banned": true
+    },
+    "h_action_entropy_q50": {
+      "ks": 0.6621714129244249,
+      "banned": true
+    },
+    "h_action_entropy_q90": {
+      "ks": 0.4508488499452355,
+      "banned": true
+    },
+    "h_action_entropy_std": {
+      "ks": 0.19989047097480833
+    },
+    "h_action_run_share_iqr": {
+      "ks": 0.15032858707557503
+    },
+    "h_action_run_share_max": {
+      "ks": 0.5759446878422783,
+      "banned": true
+    },
+    "h_action_run_share_mean": {
+      "ks": 0.4881024096385542,
+      "banned": true
+    },
+    "h_action_run_share_min": {
+      "ks": 0.29420865279299013
+    },
+    "h_action_run_share_q10": {
+      "ks": 0.4782721796276013,
+      "banned": true
+    },
+    "h_action_run_share_q50": {
+      "ks": 0.5268209200438116,
+      "banned": true
+    },
+    "h_action_run_share_q90": {
+      "ks": 0.6565991237677985,
+      "banned": true
+    },
+    "h_action_run_share_std": {
+      "ks": 0.49743975903614457,
+      "banned": true
+    },
+    "h_actor_entropy_iqr": {
+      "ks": 0.6062842278203724,
+      "banned": true
+    },
+    "h_actor_entropy_max": {
+      "ks": 0.09709748083242059
+    },
+    "h_actor_entropy_mean": {
+      "ks": 0.2639786418400876
+    },
+    "h_actor_entropy_min": {
+      "ks": 0.2318592552026287
+    },
+    "h_actor_entropy_q10": {
+      "ks": 0.326697699890471,
+      "banned": true
+    },
+    "h_actor_entropy_q50": {
+      "ks": 0.6410049288061336,
+      "banned": true
+    },
+    "h_actor_entropy_q90": {
+      "ks": 0.18307776560788608
+    },
+    "h_actor_entropy_std": {
+      "ks": 0.22975082146768894
+    },
+    "h_actor_run_share_iqr": {
+      "ks": 0.599000547645126,
+      "banned": true
+    },
+    "h_actor_run_share_max": {
+      "ks": 0.3767661555312158,
+      "banned": true
+    },
+    "h_actor_run_share_mean": {
+      "ks": 0.6321193866374589,
+      "banned": true
+    },
+    "h_actor_run_share_min": {
+      "ks": 0.6400465498357064,
+      "banned": true
+    },
+    "h_actor_run_share_q10": {
+      "ks": 0.08707557502738225
+    },
+    "h_actor_run_share_q50": {
+      "ks": 0.6253012048192771,
+      "banned": true
+    },
+    "h_actor_run_share_q90": {
+      "ks": 0.5741648411829134,
+      "banned": true
+    },
+    "h_actor_run_share_std": {
+      "ks": 0.4174014238773275,
+      "banned": true
+    },
+    "h_aggression_share_iqr": {
+      "ks": 0.8187568455640745,
+      "banned": true
+    },
+    "h_aggression_share_max": {
+      "ks": 0.9029299014238773,
+      "banned": true
+    },
+    "h_aggression_share_mean": {
+      "ks": 0.983105147864184,
+      "banned": true
+    },
+    "h_aggression_share_min": {
+      "ks": null,
+      "reason": "constant"
+    },
+    "h_aggression_share_q10": {
+      "ks": null,
+      "reason": "constant"
+    },
+    "h_aggression_share_q50": {
+      "ks": 0.9218784227820372,
+      "banned": true
+    },
+    "h_aggression_share_q90": {
+      "ks": 0.9579408543263965,
+      "banned": true
+    },
+    "h_aggression_share_std": {
+      "ks": 0.9626642935377875,
+      "banned": true
+    },
+    "h_call_share_iqr": {
+      "ks": 0.6231790799561884,
+      "banned": true
+    },
+    "h_call_share_max": {
+      "ks": 0.693222891566265,
+      "banned": true
+    },
+    "h_call_share_mean": {
+      "ks": 0.9990963855421687,
+      "banned": true
+    },
+    "h_call_share_min": {
+      "ks": null,
+      "reason": "constant"
+    },
+    "h_call_share_q10": {
+      "ks": 0.42402792990142385,
+      "banned": true
+    },
+    "h_call_share_q50": {
+      "ks": 0.9945509309967141,
+      "banned": true
+    },
+    "h_call_share_q90": {
+      "ks": 0.9325301204819277,
+      "banned": true
+    },
+    "h_call_share_std": {
+      "ks": 0.7781763417305586,
+      "banned": true
+    },
+    "h_check_share_iqr": {
+      "ks": 0.5819140197152245,
+      "banned": true
+    },
+    "h_check_share_max": {
+      "ks": 0.6312705366922234,
+      "banned": true
+    },
+    "h_check_share_mean": {
+      "ks": 0.9978915662650603,
+      "banned": true
+    },
+    "h_check_share_min": {
+      "ks": null,
+      "reason": "constant"
+    },
+    "h_check_share_q10": {
+      "ks": 0.4468236582694414,
+      "banned": true
+    },
+    "h_check_share_q50": {
+      "ks": 0.9954819277108434,
+      "banned": true
+    },
+    "h_check_share_q90": {
+      "ks": 0.8796823658269441,
+      "banned": true
+    },
+    "h_check_share_std": {
+      "ks": 0.7075985761226725,
+      "banned": true
+    },
+    "h_fold_share_iqr": {
+      "ks": 0.4384173055859803,
+      "banned": true
+    },
+    "h_fold_share_max": {
+      "ks": 0.4996987951807229,
+      "banned": true
+    },
+    "h_fold_share_mean": {
+      "ks": 0.4822289156626506,
+      "banned": true
+    },
+    "h_fold_share_min": {
+      "ks": 0.12386363636363637
+    },
+    "h_fold_share_q10": {
+      "ks": 0.38626779846659365,
+      "banned": true
+    },
+    "h_fold_share_q50": {
+      "ks": 0.41278751369112815,
+      "banned": true
+    },
+    "h_fold_share_q90": {
+      "ks": 0.4996987951807229,
+      "banned": true
+    },
+    "h_fold_share_std": {
+      "ks": 0.4717962760131435,
+      "banned": true
+    },
+    "h_hero_action_share_iqr": {
+      "ks": 0.653354326396495,
+      "banned": true
+    },
+    "h_hero_action_share_max": {
+      "ks": 0.19071741511500548
+    },
+    "h_hero_action_share_mean": {
+      "ks": 0.5224808324205915,
+      "banned": true
+    },
+    "h_hero_action_share_min": {
+      "ks": null,
+      "reason": "constant"
+    },
+    "h_hero_action_share_q10": {
+      "ks": null,
+      "reason": "constant"
+    },
+    "h_hero_action_share_q50": {
+      "ks": 0.383105147864184,
+      "banned": true
+    },
+    "h_hero_action_share_q90": {
+      "ks": 0.2397590361445783
+    },
+    "h_hero_action_share_std": {
+      "ks": 0.3762185104052574,
+      "banned": true
+    },
+    "h_n_actions_iqr": {
+      "ks": null,
+      "reason": "constant"
+    },
+    "h_n_actions_max": {
+      "ks": null,
+      "reason": "constant"
+    },
+    "h_n_actions_mean": {
+      "ks": null,
+      "reason": "constant"
+    },
+    "h_n_actions_min": {
+      "ks": null,
+      "reason": "constant"
+    },
+    "h_n_actions_q10": {
+      "ks": null,
+      "reason": "constant"
+    },
+    "h_n_actions_q50": {
+      "ks": null,
+      "reason": "constant"
+    },
+    "h_n_actions_q90": {
+      "ks": null,
+      "reason": "constant"
+    },
+    "h_n_actions_std": {
+      "ks": null,
+      "reason": "constant"
+    },
+    "h_n_players_iqr": {
+      "ks": 0.6502327491785324,
+      "banned": true
+    },
+    "h_n_players_max": {
+      "ks": null,
+      "reason": "constant"
+    },
+    "h_n_players_mean": {
+      "ks": 0.8965909090909091,
+      "banned": true
+    },
+    "h_n_players_min": {
+      "ks": 0.1594879518072289
+    },
+    "h_n_players_q10": {
+      "ks": 0.3226725082146769,
+      "banned": true
+    },
+    "h_n_players_q50": {
+      "ks": 0.5313389923329682,
+      "banned": true
+    },
+    "h_n_players_q90": {
+      "ks": 1.0,
+      "banned": true
+    },
+    "h_n_players_std": {
+      "ks": 0.7823247535596933,
+      "banned": true
+    },
+    "h_n_streets_iqr": {
+      "ks": 0.5443592552026287,
+      "banned": true
+    },
+    "h_n_streets_max": {
+      "ks": null,
+      "reason": "constant"
+    },
+    "h_n_streets_mean": {
+      "ks": 0.7363088718510405,
+      "banned": true
+    },
+    "h_n_streets_min": {
+      "ks": null,
+      "reason": "constant"
+    },
+    "h_n_streets_q10": {
+      "ks": null,
+      "reason": "constant"
+    },
+    "h_n_streets_q50": {
+      "ks": 0.7186336254107338,
+      "banned": true
+    },
+    "h_n_streets_q90": {
+      "ks": 0.19575575027382255
+    },
+    "h_n_streets_std": {
+      "ks": 0.3630750273822563,
+      "banned": true
+    },
+    "h_passive_share_iqr": {
+      "ks": 0.25933734939759034
+    },
+    "h_passive_share_max": {
+      "ks": 0.7999315443592552,
+      "banned": true
+    },
+    "h_passive_share_mean": {
+      "ks": 1.0,
+      "banned": true
+    },
+    "h_passive_share_min": {
+      "ks": 0.9931818181818182,
+      "banned": true
+    },
+    "h_passive_share_q10": {
+      "ks": 1.0,
+      "banned": true
+    },
+    "h_passive_share_q50": {
+      "ks": 0.9993975903614458,
+      "banned": true
+    },
+    "h_passive_share_q90": {
+      "ks": 0.972302847754655,
+      "banned": true
+    },
+    "h_passive_share_std": {
+      "ks": 0.3553669222343921,
+      "banned": true
+    },
+    "h_postflop_share_iqr": {
+      "ks": 0.2651697699890471
+    },
+    "h_postflop_share_max": {
+      "ks": 0.5921823658269442,
+      "banned": true
+    },
+    "h_postflop_share_mean": {
+      "ks": 0.4681133625410734,
+      "banned": true
+    },
+    "h_postflop_share_min": {
+      "ks": null,
+      "reason": "constant"
+    },
+    "h_postflop_share_q10": {
+      "ks": null,
+      "reason": "constant"
+    },
+    "h_postflop_share_q50": {
+      "ks": 0.7127190580503834,
+      "banned": true
+    },
+    "h_postflop_share_q90": {
+      "ks": 0.52802573932092,
+      "banned": true
+    },
+    "h_postflop_share_std": {
+      "ks": 0.5413608981380066,
+      "banned": true
+    },
+    "h_preflop_share_iqr": {
+      "ks": 0.2651697699890471
+    },
+    "h_preflop_share_max": {
+      "ks": null,
+      "reason": "constant"
+    },
+    "h_preflop_share_mean": {
+      "ks": 0.4681133625410734,
+      "banned": true
+    },
+    "h_preflop_share_min": {
+      "ks": 0.5921823658269442,
+      "banned": true
+    },
+    "h_preflop_share_q10": {
+      "ks": 0.52802573932092,
+      "banned": true
+    },
+    "h_preflop_share_q50": {
+      "ks": 0.7127190580503834,
+      "banned": true
+    },
+    "h_preflop_share_q90": {
+      "ks": null,
+      "reason": "constant"
+    },
+    "h_preflop_share_std": {
+      "ks": 0.5413608981380066,
+      "banned": true
+    },
+    "h_raise_share_iqr": {
+      "ks": 0.844263417305586,
+      "banned": true
+    },
+    "h_raise_share_max": {
+      "ks": 0.9159775465498357,
+      "banned": true
+    },
+    "h_raise_share_mean": {
+      "ks": 0.9782858707557502,
+      "banned": true
+    },
+    "h_raise_share_min": {
+      "ks": null,
+      "reason": "constant"
+    },
+    "h_raise_share_q10": {
+      "ks": null,
+      "reason": "constant"
+    },
+    "h_raise_share_q50": {
+      "ks": null,
+      "reason": "constant"
+    },
+    "h_raise_share_q90": {
+      "ks": 0.9740690032858708,
+      "banned": true
+    },
+    "h_raise_share_std": {
+      "ks": 0.9661144578313253,
+      "banned": true
+    },
+    "h_showdown_flag_iqr": {
+      "ks": null,
+      "reason": "constant"
+    },
+    "h_showdown_flag_max": {
+      "ks": null,
+      "reason": "constant"
+    },
+    "h_showdown_flag_mean": {
+      "ks": null,
+      "reason": "constant"
+    },
+    "h_showdown_flag_min": {
+      "ks": null,
+      "reason": "constant"
+    },
+    "h_showdown_flag_q10": {
+      "ks": null,
+      "reason": "constant"
+    },
+    "h_showdown_flag_q50": {
+      "ks": null,
+      "reason": "constant"
+    },
+    "h_showdown_flag_q90": {
+      "ks": null,
+      "reason": "constant"
+    },
+    "h_showdown_flag_std": {
+      "ks": null,
+      "reason": "constant"
+    },
+    "h_unique_actor_share_iqr": {
+      "ks": 0.7196467688937569,
+      "banned": true
+    },
+    "h_unique_actor_share_max": {
+      "ks": null,
+      "reason": "constant"
+    },
+    "h_unique_actor_share_mean": {
+      "ks": 0.9987951807228915,
+      "banned": true
+    },
+    "h_unique_actor_share_min": {
+      "ks": 0.9465498357064622,
+      "banned": true
+    },
+    "h_unique_actor_share_q10": {
+      "ks": 0.9963855421686747,
+      "banned": true
+    },
+    "h_unique_actor_share_q50": {
+      "ks": 0.9993975903614458,
+      "banned": true
+    },
+    "h_unique_actor_share_q90": {
+      "ks": null,
+      "reason": "constant"
+    },
+    "h_unique_actor_share_std": {
+      "ks": 0.9285870755750274,
+      "banned": true
+    },
+    "hand_count": {
+      "ks": 0.16460843373493975
+    },
+    "rate_high_actor_entropy": {
+      "ks": 0.1031763417305586
+    },
+    "rate_high_aggression": {
+      "ks": 0.9400739320920044,
+      "banned": true
+    },
+    "rate_long_hand": {
+      "ks": null,
+      "reason": "constant"
+    },
+    "rate_low_action_entropy": {
+      "ks": 0.12677984665936473
+    },
+    "sig_action_top_share": {
+      "ks": 0.4366511500547645,
+      "banned": true
+    },
+    "sig_action_unique_share": {
+      "ks": 0.37364457831325304,
+      "banned": true
+    },
+    "sig_actor_top_share": {
+      "ks": 0.3202354874041621,
+      "banned": true
+    },
+    "sig_actor_unique_share": {
+      "ks": 0.5515334063526834,
+      "banned": true
+    },
+    "sig_street_top_share": {
+      "ks": 0.8884583789704271,
+      "banned": true
+    },
+    "sig_street_unique_share": {
+      "ks": 0.8292305585980285,
+      "banned": true
+    }
+  },
+  "isotonic_thresholds_x": [
+    0.0012052397807740145,
+    0.22170288373864913,
+    0.2553687158745108,
+    0.586047361828773,
+    0.5866427901554856,
+    0.9983059727815454
+  ],
+  "isotonic_thresholds_y": [
+    0.0,
+    0.0,
+    0.75,
+    0.75,
+    1.0,
+    1.0
+  ],
+  "score_shift_logit": 13.814509557963774,
+  "best_iteration": 339,
+  "lgb_params": {
+    "objective": "binary",
+    "metric": [
+      "binary_logloss",
+      "auc",
+      "average_precision"
+    ],
+    "learning_rate": 0.02,
+    "num_leaves": 15,
+    "max_depth": 5,
+    "min_data_in_leaf": 100,
+    "feature_fraction": 0.5,
+    "feature_fraction_bynode": 0.7,
+    "bagging_fraction": 0.75,
+    "bagging_freq": 5,
+    "lambda_l1": 1.0,
+    "lambda_l2": 1.0,
+    "min_gain_to_split": 0.05,
+    "verbose": -1,
+    "seed": 42
+  },
+  "metrics": {
+    "val_raw": {
+      "ap": 0.9999479160638397,
+      "fpr_at_0_5": 0.004166666666666667,
+      "recall_at_0_5": 0.9875,
+      "reward": 0.987311837131314,
+      "score_std": 0.4712406749704207,
+      "score_mean": 0.4952333296962518
+    },
+    "holdout_raw": {
+      "ap": 0.9296444802578432,
+      "fpr_at_0_5": 0.0,
+      "recall_at_0_5": 0.4772727272727273,
+      "reward": 0.7713143667130526,
+      "score_std": 0.3823580084136152,
+      "score_mean": 0.274062272009807
+    },
+    "val_isotonic": {
+      "ap": 0.999948132780083,
+      "fpr_at_0_5": 0.004166666666666667,
+      "recall_at_0_5": 1.0,
+      "reward": 0.9916505944469658,
+      "score_std": 0.49843505093442214,
+      "score_mean": 0.5
+    },
+    "holdout_isotonic": {
+      "ap": 0.7905142014042328,
+      "fpr_at_0_5": 0.031818181818181815,
+      "recall_at_0_5": 0.5772727272727273,
+      "reward": 0.6710484597015153,
+      "score_std": 0.4345051021119341,
+      "score_mean": 0.28829185588815776
+    },
+    "val_shifted": {
+      "ap": 0.999948132780083,
+      "fpr_at_0_5": 0.004166666666666667,
+      "recall_at_0_5": 1.0,
+      "reward": 0.9916505944469658,
+      "score_std": 0.25012282598671365,
+      "score_mean": 0.7509171847293203
+    },
+    "holdout_shifted": {
+      "ap": 0.7905142014042328,
+      "fpr_at_0_5": 0.03636363636363636,
+      "recall_at_0_5": 0.5954545454545455,
+      "reward": 0.670671567271919,
+      "score_std": 0.23255458528285286,
+      "score_mean": 0.6577834638632308
+    },
+    "live_distribution": {
+      "n": 880,
+      "mean": 0.8658416790684781,
+      "std": 0.22161692554553422,
+      "bot_rate_at_0_5": 0.7318181818181818,
+      "saturation": 0.7318181818181818
+    }
+  },
+  "gate_thresholds": {
+    "min_ap_holdout": 0.65,
+    "max_fpr_holdout": 0.05,
+    "min_reward_holdout": 0.5,
+    "min_live_std": 0.03
+  },
+  "gate_pass_benchmark": true,
+  "gate_pass_live": false,
+  "trained_at_utc": "2026-05-26T20:23:17Z",
+  "total_train_seconds": 40.441447734832764,
+  "gate_pass_overall": false
+}

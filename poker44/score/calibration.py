@@ -321,3 +321,270 @@ def rank_based_calibrate(
             out[idx] = HUMAN_HI_OUT - t * (HUMAN_HI_OUT - HUMAN_LOW)
 
     return out
+
+
+def bounded_rank_calibrate(
+    raw_scores: Sequence[float],
+    *,
+    max_n: int = 3,
+    score_floor: float = 0.16,
+    collapse_top1: float = 0.18,
+    collapse_spread: float = 0.03,
+    saturate_median: float = 0.55,
+    saturate_spread: float = 0.08,
+    isotonic_points: Optional[List[Tuple[float, float]]] = None,
+) -> np.ndarray:
+    """Bounded rank-based calibrator with discrete N ∈ {0..max_n}, hard cap N<4.
+
+    Designed for the 40-chunk validator window where FPR≥0.10 zeros reward
+    (≈ 3 false positives over typical 28-36 negatives). Per codex iter 6:
+    pure dynamic calibration collapses on flat raw scores (0-prediction streaks),
+    pure top-N over-calls on noisy days. This hybrid uses rank-based selection
+    constrained by distribution-shape guards and an absolute score floor.
+
+    Decision logic:
+      * collapse (top1<0.18 ∧ std<0.03)   → N=0 (top1<0.12) or N=1
+      * saturation (median>0.55 ∧ std<0.08) → N=1 if gap12>0.04 else N=2
+      * normal: start N=1; promote to N=2 if (top2>0.28 ∧ margin2>0.10);
+        promote to N=3 if (top3>0.38 ∧ gap23≥0 ∧ std>0.06)
+      * final N clipped to caller's max_n (defense in depth vs FPR cliff)
+
+    Score floor (default 0.16) suppresses junk picks when model is under-confident:
+    even if rank says "pick top1", we drop it when raw_iso[top1] < floor.
+
+    Output preserves ranking within bands so AP stays high:
+      * selected bots get rank-linear scores in [BOT_LOW, BOT_HI_OUT]
+      * non-selected get rank-linear scores in [HUMAN_LOW, HUMAN_HI_OUT]
+    """
+    arr = np.asarray(raw_scores, dtype=np.float64)
+    n = len(arr)
+    if n == 0:
+        return np.zeros(0, dtype=np.float64)
+
+    if isotonic_points:
+        arr_iso = np.asarray([apply_isotonic(float(x), isotonic_points) for x in arr])
+    else:
+        arr_iso = arr.copy()
+
+    max_n_clamped = max(0, min(3, int(max_n)))
+
+    order = np.argsort(-arr_iso)
+    s_sorted = arr_iso[order]
+
+    top1 = float(s_sorted[0])
+    top2 = float(s_sorted[1]) if n > 1 else 0.0
+    top3 = float(s_sorted[2]) if n > 2 else 0.0
+    median = float(np.median(arr_iso))
+    spread = float(np.std(arr_iso))
+    margin2 = top2 - median
+    gap12 = top1 - top2
+    gap23 = top2 - top3
+
+    if top1 < collapse_top1 and spread < collapse_spread:
+        N = 0 if top1 < 0.12 else 1
+    elif median > saturate_median and spread < saturate_spread:
+        N = 1 if gap12 > 0.04 else 2
+    else:
+        N = 1
+        if top2 > 0.28 and margin2 > 0.10:
+            N = 2
+        if top3 > 0.38 and gap23 > -0.01 and spread > 0.06:
+            N = 3
+
+    N = max(0, min(N, max_n_clamped))
+
+    # selected_idx applies the score floor — rank says "pick top-N" but we drop
+    # any pick whose iso score is below the floor (rank-only junk protection).
+    selected_idx: List[int] = []
+    for idx in order[:N]:
+        if float(arr_iso[idx]) >= score_floor:
+            selected_idx.append(int(idx))
+    k_bot = len(selected_idx)
+
+    out = np.empty(n, dtype=np.float64)
+
+    for rank_idx, idx in enumerate(selected_idx):
+        if k_bot <= 1:
+            out[idx] = BOT_HI_OUT
+        else:
+            t = rank_idx / (k_bot - 1)
+            out[idx] = BOT_HI_OUT - t * (BOT_HI_OUT - BOT_LOW)
+
+    selected_set = set(selected_idx)
+    human_order = [int(idx) for idx in order if int(idx) not in selected_set]
+    remaining = len(human_order)
+    for rank_idx, idx in enumerate(human_order):
+        if remaining <= 1:
+            out[idx] = HUMAN_LOW
+        else:
+            t = rank_idx / (remaining - 1)
+            out[idx] = HUMAN_HI_OUT - t * (HUMAN_HI_OUT - HUMAN_LOW)
+
+    return out
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Adaptive N selection (codex strategy session 2026-05-25)
+# ─────────────────────────────────────────────────────────────────────────────
+# Static max_n=3 fails when validator's actual bot count per batch varies.
+# select_adaptive_n() inspects raw_scores distribution and picks N per batch.
+#
+# Profiles:
+#   conservative: N ∈ [1,3]  — FPR guard control, low recall, low FPR
+#   balanced:     N ∈ [1,4]  — default behavior, target N=2-3
+#   aggressive:   N ∈ [2,5]  — push recall when signal clear, cap=5 protects FPR
+#   scout:        N ∈ [0,4]  — orthogonal probe, can flag 0 if no signal at all
+# ─────────────────────────────────────────────────────────────────────────────
+
+
+def _pick_n_by_signal(
+    sorted_desc: np.ndarray,
+    std: float,
+    *,
+    flat_std: float,
+    flat_gap: float,
+    weak_top1_med: float,
+    strong_top1_med: float,
+    super_strong_top: float,
+    super_strong_gap: float,
+) -> int:
+    """Inspect score distribution, return suggested N. Caller clips by profile bounds."""
+    n = len(sorted_desc)
+    if n == 0:
+        return 0
+    median = float(np.median(sorted_desc))
+    top1 = float(sorted_desc[0])
+    top1_med = top1 - median
+
+    # Flat signal — model not seeing anything bot-like
+    if std < flat_std or top1_med < flat_gap:
+        return 0
+
+    # Weak signal — barely discriminative
+    if top1_med < weak_top1_med:
+        return 1
+
+    # Compute consecutive gaps top-k vs top-(k+1)
+    def gap(i):
+        if i + 1 >= n:
+            return 0.0
+        return float(sorted_desc[i] - sorted_desc[i + 1])
+
+    g12 = gap(0)  # top1 vs top2
+    g23 = gap(1)  # top2 vs top3
+    g34 = gap(2)
+    g45 = gap(3)
+
+    # Super-strong: top5 still above median by super_strong_top + gap5-6 separates
+    if n >= 6:
+        top5 = float(sorted_desc[4])
+        gap56 = gap(4)
+        if top5 - median >= super_strong_top and gap56 >= super_strong_gap and std >= 0.04:
+            return 5
+
+    # Strong signal: top3 stays >= strong_top1_med above median + clean gap after top4
+    if n >= 5:
+        top4 = float(sorted_desc[3])
+        if top4 - median >= 0.10 and g45 >= 0.030:
+            return 4
+
+    # Normal: top1 separates from median by strong_top1_med
+    if top1_med >= strong_top1_med:
+        return 3
+
+    # Moderate signal — top2 above weak threshold
+    if n >= 3:
+        top2 = float(sorted_desc[1])
+        if top2 - median >= weak_top1_med:
+            return 2
+
+    return 1
+
+
+PROFILES = {
+    "conservative": dict(
+        min_n=1, max_n=3,
+        flat_std=0.025, flat_gap=0.10,
+        weak_top1_med=0.10, strong_top1_med=0.18,
+        super_strong_top=0.20, super_strong_gap=0.05,
+    ),
+    "balanced": dict(
+        min_n=1, max_n=4,
+        flat_std=0.020, flat_gap=0.07,
+        weak_top1_med=0.07, strong_top1_med=0.14,
+        super_strong_top=0.18, super_strong_gap=0.04,
+    ),
+    "aggressive": dict(
+        min_n=2, max_n=5,
+        flat_std=0.015, flat_gap=0.05,
+        weak_top1_med=0.05, strong_top1_med=0.10,
+        super_strong_top=0.16, super_strong_gap=0.035,
+    ),
+    "scout": dict(
+        min_n=0, max_n=4,
+        flat_std=0.018, flat_gap=0.07,
+        weak_top1_med=0.07, strong_top1_med=0.13,
+        super_strong_top=0.18, super_strong_gap=0.04,
+    ),
+}
+
+
+def select_adaptive_n(
+    raw_scores: Sequence[float],
+    *,
+    profile: str = "balanced",
+    min_n: Optional[int] = None,
+    max_n: Optional[int] = None,
+    prev_n: Optional[int] = None,
+    hysteresis: bool = True,
+) -> Tuple[int, dict]:
+    """Pick N (bot count) adaptively from raw_scores distribution.
+
+    Returns (n, diag) where diag contains intermediate metrics for logging.
+
+    Hysteresis: if prev_n provided, limit jump to ±1 per batch (avoid oscillation).
+    """
+    arr = np.asarray(raw_scores, dtype=np.float64)
+    if len(arr) == 0:
+        return 0, {"reason": "empty"}
+
+    cfg = PROFILES.get(profile, PROFILES["balanced"]).copy()
+    if min_n is not None:
+        cfg["min_n"] = int(min_n)
+    if max_n is not None:
+        cfg["max_n"] = int(max_n)
+
+    sorted_desc = np.sort(arr)[::-1]
+    std = float(arr.std())
+
+    suggested = _pick_n_by_signal(
+        sorted_desc, std,
+        flat_std=cfg["flat_std"],
+        flat_gap=cfg["flat_gap"],
+        weak_top1_med=cfg["weak_top1_med"],
+        strong_top1_med=cfg["strong_top1_med"],
+        super_strong_top=cfg["super_strong_top"],
+        super_strong_gap=cfg["super_strong_gap"],
+    )
+
+    # Clamp to profile bounds
+    n_clamped = max(cfg["min_n"], min(cfg["max_n"], suggested))
+
+    # Apply hysteresis (limit ±1 jump from prev_n, except for aggressive profile)
+    if hysteresis and prev_n is not None and profile != "aggressive":
+        if n_clamped > prev_n + 1:
+            n_clamped = prev_n + 1
+        elif n_clamped < prev_n - 1:
+            n_clamped = prev_n - 1
+
+    diag = {
+        "profile": profile,
+        "suggested_n": int(suggested),
+        "final_n": int(n_clamped),
+        "std": round(std, 4),
+        "top1_med": round(float(sorted_desc[0] - np.median(sorted_desc)), 4),
+        "min_n": cfg["min_n"],
+        "max_n": cfg["max_n"],
+        "prev_n": prev_n,
+    }
+    return int(n_clamped), diag
