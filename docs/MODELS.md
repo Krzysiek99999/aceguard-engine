@@ -49,3 +49,24 @@ Supported runtime strategies:
 - `stack`
 
 The deployment layer decides top1/top2/top3 through rank-cap calibration.
+
+### `v113_daily`
+
+Daily refreshed supervised schema model trained on current public Poker44 v1.12
+benchmark releases using miner-visible payload views only.
+
+Files:
+
+- `poker44/score/v112_super_inference.py`
+- `poker44/score/robust_schema/features.py`
+- `poker44/score/statistical_v25.py`
+- `data/models/v113_daily/model.pkl`
+
+Supported runtime strategies are the same schema scorer heads:
+
+- `cat`
+- `et`
+- `lgb`
+- `xgb`
+- `rank_mean`
+- `stack`

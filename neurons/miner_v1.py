@@ -5,6 +5,7 @@ This file intentionally supports only the active public model families:
 - v5_statistical
 - v10_mild
 - v112_super_<strategy>_top<N>
+- v113_daily_<strategy>_top<N>
 
 Deployment secrets, wallet names, host details, audit logs, and private run
 scripts belong outside the public model repository.
@@ -77,7 +78,12 @@ def _variant_config(name: str) -> dict[str, Any]:
             "default_top_n": 2,
         }
 
+    daily = False
     prefix = "v112_super_"
+    if name.startswith("v113_daily_"):
+        prefix = "v113_daily_"
+        daily = True
+
     if name.startswith(prefix):
         tail = name[len(prefix) :]
         try:
@@ -96,12 +102,21 @@ def _variant_config(name: str) -> dict[str, Any]:
             "stack": "stack",
         }
         strategy = strategy_aliases.get(strategy_part, "rank_mean")
+        family = "v113_daily" if daily else "v112_super"
         return {
-            "family": "v112_super",
-            "description": "Supervised schema scorer trained on miner-visible benchmark views.",
+            "family": family,
+            "description": (
+                "Daily refreshed supervised schema scorer trained on current miner-visible benchmark views."
+                if daily
+                else "Supervised schema scorer trained on miner-visible benchmark views."
+            ),
             "strategy": strategy,
             "default_top_n": max(1, min(5, top_n)),
-            "model_file": "data/models/v112_super/model.pkl",
+            "model_file": (
+                "data/models/v113_daily/model.pkl"
+                if daily
+                else "data/models/v112_super/model.pkl"
+            ),
         }
 
     bt.logging.warning(
@@ -156,21 +171,21 @@ class Miner(BaseMinerNeuron):
                     REPO_ROOT / "poker44" / "score" / "stage2_calibration.py",
                 ]
             )
-        elif family == "v112_super":
+        elif family in {"v112_super", "v113_daily"}:
             files.extend(
                 [
                     REPO_ROOT / "poker44" / "score" / "v112_super_inference.py",
                     REPO_ROOT / "poker44" / "score" / "robust_schema" / "__init__.py",
                     REPO_ROOT / "poker44" / "score" / "robust_schema" / "features.py",
                     REPO_ROOT / "poker44" / "score" / "statistical_v25.py",
-                    REPO_ROOT / "data" / "models" / "v112_super" / "model.pkl",
+                    REPO_ROOT / self.variant_cfg["model_file"],
                 ]
             )
         return [path for path in files if path.exists()]
 
     def _build_manifest(self) -> dict[str, Any]:
         family = self.variant_cfg["family"]
-        if family == "v112_super":
+        if family in {"v112_super", "v113_daily"}:
             training_statement = (
                 "Model trained on public Poker44 benchmark releases using "
                 "miner-visible payload views only."
@@ -211,6 +226,8 @@ class Miner(BaseMinerNeuron):
         manifest["model_family"] = family
         manifest["selection_strategy"] = str(self.variant_cfg.get("strategy", family))
         manifest["selection_top_n"] = int(self.variant_cfg.get("default_top_n", 0))
+        if family == "v113_daily":
+            manifest["training_refresh"] = "daily_candidate_2026-06-18"
         return manifest
 
     def _score_v5(self, chunks: list[list[dict[str, Any]]]) -> list[float]:
@@ -238,17 +255,19 @@ class Miner(BaseMinerNeuron):
             for v in rank_based_calibrate(calibrated_scores, bot_ratio=bot_ratio)
         ]
 
-    def _score_v112_super(self, chunks: list[list[dict[str, Any]]]) -> list[float]:
+    def _score_schema_model(self, chunks: list[list[dict[str, Any]]]) -> list[float]:
         from poker44.score.rank_cap_remap import rank_cap_remap
         from poker44.score.v112_super_inference import score_from_file
 
-        model_file = os.getenv(
-            "POKER44_V112_SUPER_MODEL_PATH",
-            str(REPO_ROOT / self.variant_cfg["model_file"]),
+        env_name = (
+            "POKER44_V113_DAILY_MODEL_PATH"
+            if self.variant_cfg["family"] == "v113_daily"
+            else "POKER44_V112_SUPER_MODEL_PATH"
         )
+        model_file = os.getenv(env_name, str(REPO_ROOT / self.variant_cfg["model_file"]))
         model_path = Path(model_file)
         if not model_path.exists():
-            bt.logging.error(f"v112_super model missing: {model_path}")
+            bt.logging.error(f"{self.variant_cfg['family']} model missing: {model_path}")
             return [0.49 for _ in chunks]
 
         strategy = self.variant_cfg.get("strategy", "rank_mean")
@@ -257,7 +276,7 @@ class Miner(BaseMinerNeuron):
         scores = rank_cap_remap(raw_scores, top_n)
         try:
             bt.logging.info(
-                f"v112_super strategy={strategy} top_n={top_n} "
+                f"{self.variant_cfg['family']} strategy={strategy} top_n={top_n} "
                 f"raw_std={float(np.std(raw_scores)):.4f} "
                 f"positives={sum(1 for v in scores if v >= 0.5)}/{len(scores)}"
             )
@@ -279,8 +298,8 @@ class Miner(BaseMinerNeuron):
                 scores = self._score_v5(chunks)
             elif family == "v10":
                 scores = self._score_v10(chunks)
-            elif family == "v112_super":
-                scores = self._score_v112_super(chunks)
+            elif family in {"v112_super", "v113_daily"}:
+                scores = self._score_schema_model(chunks)
             else:
                 scores = [0.49 for _ in chunks]
         except Exception as exc:

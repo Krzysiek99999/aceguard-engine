@@ -9,6 +9,7 @@ It contains the model code and artifacts needed for the active Mac and Cherry mo
 - Mac control family: deterministic statistical scoring (`v5_statistical`).
 - Mac secondary family: deterministic type-aware statistical scoring (`v10_mild`).
 - Cherry canary family: supervised schema model (`v112_super`) with neutral public feature names.
+- Daily challenger family: refreshed supervised schema model (`v113_daily`) trained on current v1.12 benchmark releases.
 
 ## Not included
 
