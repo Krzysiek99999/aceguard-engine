@@ -1,7 +1,7 @@
-"""Response curves features (codex iter 16 #3 + iter 20 refined).
+"""Response-curve features.
 
-Codex iter 20: per-pair (seat A vs seat B) is too sparse with 62 hands × 30 pairs.
-USE seat-level RESPONSE-TO-ANY-OPPONENT features:
+Per-pair response features can be sparse, so this module uses seat-level
+response-to-any-opponent features:
 
   - seat_fold_when_facing_aggression (per-seat fold% after opponent bet/raise)
   - seat_call_when_facing_aggression (per-seat call% after opponent bet/raise)

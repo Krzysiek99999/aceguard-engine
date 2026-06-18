@@ -1,9 +1,9 @@
-"""Statistical detector V6 — V5 + per-seat behavioral consistency features.
+"""Statistical detector V6: V5 plus per-seat behavioral consistency features.
 
 Why v5 wasn't enough: v5 looks chunk-globally (entropy/repetition over all hands).
 Misses signal where ONE seat plays like a bot while others are human.
 
-V6 adds 4 per-seat features (codex iter 5 #11-17):
+V6 adds four per-seat features:
   - seat_action_entropy_lo: across hands per seat, entropy of action_types low → bot
   - seat_sizing_entropy_lo: bet-size entropy per seat low → bot
   - seat_vpip_consistency:  stddev of VPIP across hands per seat low → bot (stationary)
@@ -12,8 +12,7 @@ V6 adds 4 per-seat features (codex iter 5 #11-17):
 Each per-seat sub-score is averaged across seats (weighted by hand count per seat
 so that low-frequency seats don't dominate).
 
-Hypothesis: UID 211 likely exploits per-seat patterns (a bot ID == a seat across hands).
-Per-seat features should add +0.02-0.05 composite over chunk-global v5.
+Per-seat features capture stable behavior by a single seat across hands.
 """
 from __future__ import annotations
 
@@ -241,7 +240,7 @@ def _seat_vpip_consistency_norm(seat_stats: dict) -> float:
 
 
 def score_chunk_v6(hands: List[dict]) -> float:
-    """V6 = v5 score + GATED per-seat bonus (codex verify iter 2/5 design).
+    """V6 = v5 score plus a gated per-seat bonus.
 
     Architecture: v5 stays at FULL weight, per-seat features add a bonus ONLY when:
       - >= 2 reliable seats (>=6 hands each, >=10 actions each)
@@ -250,7 +249,7 @@ def score_chunk_v6(hands: List[dict]) -> float:
     This avoids the dilution of v5's proven signal. Bonus capped at 0.08 (max
     exceptional) or 0.04 (standard escalation).
 
-    Codex iter 5 pseudocode shape, applied with seat reliability gates.
+    Seat reliability gates prevent sparse seats from dominating.
     """
     if not hands:
         return 0.5
@@ -267,7 +266,7 @@ def score_chunk_v6(hands: List[dict]) -> float:
     if len(reliable) < 2:
         return v5  # insufficient seat data, fall back to chunk-global only
 
-    # Step 3: per-seat bot scores (3 signals weighted 0.5/0.3/0.2 per codex iter 5)
+    # Step 3: per-seat bot scores from action entropy, sizing entropy, and VPIP consistency.
     seat_scores = []
     for s in reliable:
         a_ent = _seat_action_entropy_norm(s)

@@ -1,4 +1,4 @@
-"""Sequence-only heuristic V8 — orthogonal to v5/v6 (codex verify iter 4/5 design).
+"""Sequence-only heuristic V8.
 
 V5/V6 use:
   - hand-signature HASH (exact match)
@@ -19,8 +19,6 @@ This is orthogonal because:
 
 If bot generator produces hands following same PROCEDURE (same n-gram skeleton)
 but with varying sizings/seat assignments, v5 misses but v8 catches.
-
-Designed for UID 192 (kill-replace candidate per codex iter 4).
 """
 from __future__ import annotations
 

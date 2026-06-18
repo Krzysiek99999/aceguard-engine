@@ -1,4 +1,4 @@
-"""V9 — type-calibrated detector (codex iter 13/16 #1 priority).
+"""V9 type-calibrated detector.
 
 Live payload alternates two variants (deterministic chunk → fixed window):
   - LONG  : ~12 actions/hand (single-action source, fixed window=12)
@@ -7,9 +7,8 @@ Live payload alternates two variants (deterministic chunk → fixed window):
 V5/V6/V8 work best on LONG (more action transitions, more sizing data, stronger
 repetition signal). On SHORT they get noisier — same features but less data.
 
-V9 detects type from `actions_per_hand` distribution, then applies different
-feature weights + score floor + max_n per type. Designed to match payload bifurcation
-the way UID 211 likely does (R5=R7 spike pattern observed).
+V9 detects type from the `actions_per_hand` distribution, then applies different
+feature weights per type.
 """
 from __future__ import annotations
 
@@ -53,9 +52,7 @@ def score_chunk_v9(hands: List[dict]) -> Tuple[float, str]:
     """
     chunk_type = detect_chunk_type(hands)
 
-    # Use ORTHOGONAL scorers (codex strategy iter — earlier v9 had v5_vs_v9 corr 0.99).
-    # response_curves has best signal separation (std 0.18 on live).
-    # pot_geometry orthogonal to v5 (corr 0.35).
+    # Mix orthogonal scorers across response curves, pot geometry, statistics, and sequence.
     v5 = score_chunk_v5(hands)
     rc = score_chunk_response_curves(hands)
     pg = score_chunk_pot_geometry(hands)

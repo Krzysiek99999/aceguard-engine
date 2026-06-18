@@ -1,4 +1,4 @@
-"""Pot geometry features (codex iter 16 #2 priority).
+"""Pot geometry features.
 
 Bots often expose rigid pot-growth and bet-fraction patterns. Live payload retains:
   - pot_before, pot_after per action

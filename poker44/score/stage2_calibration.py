@@ -1,8 +1,6 @@
-"""V10 — deterministic stage-2 calibration (codex iter 23).
+"""V10 deterministic stage-2 calibration.
 
-ml17_pre uses 'stage2-hl-cal-mild/sharp' suffix → same base scorer, different risk
-posture. Codex iter 23 recommends: deterministic transforms (NOT trained calibrator
-which falls into v7 saturation trap).
+The same base scorer can be exposed with different risk postures.
 
 Three modes:
   - mild:     compressed scores (less aggressive top-N), Nmax=2, higher floor
@@ -23,9 +21,9 @@ def stage2_calibrate(scores: List[float], mode: str = "balanced") -> Tuple[List[
     """Apply stage-2 transform + return (calibrated_scores, max_n, score_floor).
 
     mode:
-      'mild':     compress around median (×0.75), max_n=2, floor=0.20
+      'mild':     compress around median, max_n=2, floor=0.20
       'balanced': identity, max_n=3, floor=0.0
-      'sharp':   stretch around median (×1.35), max_n=3 (rare 4), floor=0.0
+      'sharp':   stretch around median, max_n=3 (rare 4), floor=0.0
 
     Recent-distribution median is computed from input scores.
     """
@@ -73,7 +71,7 @@ def stage2_max_n_adaptive(scores: List[float], mode: str = "balanced") -> int:
     std_top5 = float(np.std(sd[:5]))
     gap_45 = top4 - top5
 
-    # Same gates as v5_adaptive_n N=4 (codex iter 1)
+    # Same gates as adaptive top-4 mode.
     if (
         top4 >= 0.52
         and gap_45 >= 0.06
