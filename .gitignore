@@ -3,7 +3,6 @@ __pycache__/
 .DS_Store
 .venv/
 wallets/
-data/observations/
-data/forward_audit/
+data/private/
 logs/
 *.log
