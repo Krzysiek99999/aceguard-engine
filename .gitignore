@@ -1,32 +1,9 @@
-# Python
 __pycache__/
 *.pyc
-*.pyo
-.venv/
-*.egg-info/
-
-# Models, data, wallets — NEVER commit
-*.pt
-*.pkl
-*.txt
-# Production model artifacts (LightGBM native format, kept in-repo for verifiability)
-!models/v14_live_stable.txt
-!models/v19_ranker.txt
-!models/v22_competitor_ranker.txt
-!requirements.txt
-*.gz
-data/
-wallets/
-.bittensor/
-*.log
-*.jsonl
-
-# IDE / OS
 .DS_Store
-.vscode/
-.idea/
-
-# Secrets
-.env
-*.pem
-*.key
+.venv/
+wallets/
+data/observations/
+data/forward_audit/
+logs/
+*.log

@@ -1,19 +1,14 @@
-"""Statistical detector V5 — works without supervised training on benchmark API.
+"""Statistical detector V5.
 
-Why: v2/v3/v4 benchmark-trained models all saturate on live (raw std=0 across
-all 40 chunks). The benchmark API distribution diverges from live validator
-chunks (no "other" action_type, no "all_in", different sizing). Codex iter 19:
-"Statistical detectors most robust for unknown domains."
-
-This detector ranks chunks by behavioral anomaly score using ONLY features
+This detector ranks chunks by behavioral anomaly score using features
 that have natural variance on live:
   - Bet size entropy / quantization
   - Action count regularity
-  - Action sequence repetition (codex iter 5 "Cross-Hand Sequence Repetition")
+  - Action sequence repetition
   - Bet sizing dispersion
 
-The score is a unitless anomaly index; downstream bounded_rank_calibrate
-maps to risk_scores. No training data required — purely structural.
+The score is a unitless anomaly index; downstream rank calibration maps it to
+validator-facing risk scores.
 
 Usage:
   from poker44.score.statistical_v5 import score_chunk_v5
@@ -92,7 +87,7 @@ def score_chunk_v5(hands: List[dict]) -> float:
     4. action_count_regularity: low std in actions per hand → bot
     5. unique_sigs_low: small fraction of unique signatures → bot
 
-    Weights tuned by intuition (no training), codex iter 5 guided priorities.
+    Weights are fixed and deterministic.
     """
     if not hands:
         return 0.5
@@ -146,7 +141,7 @@ def score_chunk_v5(hands: List[dict]) -> float:
     n_unique = len(sig_counts)
     unique_lo = 1.0 - (n_unique / max(n_hands, 1))
 
-    # Weighted combination — emphasize repetition/uniqueness (codex iter 5)
+    # Weighted combination emphasizing repetition and uniqueness.
     score = (
         0.25 * repetition
         + 0.25 * unique_lo
