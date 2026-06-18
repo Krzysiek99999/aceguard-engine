@@ -182,7 +182,7 @@ class Miner(BaseMinerNeuron):
             )
             framework = "python-heuristic"
 
-        return build_local_model_manifest(
+        manifest = build_local_model_manifest(
             repo_root=REPO_ROOT,
             implementation_files=self._implementation_files(),
             defaults={
@@ -198,9 +198,20 @@ class Miner(BaseMinerNeuron):
                 "private_data_attestation": (
                     "No external private user data and no validator-private labels were used."
                 ),
-                "notes": self.variant_cfg["description"],
+                "notes": (
+                    f"{self.variant_cfg['description']} "
+                    f"variant={self.variant}; "
+                    f"family={family}; "
+                    f"strategy={self.variant_cfg.get('strategy', family)}; "
+                    f"top_n={self.variant_cfg.get('default_top_n')}"
+                ),
             },
         )
+        manifest["model_variant"] = self.variant
+        manifest["model_family"] = family
+        manifest["selection_strategy"] = str(self.variant_cfg.get("strategy", family))
+        manifest["selection_top_n"] = int(self.variant_cfg.get("default_top_n", 0))
+        return manifest
 
     def _score_v5(self, chunks: list[list[dict[str, Any]]]) -> list[float]:
         from poker44.score.calibration import rank_based_calibrate
