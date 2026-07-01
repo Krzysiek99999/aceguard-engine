@@ -44,7 +44,9 @@ Supported runtime strategies:
 - `cat`
 - `et`
 - `lgb`
+- `linear`
 - `xgb`
+- `avg`
 - `rank_mean`
 - `stack`
 
@@ -67,6 +69,8 @@ Supported runtime strategies are the same schema scorer heads:
 - `cat`
 - `et`
 - `lgb`
+- `linear`
 - `xgb`
+- `avg`
 - `rank_mean`
 - `stack`

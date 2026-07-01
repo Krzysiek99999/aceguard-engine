@@ -103,6 +103,10 @@ def score_chunks(
         pred = bundle["meta"].predict_proba(base)[:, 1]
         return [float(np.clip(v, 0.0, 1.0)) for v in pred]
 
+    if strategy == "avg":
+        pred = np.mean(base, axis=1)
+        return [float(np.clip(v, 0.0, 1.0)) for v in pred]
+
     if strategy == "rank_mean":
         ranked = [rankdata(base[:, i]) / max(len(base), 1) for i in range(base.shape[1])]
         pred = np.mean(ranked, axis=0)

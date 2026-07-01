@@ -98,8 +98,10 @@ def _variant_config(name: str) -> dict[str, Any]:
             "cat": "cat",
             "et": "et",
             "lgb": "lgb",
+            "linear": "linear",
             "xgb": "xgb",
             "stack": "stack",
+            "avg": "avg",
         }
         strategy = strategy_aliases.get(strategy_part, "rank_mean")
         family = "v113_daily" if daily else "v112_super"
