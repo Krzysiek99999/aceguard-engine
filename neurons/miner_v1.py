@@ -174,21 +174,13 @@ class Miner(BaseMinerNeuron):
                 ]
             )
         elif family in {"v112_super", "v113_daily"}:
-            env_name = (
-                "POKER44_V113_DAILY_MODEL_PATH"
-                if family == "v113_daily"
-                else "POKER44_V112_SUPER_MODEL_PATH"
-            )
-            model_path = Path(
-                os.getenv(env_name, str(REPO_ROOT / self.variant_cfg["model_file"]))
-            )
             files.extend(
                 [
                     REPO_ROOT / "poker44" / "score" / "v112_super_inference.py",
                     REPO_ROOT / "poker44" / "score" / "robust_schema" / "__init__.py",
                     REPO_ROOT / "poker44" / "score" / "robust_schema" / "features.py",
                     REPO_ROOT / "poker44" / "score" / "statistical_v25.py",
-                    model_path,
+                    REPO_ROOT / self.variant_cfg["model_file"],
                 ]
             )
         return [path for path in files if path.exists()]
@@ -238,16 +230,6 @@ class Miner(BaseMinerNeuron):
         manifest["selection_top_n"] = int(self.variant_cfg.get("default_top_n", 0))
         if family == "v113_daily":
             manifest["training_refresh"] = "daily_candidate_2026-06-18"
-            model_path = Path(
-                os.getenv(
-                    "POKER44_V113_DAILY_MODEL_PATH",
-                    str(REPO_ROOT / self.variant_cfg["model_file"]),
-                )
-            )
-            try:
-                manifest["model_artifact_path"] = str(model_path.relative_to(REPO_ROOT))
-            except ValueError:
-                manifest["model_artifact_path"] = str(model_path)
         return manifest
 
     def _score_v5(self, chunks: list[list[dict[str, Any]]]) -> list[float]:
