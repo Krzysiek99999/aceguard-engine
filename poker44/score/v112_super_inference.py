@@ -73,12 +73,20 @@ def _batch_z(arr: np.ndarray) -> np.ndarray:
 
 def _build_x(chunks: Sequence[Any], bundle: dict[str, Any]) -> np.ndarray:
     feature_set = str(bundle.get("feature_set") or "super")
+    feature_mode = str(bundle.get("feature_mode") or "abs_batch")
     keys = list(bundle["keys"])
     mask = np.asarray(bundle["abs_stable_mask"], dtype=bool)
     hands = _unwrap(chunks)
     feats = [_feature_dict(chunk, feature_set) for chunk in hands]
     arr = _mat(feats, keys)
-    return np.hstack([arr[:, mask], _batch_z(arr)])
+    pieces: list[np.ndarray] = []
+    if feature_mode in {"abs_batch", "abs_only"}:
+        pieces.append(arr[:, mask])
+    if feature_mode in {"abs_batch", "batch_only"}:
+        pieces.append(_batch_z(arr))
+    if not pieces:
+        return np.hstack([arr[:, mask], _batch_z(arr)])
+    return np.hstack(pieces)
 
 
 def score_chunks(
