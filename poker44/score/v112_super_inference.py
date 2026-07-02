@@ -15,6 +15,7 @@ import numpy as np
 from scipy.stats import rankdata
 
 from poker44.score.robust_schema.features import chunk_features as schema_features
+from poker44.score.sequence_schema import chunk_features as sequence_features
 from poker44.score.statistical_v25 import compute_features as v25_features
 
 _CACHE: dict[str, tuple[float, dict[str, Any]]] = {}
@@ -47,6 +48,13 @@ def _feature_dict(chunk: list[dict[str, Any]], feature_set: str) -> dict[str, fl
     if feature_set == "super":
         out = {f"schema__{k}": float(v) for k, v in schema_features(chunk).items()}
         out.update({f"v25__{k}": float(v) for k, v in v25_features(chunk).items()})
+        return out
+    if feature_set == "seq":
+        return {f"seq__{k}": float(v) for k, v in sequence_features(chunk).items()}
+    if feature_set in {"super_seq", "v115"}:
+        out = {f"schema__{k}": float(v) for k, v in schema_features(chunk).items()}
+        out.update({f"v25__{k}": float(v) for k, v in v25_features(chunk).items()})
+        out.update({f"seq__{k}": float(v) for k, v in sequence_features(chunk).items()})
         return out
     raise ValueError(f"unknown feature_set={feature_set}")
 
