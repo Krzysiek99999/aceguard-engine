@@ -11,9 +11,12 @@ Deployment secrets, wallet names, host details, audit logs, and private run
 scripts belong outside the public model repository.
 """
 
+import hashlib
+import json
 import os
 import subprocess
 import time
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Tuple
 
@@ -29,6 +32,84 @@ from poker44.utils.model_manifest import (
 from poker44.validator.synapse import DetectionSynapse
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
+
+
+def _audit_enabled() -> bool:
+    return os.getenv("POKER44_FORWARD_AUDIT", "0").strip().lower() in {"1", "true", "yes"}
+
+
+def _audit_full_chunks_enabled() -> bool:
+    return os.getenv("POKER44_FORWARD_AUDIT_FULL_CHUNKS", "0").strip().lower() in {
+        "1",
+        "true",
+        "yes",
+    }
+
+
+def _audit_dir() -> Path:
+    return Path(os.getenv("POKER44_AUDIT_DIR", str(REPO_ROOT / "data" / "forward_audit")))
+
+
+def _audit_chunk_fingerprint(chunks: list[list[dict[str, Any]]]) -> str:
+    payload = json.dumps(chunks, sort_keys=True, separators=(",", ":"), default=str)
+    return hashlib.sha256(payload.encode("utf-8")).hexdigest()[:24]
+
+
+def _audit_chunk_meta(chunk: list[dict[str, Any]]) -> dict[str, Any]:
+    action_count = 0
+    streets: set[str] = set()
+    for hand in chunk:
+        actions = hand.get("actions") if isinstance(hand, dict) else None
+        if isinstance(actions, list):
+            action_count += len(actions)
+            for action in actions:
+                if isinstance(action, dict) and action.get("street") is not None:
+                    streets.add(str(action.get("street")))
+    return {
+        "hands": len(chunk),
+        "actions": action_count,
+        "streets": sorted(streets),
+    }
+
+
+def _write_forward_audit(
+    *,
+    variant: str,
+    family: str,
+    manifest_digest_value: str,
+    chunks: list[list[dict[str, Any]]],
+    raw_scores: list[float],
+    final_scores: list[float],
+    predictions: list[bool],
+) -> None:
+    if not _audit_enabled():
+        return
+    try:
+        out_dir = _audit_dir()
+        out_dir.mkdir(parents=True, exist_ok=True)
+        record: dict[str, Any] = {
+            "ts_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "variant": variant,
+            "family": family,
+            "manifest_digest": manifest_digest_value,
+            "batch_size": len(chunks),
+            "batch_fingerprint": _audit_chunk_fingerprint(chunks),
+            "chunk_meta": [_audit_chunk_meta(chunk) for chunk in chunks],
+            "raw_scores": [round(float(v), 8) for v in raw_scores],
+            "final_scores": [round(float(v), 8) for v in final_scores],
+            "predictions": [bool(v) for v in predictions],
+            "positive_count": int(sum(bool(v) for v in predictions)),
+        }
+        if _audit_full_chunks_enabled():
+            record["chunks"] = chunks
+        path = out_dir / f"forward_{variant}.jsonl"
+        with path.open("a", encoding="utf-8") as f:
+            f.write(json.dumps(record, sort_keys=True, default=str) + "\n")
+    except Exception as exc:
+        try:
+            bt.logging.debug(f"forward audit write failed: {exc}")
+        except Exception:
+            pass
 
 
 def _unwrap_chunks(chunks: list[Any]) -> list[list[dict[str, Any]]]:
@@ -134,6 +215,7 @@ class Miner(BaseMinerNeuron):
         super().__init__(config=config)
         self.variant = os.getenv("POKER44_V1_VARIANT", "v5_statistical").strip()
         self.variant_cfg = _variant_config(self.variant)
+        self._last_raw_scores: list[float] = []
         self.model_manifest = self._build_manifest()
         self.manifest_compliance = evaluate_manifest_compliance(self.model_manifest)
         self.manifest_digest = manifest_digest(self.model_manifest)
@@ -237,6 +319,7 @@ class Miner(BaseMinerNeuron):
         from poker44.score.statistical_v5 import score_chunks_v5
 
         raw_scores = score_chunks_v5(chunks)
+        self._last_raw_scores = [float(v) for v in raw_scores]
         top_n = _env_int("POKER44_MAX_N", self.variant_cfg["default_top_n"])
         bot_ratio = min(max(top_n / max(len(raw_scores), 1), 0.0), 0.1)
         return [round(float(v), 6) for v in rank_based_calibrate(raw_scores, bot_ratio=bot_ratio)]
@@ -250,6 +333,7 @@ class Miner(BaseMinerNeuron):
         calibrated_scores, mode_top_n, _score_floor = stage2_calibrate(
             raw_scores, mode="mild"
         )
+        self._last_raw_scores = [float(v) for v in calibrated_scores]
         top_n = _env_int("POKER44_MAX_N", mode_top_n)
         bot_ratio = min(max(top_n / max(len(calibrated_scores), 1), 0.0), 0.1)
         return [
@@ -274,6 +358,7 @@ class Miner(BaseMinerNeuron):
 
         strategy = self.variant_cfg.get("strategy", "rank_mean")
         raw_scores = score_from_file(chunks, model_path, strategy=strategy)
+        self._last_raw_scores = [float(v) for v in raw_scores]
         top_n = _env_int("POKER44_MAX_N", self.variant_cfg["default_top_n"])
         scores = rank_cap_remap(raw_scores, top_n)
         try:
@@ -296,6 +381,7 @@ class Miner(BaseMinerNeuron):
 
         family = self.variant_cfg["family"]
         try:
+            self._last_raw_scores = []
             if family == "v5":
                 scores = self._score_v5(chunks)
             elif family == "v10":
@@ -311,6 +397,15 @@ class Miner(BaseMinerNeuron):
         synapse.risk_scores = scores
         synapse.predictions = [float(score) >= 0.5 for score in scores]
         synapse.model_manifest = dict(self.model_manifest)
+        _write_forward_audit(
+            variant=self.variant,
+            family=family,
+            manifest_digest_value=self.manifest_digest,
+            chunks=chunks,
+            raw_scores=self._last_raw_scores or scores,
+            final_scores=scores,
+            predictions=synapse.predictions,
+        )
         bt.logging.info(
             f"Scored {len(chunks)} chunks variant={self.variant} "
             f"positives={sum(s >= 0.5 for s in scores)}/{len(scores)} "
