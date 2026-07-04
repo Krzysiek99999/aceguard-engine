@@ -46,8 +46,42 @@ def _audit_full_chunks_enabled() -> bool:
     }
 
 
+def _audit_dedupe_full_chunks_enabled() -> bool:
+    return os.getenv("POKER44_FORWARD_AUDIT_DEDUPE_FULL_CHUNKS", "1").strip().lower() not in {
+        "0",
+        "false",
+        "no",
+        "off",
+    }
+
+
 def _audit_dir() -> Path:
     return Path(os.getenv("POKER44_AUDIT_DIR", str(REPO_ROOT / "data" / "forward_audit")))
+
+
+_AUDIT_SEEN_FULL_CHUNKS: set[str] | None = None
+
+
+def _audit_seen_full_chunks(out_dir: Path) -> set[str]:
+    global _AUDIT_SEEN_FULL_CHUNKS
+    if _AUDIT_SEEN_FULL_CHUNKS is None:
+        seen_path = out_dir / "seen_full_chunk_fingerprints.txt"
+        if seen_path.exists():
+            _AUDIT_SEEN_FULL_CHUNKS = {
+                line.strip() for line in seen_path.read_text(errors="replace").splitlines() if line.strip()
+            }
+        else:
+            _AUDIT_SEEN_FULL_CHUNKS = set()
+    return _AUDIT_SEEN_FULL_CHUNKS
+
+
+def _audit_mark_full_chunks_seen(out_dir: Path, fingerprint: str) -> None:
+    seen = _audit_seen_full_chunks(out_dir)
+    if fingerprint in seen:
+        return
+    seen.add(fingerprint)
+    with (out_dir / "seen_full_chunk_fingerprints.txt").open("a", encoding="utf-8") as f:
+        f.write(f"{fingerprint}\n")
 
 
 def _audit_chunk_fingerprint(chunks: list[list[dict[str, Any]]]) -> str:
@@ -87,13 +121,14 @@ def _write_forward_audit(
     try:
         out_dir = _audit_dir()
         out_dir.mkdir(parents=True, exist_ok=True)
+        fingerprint = _audit_chunk_fingerprint(chunks)
         record: dict[str, Any] = {
             "ts_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
             "variant": variant,
             "family": family,
             "manifest_digest": manifest_digest_value,
             "batch_size": len(chunks),
-            "batch_fingerprint": _audit_chunk_fingerprint(chunks),
+            "batch_fingerprint": fingerprint,
             "chunk_meta": [_audit_chunk_meta(chunk) for chunk in chunks],
             "raw_scores": [round(float(v), 8) for v in raw_scores],
             "final_scores": [round(float(v), 8) for v in final_scores],
@@ -101,7 +136,13 @@ def _write_forward_audit(
             "positive_count": int(sum(bool(v) for v in predictions)),
         }
         if _audit_full_chunks_enabled():
-            record["chunks"] = chunks
+            if not _audit_dedupe_full_chunks_enabled() or fingerprint not in _audit_seen_full_chunks(out_dir):
+                record["chunks"] = chunks
+                record["full_chunks_stored"] = True
+                _audit_mark_full_chunks_seen(out_dir, fingerprint)
+            else:
+                record["full_chunks_stored"] = False
+                record["chunks_deduped"] = True
         path = out_dir / f"forward_{variant}.jsonl"
         with path.open("a", encoding="utf-8") as f:
             f.write(json.dumps(record, sort_keys=True, default=str) + "\n")
