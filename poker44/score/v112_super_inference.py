@@ -115,6 +115,24 @@ def score_chunks(
     names = list(bundle.get("stack_model_names") or sorted(models))
     base = np.column_stack([models[name].predict_proba(X)[:, 1] for name in names])
 
+    blend_weights = bundle.get("blend_weights_by_strategy") or {}
+    if strategy in blend_weights:
+        weights_by_name = blend_weights[strategy] or {}
+        weights = np.asarray([float(weights_by_name.get(name, 0.0)) for name in names], dtype=float)
+        weight_sum = float(np.sum(weights))
+        if weight_sum <= 1e-12:
+            raise ValueError(f"empty blend weights for strategy={strategy}")
+        pred = base @ (weights / weight_sum)
+        return [float(np.clip(v, 0.0, 1.0)) for v in pred]
+
+    if strategy.startswith("avg_no_"):
+        dropped = strategy.removeprefix("avg_no_")
+        keep = [idx for idx, name in enumerate(names) if name != dropped]
+        if not keep:
+            raise ValueError(f"avg_no strategy removed all model heads: {strategy}")
+        pred = np.mean(base[:, keep], axis=1)
+        return [float(np.clip(v, 0.0, 1.0)) for v in pred]
+
     if strategy == "stack":
         pred = bundle["meta"].predict_proba(base)[:, 1]
         return [float(np.clip(v, 0.0, 1.0)) for v in pred]
