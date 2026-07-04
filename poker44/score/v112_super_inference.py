@@ -101,10 +101,13 @@ def _build_x(chunks: Sequence[Any], bundle: dict[str, Any]) -> np.ndarray:
 def _split_chunk(chunk: list[dict[str, Any]], segment_size: int) -> list[list[dict[str, Any]]]:
     if segment_size <= 0 or len(chunk) <= segment_size:
         return [chunk]
-    segments = [list(chunk[idx : idx + segment_size]) for idx in range(0, len(chunk), segment_size)]
-    if len(segments) > 1 and len(segments[-1]) < max(10, segment_size // 2):
-        segments[-2].extend(segments[-1])
-        segments.pop()
+    n_segments = max(1, int(round(len(chunk) / float(segment_size))))
+    boundaries = np.linspace(0, len(chunk), n_segments + 1)
+    segments = [
+        list(chunk[int(round(boundaries[idx])) : int(round(boundaries[idx + 1]))])
+        for idx in range(n_segments)
+    ]
+    segments = [segment for segment in segments if segment]
     return segments
 
 
@@ -150,11 +153,22 @@ def score_chunks(
             owners.extend([owner] * len(segments))
         segment_scores = score_chunks(expanded, bundle, strategy=inner_strategy)
         grouped: list[list[float]] = [[] for _ in original_chunks]
-        for owner, score in zip(owners, segment_scores, strict=False):
+        if len(segment_scores) != len(owners):
+            raise RuntimeError(
+                f"segment scorer returned {len(segment_scores)} scores for {len(owners)} segments"
+            )
+        for owner, score in zip(owners, segment_scores, strict=True):
             grouped[owner].append(float(score))
+        fallback = score_chunks(original_chunks, bundle, strategy=inner_strategy)
         return [
-            float(np.clip(_aggregate_segment_scores(values, aggregate_mode), 0.0, 1.0))
-            for values in grouped
+            float(
+                np.clip(
+                    _aggregate_segment_scores(values, aggregate_mode) if values else fallback[idx],
+                    0.0,
+                    1.0,
+                )
+            )
+            for idx, values in enumerate(grouped)
         ]
 
     X = _build_x(chunks, bundle)
