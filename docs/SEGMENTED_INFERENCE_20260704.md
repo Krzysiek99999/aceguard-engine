@@ -13,4 +13,9 @@ segments in the request with the inner `avg` strategy, then assigns the original
 chunk the mean of its two highest segment scores. The goal is to preserve the
 training unit size while still returning one score per validator chunk.
 
+The companion `v113_daily_seg35_mean_avg` variant uses the same 35-hand
+segmentation but aggregates by the mean of all segment scores. It is used as an
+A/B test for whether live labels are better represented by the strongest
+subsegments or by the full segmented average.
+
 No validator-private labels or private external data are used.
