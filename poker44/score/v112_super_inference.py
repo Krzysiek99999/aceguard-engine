@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import os
 import pickle
+import re
 from pathlib import Path
 from typing import Any, Sequence
 
@@ -97,6 +98,38 @@ def _build_x(chunks: Sequence[Any], bundle: dict[str, Any]) -> np.ndarray:
     return np.hstack(pieces)
 
 
+def _split_chunk(chunk: list[dict[str, Any]], segment_size: int) -> list[list[dict[str, Any]]]:
+    if segment_size <= 0 or len(chunk) <= segment_size:
+        return [chunk]
+    segments = [list(chunk[idx : idx + segment_size]) for idx in range(0, len(chunk), segment_size)]
+    if len(segments) > 1 and len(segments[-1]) < max(10, segment_size // 2):
+        segments[-2].extend(segments[-1])
+        segments.pop()
+    return segments
+
+
+def _aggregate_segment_scores(values: list[float], mode: str) -> float:
+    arr = np.asarray(values, dtype=float)
+    if arr.size == 0:
+        return 0.5
+    if mode == "max":
+        return float(np.max(arr))
+    if mode == "mean":
+        return float(np.mean(arr))
+    if mode == "q75":
+        return float(np.quantile(arr, 0.75))
+    if mode == "top2mean":
+        return float(np.mean(np.sort(arr)[-min(2, len(arr)) :]))
+    raise ValueError(f"unknown segment aggregation mode={mode}")
+
+
+def _parse_segment_strategy(strategy: str) -> tuple[int, str, str] | None:
+    match = re.fullmatch(r"seg(\d+)_(max|mean|q75|top2mean)_(.+)", strategy)
+    if not match:
+        return None
+    return int(match.group(1)), match.group(2), match.group(3)
+
+
 def score_chunks(
     chunks: Sequence[Any],
     bundle: dict[str, Any],
@@ -104,9 +137,28 @@ def score_chunks(
 ) -> list[float]:
     if not chunks:
         return []
+    strategy = (strategy or "rank_mean").lower()
+    segment = _parse_segment_strategy(strategy)
+    if segment is not None:
+        segment_size, aggregate_mode, inner_strategy = segment
+        original_chunks = _unwrap(chunks)
+        expanded: list[list[dict[str, Any]]] = []
+        owners: list[int] = []
+        for owner, chunk in enumerate(original_chunks):
+            segments = _split_chunk(chunk, segment_size)
+            expanded.extend(segments)
+            owners.extend([owner] * len(segments))
+        segment_scores = score_chunks(expanded, bundle, strategy=inner_strategy)
+        grouped: list[list[float]] = [[] for _ in original_chunks]
+        for owner, score in zip(owners, segment_scores, strict=False):
+            grouped[owner].append(float(score))
+        return [
+            float(np.clip(_aggregate_segment_scores(values, aggregate_mode), 0.0, 1.0))
+            for values in grouped
+        ]
+
     X = _build_x(chunks, bundle)
     models = bundle["models"]
-    strategy = (strategy or "rank_mean").lower()
 
     if strategy in models:
         pred = models[strategy].predict_proba(X)[:, 1]
