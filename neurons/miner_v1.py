@@ -3,7 +3,10 @@
 This file intentionally supports only the active public model families:
 
 - v5_statistical
+- v8_markov
 - v10_mild
+- v10_sharp
+- v11_ensemble
 - v112_super_<strategy>_top<N>
 - v113_daily_<strategy>_top<N>
 
@@ -197,6 +200,26 @@ def _variant_config(name: str) -> dict[str, Any]:
         return {
             "family": "v10",
             "description": "Type-aware deterministic scorer with mild calibration.",
+            "stage2_mode": "mild",
+            "default_top_n": 2,
+        }
+    if name == "v10_sharp":
+        return {
+            "family": "v10",
+            "description": "Type-aware deterministic scorer with sharp calibration.",
+            "stage2_mode": "sharp",
+            "default_top_n": 3,
+        }
+    if name == "v8_markov":
+        return {
+            "family": "v8_markov",
+            "description": "Deterministic Markov sequence scorer.",
+            "default_top_n": 2,
+        }
+    if name == "v11_ensemble":
+        return {
+            "family": "v11",
+            "description": "Deterministic type-aware ensemble scorer.",
             "default_top_n": 2,
         }
 
@@ -299,6 +322,26 @@ class Miner(BaseMinerNeuron):
                     REPO_ROOT / "poker44" / "score" / "stage2_calibration.py",
                 ]
             )
+        elif family == "v8_markov":
+            files.extend(
+                [
+                    REPO_ROOT / "poker44" / "score" / "sequence_v8.py",
+                    REPO_ROOT / "poker44" / "score" / "sequence_v8_markov.py",
+                ]
+            )
+        elif family == "v11":
+            files.extend(
+                [
+                    REPO_ROOT / "poker44" / "score" / "ensemble_v11.py",
+                    REPO_ROOT / "poker44" / "score" / "statistical_v5.py",
+                    REPO_ROOT / "poker44" / "score" / "statistical_v6.py",
+                    REPO_ROOT / "poker44" / "score" / "statistical_v9.py",
+                    REPO_ROOT / "poker44" / "score" / "sequence_v8.py",
+                    REPO_ROOT / "poker44" / "score" / "sequence_v8_markov.py",
+                    REPO_ROOT / "poker44" / "score" / "features_pot_geometry.py",
+                    REPO_ROOT / "poker44" / "score" / "features_response_curves.py",
+                ]
+            )
         elif family in {"v112_super", "v113_daily"}:
             files.extend(
                 [
@@ -370,13 +413,16 @@ class Miner(BaseMinerNeuron):
 
     def _score_v10(self, chunks: list[list[dict[str, Any]]]) -> list[float]:
         from poker44.score.calibration import rank_based_calibrate
-        from poker44.score.stage2_calibration import stage2_calibrate
+        from poker44.score.stage2_calibration import stage2_calibrate, stage2_max_n_adaptive
         from poker44.score.statistical_v9 import score_chunks_v9
 
         raw_scores, _types = score_chunks_v9(chunks)
+        mode = str(self.variant_cfg.get("stage2_mode", "mild"))
         calibrated_scores, mode_top_n, _score_floor = stage2_calibrate(
-            raw_scores, mode="mild"
+            raw_scores, mode=mode
         )
+        if mode == "sharp":
+            mode_top_n = stage2_max_n_adaptive(raw_scores, mode=mode)
         self._last_raw_scores = [float(v) for v in calibrated_scores]
         top_n = _env_int("POKER44_MAX_N", mode_top_n)
         bot_ratio = min(max(top_n / max(len(calibrated_scores), 1), 0.0), 0.1)
@@ -384,6 +430,26 @@ class Miner(BaseMinerNeuron):
             round(float(v), 6)
             for v in rank_based_calibrate(calibrated_scores, bot_ratio=bot_ratio)
         ]
+
+    def _score_v8_markov(self, chunks: list[list[dict[str, Any]]]) -> list[float]:
+        from poker44.score.calibration import rank_based_calibrate
+        from poker44.score.sequence_v8_markov import score_chunks_v8_combined
+
+        raw_scores = score_chunks_v8_combined(chunks)
+        self._last_raw_scores = [float(v) for v in raw_scores]
+        top_n = _env_int("POKER44_MAX_N", self.variant_cfg["default_top_n"])
+        bot_ratio = min(max(top_n / max(len(raw_scores), 1), 0.0), 0.1)
+        return [round(float(v), 6) for v in rank_based_calibrate(raw_scores, bot_ratio=bot_ratio)]
+
+    def _score_v11(self, chunks: list[list[dict[str, Any]]]) -> list[float]:
+        from poker44.score.calibration import rank_based_calibrate
+        from poker44.score.ensemble_v11 import score_chunks_v11
+
+        raw_scores, _telemetry, _types = score_chunks_v11(chunks)
+        self._last_raw_scores = [float(v) for v in raw_scores]
+        top_n = _env_int("POKER44_MAX_N", self.variant_cfg["default_top_n"])
+        bot_ratio = min(max(top_n / max(len(raw_scores), 1), 0.0), 0.1)
+        return [round(float(v), 6) for v in rank_based_calibrate(raw_scores, bot_ratio=bot_ratio)]
 
     def _score_schema_model(self, chunks: list[list[dict[str, Any]]]) -> list[float]:
         from poker44.score.rank_cap_remap import rank_cap_remap
@@ -430,6 +496,10 @@ class Miner(BaseMinerNeuron):
                 scores = self._score_v5(chunks)
             elif family == "v10":
                 scores = self._score_v10(chunks)
+            elif family == "v8_markov":
+                scores = self._score_v8_markov(chunks)
+            elif family == "v11":
+                scores = self._score_v11(chunks)
             elif family in {"v112_super", "v113_daily"}:
                 scores = self._score_schema_model(chunks)
             else:
