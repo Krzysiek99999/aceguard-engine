@@ -101,3 +101,24 @@ Supported runtime strategies:
 
 The deployment layer applies rank-cap calibration after scoring. The rank order
 is the primary signal for the current Poker44 reward.
+
+### `v118_stable75`
+
+Live-sized supervised schema and sequence model trained like `v118_live`, but
+with a stricter benchmark-to-live stability filter. Feature channels with
+high distribution drift against the latest unlabeled live audit payload are
+removed before training and serving.
+
+Files:
+
+- `poker44/score/v112_super_inference.py`
+- `poker44/score/robust_schema/features.py`
+- `poker44/score/sequence_schema.py`
+- `poker44/score/statistical_v25.py`
+- `data/models/v118_stableall75/model.pkl`
+
+Supported runtime strategies:
+
+- `et`
+
+The deployment layer applies rank-cap calibration after scoring.

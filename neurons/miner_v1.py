@@ -10,6 +10,7 @@ This file intentionally supports only the active public model families:
 - v112_super_<strategy>_top<N>
 - v113_daily_<strategy>_top<N>
 - v118_live_<strategy>_top<N>
+- v118_stable75_<strategy>_top<N>
 
 Deployment secrets, wallet names, host details, audit logs, and private run
 scripts belong outside the public model repository.
@@ -226,6 +227,7 @@ def _variant_config(name: str) -> dict[str, Any]:
 
     daily = False
     live_sized = False
+    stable75 = False
     prefix = "v112_super_"
     if name.startswith("v113_daily_"):
         prefix = "v113_daily_"
@@ -233,6 +235,10 @@ def _variant_config(name: str) -> dict[str, Any]:
     elif name.startswith("v118_live_"):
         prefix = "v118_live_"
         live_sized = True
+    elif name.startswith("v118_stable75_"):
+        prefix = "v118_stable75_"
+        live_sized = True
+        stable75 = True
 
     if name.startswith(prefix):
         tail = name[len(prefix) :]
@@ -257,11 +263,19 @@ def _variant_config(name: str) -> dict[str, Any]:
             strategy = strategy_part
         else:
             strategy = strategy_aliases.get(strategy_part, "rank_mean")
-        family = "v118_live" if live_sized else ("v113_daily" if daily else "v112_super")
+        family = (
+            "v118_stable75"
+            if stable75
+            else ("v118_live" if live_sized else ("v113_daily" if daily else "v112_super"))
+        )
         return {
             "family": family,
             "description": (
-                "Live-sized supervised schema and sequence scorer trained on merged miner-visible benchmark chunks."
+                (
+                    "Live-sized supervised scorer with stricter benchmark-to-live stability filtering."
+                    if stable75
+                    else "Live-sized supervised schema and sequence scorer trained on merged miner-visible benchmark chunks."
+                )
                 if live_sized
                 else (
                     "Daily refreshed supervised schema scorer trained on current miner-visible benchmark views."
@@ -272,7 +286,9 @@ def _variant_config(name: str) -> dict[str, Any]:
             "strategy": strategy,
             "default_top_n": max(1, min(5, top_n)),
             "model_file": (
-                "data/models/v118_livesized_chunks/model.pkl"
+                "data/models/v118_stableall75/model.pkl"
+                if stable75
+                else "data/models/v118_livesized_chunks/model.pkl"
                 if live_sized
                 else (
                 "data/models/v113_daily/model.pkl"
@@ -355,7 +371,7 @@ class Miner(BaseMinerNeuron):
                     REPO_ROOT / "poker44" / "score" / "features_response_curves.py",
                 ]
             )
-        elif family in {"v112_super", "v113_daily", "v118_live"}:
+        elif family in {"v112_super", "v113_daily", "v118_live", "v118_stable75"}:
             files.extend(
                 [
                     REPO_ROOT / "poker44" / "score" / "v112_super_inference.py",
@@ -369,7 +385,7 @@ class Miner(BaseMinerNeuron):
 
     def _build_manifest(self) -> dict[str, Any]:
         family = self.variant_cfg["family"]
-        if family in {"v112_super", "v113_daily", "v118_live"}:
+        if family in {"v112_super", "v113_daily", "v118_live", "v118_stable75"}:
             training_statement = (
                 "Model trained on public Poker44 benchmark releases using "
                 "miner-visible payload views only."
@@ -414,6 +430,8 @@ class Miner(BaseMinerNeuron):
             manifest["training_refresh"] = "daily_candidate_2026-06-18"
         if family == "v118_live":
             manifest["training_refresh"] = "live_sized_candidate_2026-07-04"
+        if family == "v118_stable75":
+            manifest["training_refresh"] = "live_sized_stable75_candidate_2026-07-05"
         return manifest
 
     def _score_v5(self, chunks: list[list[dict[str, Any]]]) -> list[float]:
@@ -474,6 +492,8 @@ class Miner(BaseMinerNeuron):
             env_name = "POKER44_V113_DAILY_MODEL_PATH"
         elif self.variant_cfg["family"] == "v118_live":
             env_name = "POKER44_V118_MODEL_PATH"
+        elif self.variant_cfg["family"] == "v118_stable75":
+            env_name = "POKER44_V118_STABLE75_MODEL_PATH"
         else:
             env_name = "POKER44_V112_SUPER_MODEL_PATH"
         model_file = os.getenv(env_name, str(REPO_ROOT / self.variant_cfg["model_file"]))
@@ -516,7 +536,7 @@ class Miner(BaseMinerNeuron):
                 scores = self._score_v8_markov(chunks)
             elif family == "v11":
                 scores = self._score_v11(chunks)
-            elif family in {"v112_super", "v113_daily", "v118_live"}:
+            elif family in {"v112_super", "v113_daily", "v118_live", "v118_stable75"}:
                 scores = self._score_schema_model(chunks)
             else:
                 scores = [0.49 for _ in chunks]
