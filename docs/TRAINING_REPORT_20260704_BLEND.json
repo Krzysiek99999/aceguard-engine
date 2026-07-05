@@ -102,7 +102,7 @@
     }
   },
   "batch_size": 100,
-  "benchmark_dir": "/Users/krzysiekm/Desktop/SN126/Poker44-subnet/data/benchmark_v112",
+  "benchmark_dir": "data/benchmark_v112",
   "created_at": "2026-07-04T14:22:08.098665+00:00",
   "dates": [
     "2026-05-26",
@@ -220,7 +220,7 @@
   "n_batches": 6,
   "n_units": 568,
   "n_windows": 80,
-  "out_root": "/Users/krzysiekm/Desktop/SN126/Poker44-subnet/data/models/v113_blend_variants/20260704_141835",
+  "out_root": "data/models/v113_blend_variants/20260704_141835",
   "public_safe": true,
   "selected": [
     {

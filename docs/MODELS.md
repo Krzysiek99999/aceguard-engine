@@ -74,3 +74,30 @@ Supported runtime strategies are the same schema scorer heads:
 - `avg`
 - `rank_mean`
 - `stack`
+
+### `v118_live`
+
+Live-sized supervised schema and sequence model trained on public miner-visible
+benchmark chunks merged into request-sized units. The current public bundle uses
+the `super_seq` feature set, `abs_batch` feature mode, and date-holdout
+validation under the current rank-first reward.
+
+Files:
+
+- `poker44/score/v112_super_inference.py`
+- `poker44/score/robust_schema/features.py`
+- `poker44/score/sequence_schema.py`
+- `poker44/score/statistical_v25.py`
+- `data/models/v118_livesized_chunks/model.pkl`
+
+Supported runtime strategies:
+
+- `et`
+- `linear`
+- `rf`
+- `avg`
+- `rank_mean`
+- `stack`
+
+The deployment layer applies rank-cap calibration after scoring. The rank order
+is the primary signal for the current Poker44 reward.
