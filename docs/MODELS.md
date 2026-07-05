@@ -75,6 +75,28 @@ Supported runtime strategies are the same schema scorer heads:
 - `rank_mean`
 - `stack`
 
+### `v115_short`
+
+Short-unit supervised schema + sequence model trained on public miner-visible
+benchmark chunks. This family is a canary for the high-offline short-unit
+signal and is intentionally deployed separately from the live-sized `v118`
+family.
+
+Files:
+
+- `poker44/score/v112_super_inference.py`
+- `poker44/score/robust_schema/features.py`
+- `poker44/score/statistical_v25.py`
+- `poker44/score/sequence_schema.py`
+- `data/models/v115_short/model.pkl`
+
+Supported runtime strategies:
+
+- `avg`
+- `rank_mean`
+- `stack`
+- base model heads included in the artifact
+
 ### `v118_live`
 
 Live-sized supervised schema and sequence model trained on public miner-visible
