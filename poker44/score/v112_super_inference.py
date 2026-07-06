@@ -57,7 +57,7 @@ def _feature_dict(chunk: list[dict[str, Any]], feature_set: str) -> dict[str, fl
         out.update({f"v25__{k}": float(v) for k, v in v25_features(chunk).items()})
         out.update({f"seq__{k}": float(v) for k, v in sequence_features(chunk).items()})
         return out
-    if feature_set in {"behav_mix", "v131"}:
+    if feature_set in {"behav_mix", "v131", "behav_ngram", "v132"}:
         from poker44.score.enterprise_features import compute_enterprise_features
         from poker44.score.extended_features import compute_extended_features
         from poker44.score.features_pot_geometry import extract_pot_geometry_features
