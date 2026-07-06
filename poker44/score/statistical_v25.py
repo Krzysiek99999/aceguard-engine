@@ -1,8 +1,21 @@
-"""V25 behavioral feature scorer.
+"""V25 — 24-feature behavioral detector (full plan 2026-05-31).
 
-The scorer extracts chunk-level behavioral signals such as action frequency,
-position, sizing, street aggression, and repetition. Output is a raw score in
-[0, 1], where higher means more bot-like.
+Research base:
+  - PartyPoker game integrity blog (HUD-style stats)
+  - GTO Wizard Fair Play Check (solver correlation hint)
+  - PokerCopilot HUD reference (VPIP/PFR/cbet/AF)
+  - Internal v5 sequence signals
+
+24 features split:
+  - 14 bot signals (positive contribution)
+  - 6 human signals (NEGATIVE contribution — subtract)
+  - 4 cross-features (interactions: position×VPIP, stack×AF, street×cbet, handstrength×action)
+
+Output: raw_score in [0, 1]; higher = more bot-like.
+
+Trained via scripts/miner_training/train_v25_dual.py with multi-task loss:
+  - 50% benchmark_real (ground truth)
+  - 50% live distillation (UID 160/252 picks as pseudo-labels)
 """
 from __future__ import annotations
 

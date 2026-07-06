@@ -174,6 +174,7 @@ def chunk_features(chunk: list[dict[str, Any]]) -> dict[str, float]:
             amount_names.append(amount)
 
     full_no_eoh = [token for token in full_stream if token != "<EOH>"]
+    hero_no_eoh = [token for token in hero_stream if token != "<EOH>"]
     n_actions = len(full_no_eoh)
 
     out["seq_action_count"] = float(n_actions)

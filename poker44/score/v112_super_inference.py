@@ -94,8 +94,15 @@ def _build_x(chunks: Sequence[Any], bundle: dict[str, Any]) -> np.ndarray:
     if feature_mode in {"abs_batch", "batch_only"}:
         pieces.append(_batch_z(arr))
     if not pieces:
-        return np.hstack([arr[:, mask], _batch_z(arr)])
-    return np.hstack(pieces)
+        X = np.hstack([arr[:, mask], _batch_z(arr)])
+    else:
+        X = np.hstack(pieces)
+    feature_indices = bundle.get("feature_indices")
+    if feature_indices is not None:
+        idx = np.asarray(feature_indices, dtype=int)
+        if idx.size:
+            X = X[:, idx]
+    return X
 
 
 def _predict_model_scores(model: Any, X: np.ndarray, chunks: list[list[dict[str, Any]]]) -> np.ndarray:

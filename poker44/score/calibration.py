@@ -334,13 +334,13 @@ def bounded_rank_calibrate(
     saturate_spread: float = 0.08,
     isotonic_points: Optional[List[Tuple[float, float]]] = None,
 ) -> np.ndarray:
-    """Bounded rank-based calibrator with discrete N in [0, max_n], hard cap N<4.
+    """Bounded rank-based calibrator with discrete N ∈ {0..max_n}, hard cap N<4.
 
     Designed for the 40-chunk validator window where FPR≥0.10 zeros reward
-    (about 3 false positives over typical 28-36 negatives). Pure dynamic
-    calibration can collapse on flat raw scores, while pure top-N can over-call
-    on noisy batches. This hybrid uses rank-based selection constrained by
-    distribution-shape guards and an absolute score floor.
+    (≈ 3 false positives over typical 28-36 negatives). Per codex iter 6:
+    pure dynamic calibration collapses on flat raw scores (0-prediction streaks),
+    pure top-N over-calls on noisy days. This hybrid uses rank-based selection
+    constrained by distribution-shape guards and an absolute score floor.
 
     Decision logic:
       * collapse (top1<0.18 ∧ std<0.03)   → N=0 (top1<0.12) or N=1
@@ -423,15 +423,18 @@ def bounded_rank_calibrate(
     return out
 
 
-# Adaptive N selection.
+# ─────────────────────────────────────────────────────────────────────────────
+# Adaptive N selection (codex strategy session 2026-05-25)
+# ─────────────────────────────────────────────────────────────────────────────
 # Static max_n=3 fails when validator's actual bot count per batch varies.
 # select_adaptive_n() inspects raw_scores distribution and picks N per batch.
 #
 # Profiles:
-#   conservative: N in [1,3]
-#   balanced:     N in [1,4]
-#   aggressive:   N in [2,5]
-#   scout:        N in [0,4]
+#   conservative: N ∈ [1,3]  — FPR guard control, low recall, low FPR
+#   balanced:     N ∈ [1,4]  — default behavior, target N=2-3
+#   aggressive:   N ∈ [2,5]  — push recall when signal clear, cap=5 protects FPR
+#   scout:        N ∈ [0,4]  — orthogonal probe, can flag 0 if no signal at all
+# ─────────────────────────────────────────────────────────────────────────────
 
 
 def _pick_n_by_signal(
