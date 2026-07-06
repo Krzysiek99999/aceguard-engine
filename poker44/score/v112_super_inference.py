@@ -98,6 +98,28 @@ def _build_x(chunks: Sequence[Any], bundle: dict[str, Any]) -> np.ndarray:
     return np.hstack(pieces)
 
 
+def _predict_model_scores(model: Any, X: np.ndarray, chunks: list[list[dict[str, Any]]]) -> np.ndarray:
+    if hasattr(model, "predict_chunk_scores"):
+        return np.asarray(model.predict_chunk_scores(chunks), dtype=float)
+    if hasattr(model, "predict_proba"):
+        return np.asarray(model.predict_proba(X)[:, 1], dtype=float)
+    if hasattr(model, "decision_function"):
+        raw = np.asarray(model.decision_function(X), dtype=float)
+        return 1.0 / (1.0 + np.exp(-np.clip(raw, -40.0, 40.0)))
+    return np.asarray(model.predict(X), dtype=float)
+
+
+def _base_score_matrix(
+    models: dict[str, Any],
+    names: list[str],
+    X: np.ndarray,
+    chunks: list[list[dict[str, Any]]],
+) -> np.ndarray:
+    return np.column_stack(
+        [np.clip(_predict_model_scores(models[name], X, chunks), 0.0, 1.0) for name in names]
+    )
+
+
 def _split_chunk(chunk: list[dict[str, Any]], segment_size: int) -> list[list[dict[str, Any]]]:
     if segment_size <= 0 or len(chunk) <= segment_size:
         return [chunk]
@@ -159,27 +181,28 @@ def score_chunks(
             )
         for owner, score in zip(owners, segment_scores, strict=True):
             grouped[owner].append(float(score))
-        fallback = score_chunks(original_chunks, bundle, strategy=inner_strategy)
-        return [
-            float(
-                np.clip(
-                    _aggregate_segment_scores(values, aggregate_mode) if values else fallback[idx],
-                    0.0,
-                    1.0,
-                )
-            )
-            for idx, values in enumerate(grouped)
-        ]
+        fallback: list[float] | None = None
+        out: list[float] = []
+        for idx, values in enumerate(grouped):
+            if values:
+                score = _aggregate_segment_scores(values, aggregate_mode)
+            else:
+                if fallback is None:
+                    fallback = score_chunks(original_chunks, bundle, strategy=inner_strategy)
+                score = fallback[idx]
+            out.append(float(np.clip(score, 0.0, 1.0)))
+        return out
 
-    X = _build_x(chunks, bundle)
+    original_chunks = _unwrap(chunks)
+    X = _build_x(original_chunks, bundle)
     models = bundle["models"]
 
     if strategy in models:
-        pred = models[strategy].predict_proba(X)[:, 1]
+        pred = _predict_model_scores(models[strategy], X, original_chunks)
         return [float(np.clip(v, 0.0, 1.0)) for v in pred]
 
     names = list(bundle.get("stack_model_names") or sorted(models))
-    base = np.column_stack([models[name].predict_proba(X)[:, 1] for name in names])
+    base = _base_score_matrix(models, names, X, original_chunks)
 
     blend_weights = bundle.get("blend_weights_by_strategy") or {}
     if strategy in blend_weights:
