@@ -57,6 +57,22 @@ def _feature_dict(chunk: list[dict[str, Any]], feature_set: str) -> dict[str, fl
         out.update({f"v25__{k}": float(v) for k, v in v25_features(chunk).items()})
         out.update({f"seq__{k}": float(v) for k, v in sequence_features(chunk).items()})
         return out
+    if feature_set in {"behav_mix", "v131"}:
+        from poker44.score.enterprise_features import compute_enterprise_features
+        from poker44.score.extended_features import compute_extended_features
+        from poker44.score.features_pot_geometry import extract_pot_geometry_features
+        from poker44.score.features_v13_safe import chunk_features_v13
+
+        out = {f"schema__{k}": float(v) for k, v in schema_features(chunk).items()}
+        out.update({f"v25__{k}": float(v) for k, v in v25_features(chunk).items()})
+        out.update({f"seq__{k}": float(v) for k, v in sequence_features(chunk).items()})
+        out.update(
+            {f"geo__{k}": float(v) for k, v in extract_pot_geometry_features(chunk).items()}
+        )
+        out.update({f"v13__{k}": float(v) for k, v in chunk_features_v13(chunk).items()})
+        out.update({f"ext__{k}": float(v) for k, v in compute_extended_features(chunk).items()})
+        out.update({f"ent__{k}": float(v) for k, v in compute_enterprise_features(chunk).items()})
+        return out
     raise ValueError(f"unknown feature_set={feature_set}")
 
 

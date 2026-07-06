@@ -256,6 +256,10 @@ def _variant_config(name: str) -> dict[str, Any]:
         prefix = "v125_topk_"
         live_sized = True
         v125_topk = True
+    elif name.startswith("v131_behav_"):
+        prefix = "v131_behav_"
+        live_sized = True
+        v131_behav = True
 
     if name.startswith(prefix):
         tail = name[len(prefix) :]
@@ -283,6 +287,9 @@ def _variant_config(name: str) -> dict[str, Any]:
         else:
             strategy = strategy_aliases.get(strategy_part, "rank_mean")
         family = (
+            "v131_behav"
+            if locals().get("v131_behav", False)
+            else (
             "v125_topk"
             if v125_topk
             else (
@@ -298,12 +305,15 @@ def _variant_config(name: str) -> dict[str, Any]:
                 )
             )
             )
+            )
         )
         return {
             "family": family,
             "description": (
                 (
-                    "Live-sized weighted top-K ET segment scorer with drift-pruned schema and sequence features."
+                    "Live-sized behavioural rank stack with batch-normalized schema, sequence, pot-geometry, and temporal consistency features."
+                    if locals().get("v131_behav", False)
+                    else "Live-sized weighted top-K ET segment scorer with drift-pruned schema and sequence features."
                     if v125_topk
                     else "Live-sized segment scorer with drift-pruned non-money features."
                     if seg35
@@ -327,6 +337,9 @@ def _variant_config(name: str) -> dict[str, Any]:
             "strategy": strategy,
             "default_top_n": max(1, min(5, top_n)),
             "model_file": (
+                "data/models/v131_behav_mix/model.pkl"
+                if locals().get("v131_behav", False)
+                else (
                 "data/models/v125_topk64_et3_weighted/model.pkl"
                 if v125_topk
                 else (
@@ -348,6 +361,7 @@ def _variant_config(name: str) -> dict[str, Any]:
                             )
                         )
                     )
+                )
                 )
                 )
             ),
@@ -561,6 +575,8 @@ class Miner(BaseMinerNeuron):
             env_name = "POKER44_V118_SEG35_MODEL_PATH"
         elif self.variant_cfg["family"] == "v125_topk":
             env_name = "POKER44_V125_MODEL_PATH"
+        elif self.variant_cfg["family"] == "v131_behav":
+            env_name = "POKER44_V131_MODEL_PATH"
         else:
             env_name = "POKER44_V112_SUPER_MODEL_PATH"
         model_file = os.getenv(env_name, str(REPO_ROOT / self.variant_cfg["model_file"]))
@@ -603,7 +619,7 @@ class Miner(BaseMinerNeuron):
                 scores = self._score_v8_markov(chunks)
             elif family == "v11":
                 scores = self._score_v11(chunks)
-            elif family in {"v112_super", "v113_daily", "v115_short", "v118_live", "v118_stable75", "v118_seg35", "v125_topk"}:
+            elif family in {"v112_super", "v113_daily", "v115_short", "v118_live", "v118_stable75", "v118_seg35", "v125_topk", "v131_behav"}:
                 scores = self._score_schema_model(chunks)
             else:
                 scores = [0.49 for _ in chunks]
