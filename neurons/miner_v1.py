@@ -276,7 +276,9 @@ def _variant_config(name: str) -> dict[str, Any]:
             "stack": "stack",
             "avg": "avg",
         }
-        if strategy_part.startswith(("avg_no_", "avg_w", "blend_", "seg")):
+        if strategy_part.startswith(("avg_no_", "avg_w", "blend_", "seg")) or strategy_part in {
+            "v125_weighted",
+        }:
             strategy = strategy_part
         else:
             strategy = strategy_aliases.get(strategy_part, "rank_mean")
