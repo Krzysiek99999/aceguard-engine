@@ -236,6 +236,7 @@ def _variant_config(name: str) -> dict[str, Any]:
     v125_topk = False
     v131_behav = False
     v132_ngram = False
+    v133_split = False
     prefix = "v112_super_"
     if name.startswith("v113_daily_"):
         prefix = "v113_daily_"
@@ -266,6 +267,10 @@ def _variant_config(name: str) -> dict[str, Any]:
         prefix = "v132_ngram_"
         live_sized = True
         v132_ngram = True
+    elif name.startswith("v133_split_"):
+        prefix = "v133_split_"
+        live_sized = True
+        v133_split = True
 
     if name.startswith(prefix):
         tail = name[len(prefix) :]
@@ -293,7 +298,9 @@ def _variant_config(name: str) -> dict[str, Any]:
         else:
             strategy = strategy_aliases.get(strategy_part, "rank_mean")
         family = (
-            "v132_ngram"
+            "v133_split"
+            if v133_split
+            else "v132_ngram"
             if v132_ngram
             else "v131_behav"
             if v131_behav
@@ -321,6 +328,8 @@ def _variant_config(name: str) -> dict[str, Any]:
                 (
                     "Live-sized behavioural rank stack with batch-normalized schema, sequence, pot-geometry, and temporal consistency features."
                     if v131_behav
+                    else "Poker44 v1.13 split-aware behavioural n-gram stack trained on public train split with validation held out."
+                    if v133_split
                     else "Live-sized behavioural rank stack with sparse action n-gram side learner."
                     if v132_ngram
                     else "Live-sized weighted top-K ET segment scorer with drift-pruned schema and sequence features."
@@ -347,7 +356,9 @@ def _variant_config(name: str) -> dict[str, Any]:
             "strategy": strategy,
             "default_top_n": max(1, min(5, top_n)),
             "model_file": (
-                "data/models/v132_behav_ngram/model.pkl"
+                "data/models/v133_v113_split_ngram/model.pkl"
+                if v133_split
+                else "data/models/v132_behav_ngram/model.pkl"
                 if v132_ngram
                 else "data/models/v131_behav_mix/model.pkl"
                 if v131_behav
@@ -462,6 +473,7 @@ class Miner(BaseMinerNeuron):
             "v125_topk",
             "v131_behav",
             "v132_ngram",
+            "v133_split",
         }:
             files.extend(
                 [
@@ -478,6 +490,10 @@ class Miner(BaseMinerNeuron):
                     REPO_ROOT / self.variant_cfg["model_file"],
                 ]
             )
+            if family == "v133_split":
+                files.append(
+                    REPO_ROOT / "data" / "models" / "v133_v113_split_ngram" / "report.json"
+                )
         return [path for path in files if path.exists()]
 
     def _build_manifest(self) -> dict[str, Any]:
@@ -492,11 +508,20 @@ class Miner(BaseMinerNeuron):
             "v125_topk",
             "v131_behav",
             "v132_ngram",
+            "v133_split",
         }:
-            training_statement = (
-                "Model trained on public Poker44 benchmark releases using "
-                "miner-visible payload views only."
-            )
+            if family == "v133_split":
+                training_statement = (
+                    "Model trained only on public Poker44 benchmark releaseVersion v1.13 "
+                    "using split=train chunk groups; split=validation was held out for "
+                    "reporting; features use miner-visible hand/action payload fields only, "
+                    "with no chunk IDs, dates, hashes, wallets, or validator-private labels."
+                )
+            else:
+                training_statement = (
+                    "Model trained on public Poker44 benchmark releases using "
+                    "miner-visible payload views only."
+                )
             framework = "python+scikit-learn"
         else:
             training_statement = (
@@ -517,6 +542,14 @@ class Miner(BaseMinerNeuron):
                 "open_source": True,
                 "inference_mode": "remote",
                 "training_data_statement": training_statement,
+                "training_data_sources": (
+                    [
+                        "https://api.poker44.net/api/v1/benchmark",
+                        "https://api.poker44.net/api/v1/benchmark/chunks?sourceDate=2026-07-06",
+                    ]
+                    if family == "v133_split"
+                    else []
+                ),
                 "private_data_attestation": (
                     "No external private user data and no validator-private labels were used."
                 ),
@@ -549,6 +582,8 @@ class Miner(BaseMinerNeuron):
             manifest["training_refresh"] = "behavioural_mix_candidate_2026-07-06"
         if family == "v132_ngram":
             manifest["training_refresh"] = "behavioural_ngram_candidate_2026-07-06"
+        if family == "v133_split":
+            manifest["training_refresh"] = "v113_split_ngram_candidate_2026-07-06"
         return manifest
 
     def _score_v5(self, chunks: list[list[dict[str, Any]]]) -> list[float]:
@@ -621,6 +656,8 @@ class Miner(BaseMinerNeuron):
             env_name = "POKER44_V131_MODEL_PATH"
         elif self.variant_cfg["family"] == "v132_ngram":
             env_name = "POKER44_V132_MODEL_PATH"
+        elif self.variant_cfg["family"] == "v133_split":
+            env_name = "POKER44_V133_MODEL_PATH"
         else:
             env_name = "POKER44_V112_SUPER_MODEL_PATH"
         model_file = os.getenv(env_name, str(REPO_ROOT / self.variant_cfg["model_file"]))
@@ -673,6 +710,7 @@ class Miner(BaseMinerNeuron):
                 "v125_topk",
                 "v131_behav",
                 "v132_ngram",
+                "v133_split",
             }:
                 scores = self._score_schema_model(chunks)
             else:

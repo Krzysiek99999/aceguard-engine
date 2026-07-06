@@ -1,0 +1,308 @@
+{
+  "batch_size": 100,
+  "benchmark_dir": "public Poker44 benchmark cache; source JSON not included in model repository",
+  "best": {
+    "model": "stack",
+    "validation_ap": 0.9955577470962085,
+    "validation_recall_at_fpr05": 1.0,
+    "validation_reward": 0.9966683103221563
+  },
+  "chunk_hashes": [
+    "061ac691f547f637bc4d7e273fc537276d0bad79834a3139000316142330998e",
+    "071ac76793e0a2ba5969460b4e74a3fc08ef2bbc470c3be0d72e437033375d5f",
+    "127eaabfafa52bd938c705a78efb0279bd2c4e5368c313baac5d7652bd40db4c",
+    "1f9374e52383d1b60c0c7b75d7c7813019526cf3de563e4f18f340e40c2c313e",
+    "20bda56b3973fa0878065908e2ab486aa4a4b45a8e75d6eb21eaf4ecd876df34",
+    "214de43fc17e0d53b5f60c4734db5544b39df26679b7b4da680660f827360b68",
+    "217ab1c1ecf5339327825f207fd3ac20ec9e869fb8519f867f63f25d0bcd0d17",
+    "2a262db359a826786de0f255082c0464f43b29cce3db30ce2539a7eb91351119",
+    "3cc83cd8ec62bc732fa7b248639678cf5b27f11a3abe2c16fe22de78d38c7544",
+    "3fc43bcb77ab19859ca17a1e87bf24222eeefc22921f84c706ad5e3b5bc6c9f7",
+    "5cfe71d373b2f53c5f66c59130265756e435b17e0c76b34f6b0b84d7c2026b5f",
+    "673f54e827f34c5deadee43fd07110b1f15c1af166092535563f2c70ffe13494",
+    "6be6e6d6f674d99bd62cbb1b7034890a73e6583636354430b17ddaf0c6920f94",
+    "71b12f89e5c7b06c9672c170cdbf0065e94ceef5f15c28029d05236f8068e25f",
+    "793d5a025947eee502d037ac01f4fb9a51aa0159a6afccbdf671f71f3aeea605",
+    "7de97056789e9f07484dde7f212b49fcc205f2fb7b89e53374ae3e5a51292b8b",
+    "85808c7bdce0d3233440d3d01d58877e8a25d04a89a8e4f42058ac001bf27309",
+    "8f367b457f9b0c577d91121a6f0b64108068bf7b657511b9cd99a2f332966b9e",
+    "93dcb27be7d056c13054e8d7375e16f0a3451cf216c6622e75ec6ae31762c169",
+    "a510f2073a194038e5dbc4230eb64e604aa1f01e5407a90410ee87d4613c72af",
+    "a73e01a333ee19ad866e6a50d783c07d54026b3c228b93f1498083e53f8b5fca",
+    "ae7a9d23d163050ae8d739767e6456ee52c01afea4cbb930cb169e6a0d649b65",
+    "b596bc4817289285be3a641e9caa0312daa2b71e266597a192cbae8c828dfd24",
+    "b92b2800b8b65fd106a76a4a5d9fe7135fc4861fdf263a62e246ad49260dcd7f",
+    "ba06549129c947f1ffdf255da0eb9bcad4be65f9aba20fae5e0c312d82debeb2",
+    "bbebd806ae8674ae445534a405a0637991aef6282c848d275d681ad101f8a9e9",
+    "dc5e3ab9724b56998d7e4f13b371d060ae74dc30e5f9e1fda3466b2dfe5aadb3",
+    "e12682132ad91095348347b38641b278d6436904c483cd374d798bc1aace845a",
+    "f1d93082e220449a1f0cfa7c1e2216e998d60f0a64892ae96d059d70e217f31c",
+    "fa4d0d6477aa7ea1afc3403cc52b3abeef6a1e08264c00cb2369f52e7c13bebd"
+  ],
+  "feature_mode": "batch_only",
+  "feature_set": "behav_ngram",
+  "local_artifact_note": "Report sanitized for public model transparency; no local paths, wallets, hotkeys, or private data included.",
+  "models": {
+    "avg": {
+      "validation_global": {
+        "ap": 0.9939551829936444,
+        "fpr": 0.038461538461538464,
+        "recall_at_fpr05": 1.0,
+        "reward": 0.9954663872452333
+      }
+    },
+    "cat": {
+      "train_oof": {
+        "ap_global": 0.9674651856316332,
+        "auc": 0.9658553875236295,
+        "last2_dates": [
+          "2026-06-12",
+          "2026-07-06"
+        ],
+        "last2_global": {
+          "ap": 0.9682032133030004,
+          "fpr": 0.041666666666666664,
+          "recall_at_fpr05": 0.8194444444444444,
+          "reward": 0.9310135210883614
+        },
+        "official_batch100": {
+          "ap": 0.9654976333507231,
+          "fpr": 0.04380952380952381,
+          "recall_at_fpr05": 0.7971428571428572,
+          "reward": 0.9234089392987567
+        }
+      },
+      "validation_global": {
+        "ap": 0.9922829421909688,
+        "fpr": 0.038461538461538464,
+        "recall_at_fpr05": 1.0,
+        "reward": 0.9942122066432266
+      }
+    },
+    "et": {
+      "train_oof": {
+        "ap_global": 0.992459125667777,
+        "auc": 0.9901937618147448,
+        "last2_dates": [
+          "2026-06-12",
+          "2026-07-06"
+        ],
+        "last2_global": {
+          "ap": 0.9908712409130955,
+          "fpr": 0.041666666666666664,
+          "recall_at_fpr05": 0.9583333333333334,
+          "reward": 0.982736764018155
+        },
+        "official_batch100": {
+          "ap": 0.9914809846373179,
+          "fpr": 0.03190476190476191,
+          "recall_at_fpr05": 0.9542857142857143,
+          "reward": 0.9821821670494171
+        }
+      },
+      "validation_global": {
+        "ap": 0.9999999999999999,
+        "fpr": 0.0,
+        "recall_at_fpr05": 1.0,
+        "reward": 0.9999999999999999
+      }
+    },
+    "lgb": {
+      "train_oof": {
+        "ap_global": 0.9605448484360675,
+        "auc": 0.9611294896030246,
+        "last2_dates": [
+          "2026-06-12",
+          "2026-07-06"
+        ],
+        "last2_global": {
+          "ap": 0.9669890653264926,
+          "fpr": 0.041666666666666664,
+          "recall_at_fpr05": 0.7638888888888888,
+          "reward": 0.9162140212170917
+        },
+        "official_batch100": {
+          "ap": 0.9620248319458569,
+          "fpr": 0.04380952380952381,
+          "recall_at_fpr05": 0.779047619047619,
+          "reward": 0.9162805287212974
+        }
+      },
+      "validation_global": {
+        "ap": 0.9970962086346701,
+        "fpr": 0.038461538461538464,
+        "recall_at_fpr05": 1.0,
+        "reward": 0.9978221564760026
+      }
+    },
+    "linear": {
+      "train_oof": {
+        "ap_global": 0.8974926485386558,
+        "auc": 0.8957939508506616,
+        "last2_dates": [
+          "2026-06-12",
+          "2026-07-06"
+        ],
+        "last2_global": {
+          "ap": 0.8903344391214644,
+          "fpr": 0.041666666666666664,
+          "recall_at_fpr05": 0.5277777777777778,
+          "reward": 0.7996952737855427
+        },
+        "official_batch100": {
+          "ap": 0.8957811613787698,
+          "fpr": 0.03380952380952381,
+          "recall_at_fpr05": 0.53,
+          "reward": 0.8043358710340773
+        }
+      },
+      "validation_global": {
+        "ap": 0.4815384615384615,
+        "fpr": 0.038461538461538464,
+        "recall_at_fpr05": 0.0,
+        "reward": 0.36115384615384616
+      }
+    },
+    "ngram": {
+      "train_oof": {
+        "ap_global": 0.6622067279480195,
+        "auc": 0.6407136105860114,
+        "last2_dates": [
+          "2026-06-12",
+          "2026-07-06"
+        ],
+        "last2_global": {
+          "ap": 0.6525422515104327,
+          "fpr": 0.041666666666666664,
+          "recall_at_fpr05": 0.19444444444444445,
+          "reward": 0.5380177997439356
+        },
+        "official_batch100": {
+          "ap": 0.6721739889214358,
+          "fpr": 0.04380952380952381,
+          "recall_at_fpr05": 0.20095238095238097,
+          "reward": 0.554368586929172
+        }
+      },
+      "validation_global": {
+        "ap": 0.34008192534253817,
+        "fpr": 0.038461538461538464,
+        "recall_at_fpr05": 0.0,
+        "reward": 0.2550614440069036
+      }
+    },
+    "rank_mean": {
+      "validation_global": {
+        "ap": 0.971090257963707,
+        "fpr": 0.038461538461538464,
+        "recall_at_fpr05": 0.8076923076923077,
+        "reward": 0.9302407703958571
+      }
+    },
+    "rf": {
+      "train_oof": {
+        "ap_global": 0.9749746718884688,
+        "auc": 0.9708175803402647,
+        "last2_dates": [
+          "2026-06-12",
+          "2026-07-06"
+        ],
+        "last2_global": {
+          "ap": 0.9747635850596198,
+          "fpr": 0.027777777777777776,
+          "recall_at_fpr05": 0.8333333333333334,
+          "reward": 0.9394060221280482
+        },
+        "official_batch100": {
+          "ap": 0.9710307575342713,
+          "fpr": 0.03190476190476191,
+          "recall_at_fpr05": 0.8371428571428572,
+          "reward": 0.9375587824364178
+        }
+      },
+      "validation_global": {
+        "ap": 0.9955577470962085,
+        "fpr": 0.038461538461538464,
+        "recall_at_fpr05": 1.0,
+        "reward": 0.9966683103221563
+      }
+    },
+    "stack": {
+      "validation_global": {
+        "ap": 0.9955577470962085,
+        "fpr": 0.038461538461538464,
+        "recall_at_fpr05": 1.0,
+        "reward": 0.9966683103221563
+      }
+    },
+    "xgb": {
+      "train_oof": {
+        "ap_global": 0.942709958799931,
+        "auc": 0.9452977315689981,
+        "last2_dates": [
+          "2026-06-12",
+          "2026-07-06"
+        ],
+        "last2_global": {
+          "ap": 0.9462701634993412,
+          "fpr": 0.041666666666666664,
+          "recall_at_fpr05": 0.7222222222222222,
+          "reward": 0.8902581781800615
+        },
+        "official_batch100": {
+          "ap": 0.9427620578000734,
+          "fpr": 0.02,
+          "recall_at_fpr05": 0.6861904761904762,
+          "reward": 0.878619162397674
+        }
+      },
+      "validation_global": {
+        "ap": 0.9955577470962085,
+        "fpr": 0.038461538461538464,
+        "recall_at_fpr05": 1.0,
+        "reward": 0.9966683103221563
+      }
+    }
+  },
+  "n_features": 1097,
+  "release_version_filter": "v1.13",
+  "source_dates": [
+    "2026-06-07",
+    "2026-06-08",
+    "2026-06-09",
+    "2026-06-10",
+    "2026-06-11",
+    "2026-06-12",
+    "2026-07-06"
+  ],
+  "split_counts": {
+    "train": {
+      "bots": 92,
+      "dates": [
+        "2026-06-07",
+        "2026-06-08",
+        "2026-06-09",
+        "2026-06-10",
+        "2026-06-11",
+        "2026-06-12",
+        "2026-07-06"
+      ],
+      "humans": 92,
+      "n": 184
+    },
+    "validation": {
+      "bots": 26,
+      "dates": [
+        "2026-06-07",
+        "2026-06-08",
+        "2026-06-09",
+        "2026-06-10",
+        "2026-06-11",
+        "2026-06-12",
+        "2026-07-06"
+      ],
+      "humans": 26,
+      "n": 52
+    }
+  }
+}
