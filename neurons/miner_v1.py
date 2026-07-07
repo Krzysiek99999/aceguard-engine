@@ -15,6 +15,7 @@ This file intentionally supports only the active public model families:
 - v118_seg35_<strategy>_top<N>
 - v125_topk_<strategy>_top<N>
 - v136_live_<strategy>_top<N>
+- v140_multi_<strategy>_top<N>
 
 Deployment secrets, wallet names, host details, audit logs, and private run
 scripts belong outside the public model repository.
@@ -239,6 +240,7 @@ def _variant_config(name: str) -> dict[str, Any]:
     v132_ngram = False
     v133_split = False
     v136_live = False
+    v140_multi = False
     prefix = "v112_super_"
     if name.startswith("v113_daily_"):
         prefix = "v113_daily_"
@@ -277,6 +279,10 @@ def _variant_config(name: str) -> dict[str, Any]:
         prefix = "v136_live_"
         live_sized = True
         v136_live = True
+    elif name.startswith("v140_multi_"):
+        prefix = "v140_multi_"
+        live_sized = True
+        v140_multi = True
 
     if name.startswith(prefix):
         tail = name[len(prefix) :]
@@ -304,7 +310,9 @@ def _variant_config(name: str) -> dict[str, Any]:
         else:
             strategy = strategy_aliases.get(strategy_part, "rank_mean")
         family = (
-            "v136_live"
+            "v140_multi"
+            if v140_multi
+            else "v136_live"
             if v136_live
             else "v133_split"
             if v133_split
@@ -336,6 +344,8 @@ def _variant_config(name: str) -> dict[str, Any]:
                 (
                     "Live-sized behavioural rank stack with batch-normalized schema, sequence, pot-geometry, and temporal consistency features."
                     if v131_behav
+                    else "Multi-seed live-sized behavioural n-gram ranker trained on public v1.13 benchmark chunks through 2026-07-07."
+                    if v140_multi
                     else "Live-sized v1.13 supervised schema model trained through 2026-07-07 with live-shape stability gating."
                     if v136_live
                     else "Poker44 v1.13 split-aware behavioural n-gram stack trained on public train split with validation held out."
@@ -366,7 +376,9 @@ def _variant_config(name: str) -> dict[str, Any]:
             "strategy": strategy,
             "default_top_n": max(1, min(5, top_n)),
             "model_file": (
-                "data/models/v136_livesized_20260707/model.pkl"
+                "data/models/v140_multiseed_livesized/model.pkl"
+                if v140_multi
+                else "data/models/v136_livesized_20260707/model.pkl"
                 if v136_live
                 else "data/models/v133_v113_split_ngram/model.pkl"
                 if v133_split
@@ -487,6 +499,7 @@ class Miner(BaseMinerNeuron):
             "v132_ngram",
             "v133_split",
             "v136_live",
+            "v140_multi",
         }:
             files.extend(
                 [
@@ -511,6 +524,10 @@ class Miner(BaseMinerNeuron):
                 files.append(
                     REPO_ROOT / "data" / "models" / "v136_livesized_20260707" / "report.json"
                 )
+            if family == "v140_multi":
+                files.append(
+                    REPO_ROOT / "data" / "models" / "v140_multiseed_livesized" / "report.json"
+                )
         return [path for path in files if path.exists()]
 
     def _build_manifest(self) -> dict[str, Any]:
@@ -527,8 +544,18 @@ class Miner(BaseMinerNeuron):
             "v132_ngram",
             "v133_split",
             "v136_live",
+            "v140_multi",
         }:
-            if family == "v136_live":
+            if family == "v140_multi":
+                training_statement = (
+                    "Model trained only on public Poker44 benchmark releaseVersion v1.13 "
+                    "through sourceDate 2026-07-07 using miner-visible hand/action payload "
+                    "fields only; same-date/same-label chunks were merged with multiple "
+                    "random seeds into live-sized units for cross-date ranking validation. "
+                    "No validator-private labels, wallets, hotkeys, IP addresses, or "
+                    "deployment logs were used for training."
+                )
+            elif family == "v136_live":
                 training_statement = (
                     "Model trained only on public Poker44 benchmark releaseVersion v1.13 "
                     "through sourceDate 2026-07-07 using miner-visible hand/action payload "
@@ -572,7 +599,7 @@ class Miner(BaseMinerNeuron):
                         "https://api.poker44.net/api/v1/benchmark",
                         "https://api.poker44.net/api/v1/benchmark/chunks?sourceDate=2026-07-07",
                     ]
-                    if family == "v136_live"
+                    if family in {"v136_live", "v140_multi"}
                     else
                     [
                         "https://api.poker44.net/api/v1/benchmark",
@@ -617,6 +644,8 @@ class Miner(BaseMinerNeuron):
             manifest["training_refresh"] = "v113_split_ngram_candidate_2026-07-06"
         if family == "v136_live":
             manifest["training_refresh"] = "v113_livesized_candidate_2026-07-07"
+        if family == "v140_multi":
+            manifest["training_refresh"] = "v113_multiseed_livesized_candidate_2026-07-07"
         return manifest
 
     def _score_v5(self, chunks: list[list[dict[str, Any]]]) -> list[float]:
@@ -693,6 +722,8 @@ class Miner(BaseMinerNeuron):
             env_name = "POKER44_V133_MODEL_PATH"
         elif self.variant_cfg["family"] == "v136_live":
             env_name = "POKER44_V136_MODEL_PATH"
+        elif self.variant_cfg["family"] == "v140_multi":
+            env_name = "POKER44_V140_MODEL_PATH"
         else:
             env_name = "POKER44_V112_SUPER_MODEL_PATH"
         model_file = os.getenv(env_name, str(REPO_ROOT / self.variant_cfg["model_file"]))
@@ -747,6 +778,7 @@ class Miner(BaseMinerNeuron):
                 "v132_ngram",
                 "v133_split",
                 "v136_live",
+                "v140_multi",
             }:
                 scores = self._score_schema_model(chunks)
             else:

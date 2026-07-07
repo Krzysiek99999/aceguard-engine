@@ -174,3 +174,38 @@ Supported runtime strategies:
 
 The deployment layer applies rank-cap calibration after scoring. The canary
 variant uses `cat` with `top2` on one Cherry slot.
+
+### `v140_multi`
+
+Multi-seed live-sized v1.13 behavioural n-gram ranker trained on public Poker44
+benchmark releases through source date 2026-07-07. The training contract merges
+same-date, same-label public benchmark chunks into live-sized units across
+multiple random merge seeds, then validates the ranker across held-out source
+dates and unseen merge seeds. No validator-private labels, wallets, hotkeys,
+host identifiers, or deployment logs are used.
+
+Files:
+
+- `poker44/score/v112_super_inference.py`
+- `poker44/score/ngram_ranker.py`
+- `poker44/score/robust_schema/features.py`
+- `poker44/score/sequence_schema.py`
+- `poker44/score/features_pot_geometry.py`
+- `poker44/score/features_v13_safe.py`
+- `poker44/score/extended_features.py`
+- `poker44/score/enterprise_features.py`
+- `data/models/v140_multiseed_livesized/model.pkl`
+- `data/models/v140_multiseed_livesized/report.json`
+
+Supported runtime strategies:
+
+- `rank_mean`
+- `cat`
+- `xgb`
+- `lgb`
+- `et`
+- `avg`
+- `stack`
+
+The deployment layer applies rank-cap calibration after scoring. The canary
+variant uses `rank_mean` with `top2` on one Cherry slot.

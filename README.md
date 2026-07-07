@@ -13,6 +13,7 @@ It contains the model code and artifacts needed for the active Mac and Cherry mo
 - Short-unit sequence challenger family: supervised schema + sequence model (`v115_short`) trained on miner-visible benchmark chunks.
 - Live-sized challenger family: supervised schema and sequence model (`v118_live`) trained on public miner-visible benchmark chunks merged to live-sized requests.
 - Current live-sized v1.13 challenger family (`v136_live`) trained on public benchmark releases through source date 2026-07-07.
+- Multi-seed live-sized v1.13 challenger family (`v140_multi`) trained on public benchmark releases through source date 2026-07-07.
 
 ## Not included
 

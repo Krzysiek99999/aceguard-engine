@@ -1,0 +1,721 @@
+{
+  "batch_size": 100,
+  "best": {
+    "feature_mode": "batch_only",
+    "feature_set": "behav_ngram",
+    "model": "rank_mean",
+    "reward": 0.8134091030348428
+  },
+  "created_at": "2026-07-07T05:47:22.692658+00:00",
+  "hand_count": {
+    "max": 110.0,
+    "mean": 95.17940717628706,
+    "median": 90.0,
+    "min": 70.0,
+    "p25": 90.0,
+    "p75": 100.0
+  },
+  "merge_seeds": [
+    126,
+    2026,
+    8192,
+    9137,
+    14001
+  ],
+  "model_family": "v140_multi",
+  "model_seed": 140,
+  "n_dates": 8,
+  "n_units": 641,
+  "private_data_attestation": "No validator-private labels, wallets, hotkeys, IP addresses, host identifiers, deployment logs, or raw forward-audit logs were used for training.",
+  "release_version": "v1.13",
+  "shape_gate_training_merge_seeds": {
+    "v136_cat": {
+      "failure_reasons": [
+        "seed_reward_min 0.5973 < 0.6000"
+      ],
+      "live_replay": {
+        "max": 0.9678037316855752,
+        "mean": 0.4305530317383134,
+        "min": 0.06136013117331428,
+        "spearman": 0.38415309257051106,
+        "std": 0.2893622157438852,
+        "top5": [
+          0.9678037316855752,
+          0.9307491650425374,
+          0.9260218290601319,
+          0.9253021743648612,
+          0.9241254760385472
+        ],
+        "top_indices": [
+          97,
+          68,
+          92,
+          46,
+          88,
+          38,
+          72,
+          16,
+          73,
+          22
+        ],
+        "top_overlap": 0.3
+      },
+      "model": "data/models/v136_v113_livesized_20260707_probe/20260707_003524/model.pkl",
+      "pass": false,
+      "seed_reward_mean": 0.7265877258460354,
+      "seed_reward_min": 0.5973351368483875,
+      "seed_reward_std": 0.09660672309884787,
+      "seed_rows": [
+        {
+          "batch_mean": {
+            "ap": 0.7924868286565248,
+            "fpr": 0.04838709677419355,
+            "recall_at_fpr05": 0.5263157894736842,
+            "reward": 0.7259440688608145
+          },
+          "n_batches": 1,
+          "n_units": 100,
+          "pos": 38,
+          "seed": 126
+        },
+        {
+          "batch_mean": {
+            "ap": 0.7063567590410933,
+            "fpr": 0.031746031746031744,
+            "recall_at_fpr05": 0.2702702702702703,
+            "reward": 0.5973351368483875
+          },
+          "n_batches": 1,
+          "n_units": 100,
+          "pos": 37,
+          "seed": 2026
+        },
+        {
+          "batch_mean": {
+            "ap": 0.9402075160922245,
+            "fpr": 0.031746031746031744,
+            "recall_at_fpr05": 0.7567567567567568,
+            "reward": 0.8943448262583575
+          },
+          "n_batches": 1,
+          "n_units": 100,
+          "pos": 37,
+          "seed": 8192
+        },
+        {
+          "batch_mean": {
+            "ap": 0.7734063238344749,
+            "fpr": 0.046875,
+            "recall_at_fpr05": 0.4166666666666667,
+            "reward": 0.6842214095425229
+          },
+          "n_batches": 1,
+          "n_units": 100,
+          "pos": 36,
+          "seed": 9137
+        },
+        {
+          "batch_mean": {
+            "ap": 0.8256681099425818,
+            "fpr": 0.03225806451612903,
+            "recall_at_fpr05": 0.4473684210526316,
+            "reward": 0.7310931877200942
+          },
+          "n_batches": 1,
+          "n_units": 100,
+          "pos": 38,
+          "seed": 14001
+        }
+      ],
+      "strategy": "cat"
+    },
+    "v140_cat": {
+      "failure_reasons": [],
+      "live_replay": {
+        "max": 0.9135303694661181,
+        "mean": 0.514544854974885,
+        "min": 0.04135798151715998,
+        "spearman": 0.9631280965613356,
+        "std": 0.24448137468900213,
+        "top5": [
+          0.9135303694661181,
+          0.9023169389073343,
+          0.8935955900664081,
+          0.8930925426795107,
+          0.8855183255958387
+        ],
+        "top_indices": [
+          7,
+          38,
+          9,
+          59,
+          4,
+          86,
+          12,
+          72,
+          53,
+          85
+        ],
+        "top_overlap": 0.8
+      },
+      "model": "data/models/v140_multiseed_livesized_20260707_probe/20260707_054640/model.pkl",
+      "pass": true,
+      "seed_reward_mean": 0.9463819234613264,
+      "seed_reward_min": 0.9248185180244637,
+      "seed_reward_std": 0.014752378611809787,
+      "seed_rows": [
+        {
+          "batch_mean": {
+            "ap": 0.9523896029799868,
+            "fpr": 0.04838709677419355,
+            "recall_at_fpr05": 0.8421052631578947,
+            "reward": 0.9248185180244637
+          },
+          "n_batches": 1,
+          "n_units": 100,
+          "pos": 38,
+          "seed": 126
+        },
+        {
+          "batch_mean": {
+            "ap": 0.9746420842168346,
+            "fpr": 0.031746031746031744,
+            "recall_at_fpr05": 0.9459459459459459,
+            "reward": 0.9674680496491125
+          },
+          "n_batches": 1,
+          "n_units": 100,
+          "pos": 37,
+          "seed": 2026
+        },
+        {
+          "batch_mean": {
+            "ap": 0.9762658531101127,
+            "fpr": 0.0,
+            "recall_at_fpr05": 0.8918918918918919,
+            "reward": 0.9551723628055575
+          },
+          "n_batches": 1,
+          "n_units": 100,
+          "pos": 37,
+          "seed": 8192
+        },
+        {
+          "batch_mean": {
+            "ap": 0.9769651991500155,
+            "fpr": 0.03125,
+            "recall_at_fpr05": 0.8611111111111112,
+            "reward": 0.9480016771402894
+          },
+          "n_batches": 1,
+          "n_units": 100,
+          "pos": 36,
+          "seed": 9137
+        },
+        {
+          "batch_mean": {
+            "ap": 0.9591249953724201,
+            "fpr": 0.04838709677419355,
+            "recall_at_fpr05": 0.868421052631579,
+            "reward": 0.9364490096872098
+          },
+          "n_batches": 1,
+          "n_units": 100,
+          "pos": 38,
+          "seed": 14001
+        }
+      ],
+      "strategy": "cat"
+    },
+    "v140_rank_mean": {
+      "failure_reasons": [],
+      "live_replay": {
+        "max": 0.9875,
+        "mean": 0.5050000000000001,
+        "min": 0.0225,
+        "std": 0.2763188828147653,
+        "top5": [
+          0.9875,
+          0.975,
+          0.9525,
+          0.9524999999999999,
+          0.9225
+        ],
+        "top_indices": [
+          4,
+          59,
+          7,
+          38,
+          92,
+          48,
+          9,
+          72,
+          53,
+          86
+        ]
+      },
+      "model": "data/models/v140_multiseed_livesized_20260707_probe/20260707_054640/model.pkl",
+      "pass": true,
+      "seed_reward_mean": 0.9573009856961855,
+      "seed_reward_min": 0.9297188328679287,
+      "seed_reward_std": 0.017807876305988346,
+      "seed_rows": [
+        {
+          "batch_mean": {
+            "ap": 0.9501514262800451,
+            "fpr": 0.04838709677419355,
+            "recall_at_fpr05": 0.868421052631579,
+            "reward": 0.9297188328679287
+          },
+          "n_batches": 1,
+          "n_units": 100,
+          "pos": 38,
+          "seed": 126
+        },
+        {
+          "batch_mean": {
+            "ap": 0.9759865533138941,
+            "fpr": 0.015873015873015872,
+            "recall_at_fpr05": 0.918918918918919,
+            "reward": 0.9617196447151503
+          },
+          "n_batches": 1,
+          "n_units": 100,
+          "pos": 37,
+          "seed": 2026
+        },
+        {
+          "batch_mean": {
+            "ap": 0.9893664155959236,
+            "fpr": 0.0,
+            "recall_at_fpr05": 0.972972972972973,
+            "reward": 0.985268054940186
+          },
+          "n_batches": 1,
+          "n_units": 100,
+          "pos": 37,
+          "seed": 8192
+        },
+        {
+          "batch_mean": {
+            "ap": 0.973690371740105,
+            "fpr": 0.046875,
+            "recall_at_fpr05": 0.8888888888888888,
+            "reward": 0.952490001027301
+          },
+          "n_batches": 1,
+          "n_units": 100,
+          "pos": 36,
+          "seed": 9137
+        },
+        {
+          "batch_mean": {
+            "ap": 0.9693936493808326,
+            "fpr": 0.04838709677419355,
+            "recall_at_fpr05": 0.9210526315789473,
+            "reward": 0.9573083949303612
+          },
+          "n_batches": 1,
+          "n_units": 100,
+          "pos": 38,
+          "seed": 14001
+        }
+      ],
+      "strategy": "rank_mean"
+    }
+  },
+  "shape_gate_unseen_merge_seeds": {
+    "v136_cat": {
+      "failure_reasons": [],
+      "live_replay": {
+        "max": 0.9678037316855752,
+        "mean": 0.4305530317383134,
+        "min": 0.06136013117331428,
+        "spearman": 0.38415309257051106,
+        "std": 0.2893622157438852,
+        "top5": [
+          0.9678037316855752,
+          0.9307491650425374,
+          0.9260218290601319,
+          0.9253021743648612,
+          0.9241254760385472
+        ],
+        "top_indices": [
+          97,
+          68,
+          92,
+          46,
+          88,
+          38,
+          72,
+          16,
+          73,
+          22
+        ],
+        "top_overlap": 0.3
+      },
+      "model": "data/models/v136_v113_livesized_20260707_probe/20260707_003524/model.pkl",
+      "pass": true,
+      "seed_reward_mean": 0.710180699737921,
+      "seed_reward_min": 0.6496625846567883,
+      "seed_reward_std": 0.04413750668499697,
+      "seed_rows": [
+        {
+          "batch_mean": {
+            "ap": 0.823860231367774,
+            "fpr": 0.03125,
+            "recall_at_fpr05": 0.5,
+            "reward": 0.7428951735258305
+          },
+          "n_batches": 1,
+          "n_units": 100,
+          "pos": 36,
+          "seed": 101
+        },
+        {
+          "batch_mean": {
+            "ap": 0.8405728524517453,
+            "fpr": 0.047619047619047616,
+            "recall_at_fpr05": 0.5675675675675675,
+            "reward": 0.7723215312307008
+          },
+          "n_batches": 1,
+          "n_units": 100,
+          "pos": 37,
+          "seed": 151
+        },
+        {
+          "batch_mean": {
+            "ap": 0.7931123644756972,
+            "fpr": 0.047619047619047616,
+            "recall_at_fpr05": 0.4594594594594595,
+            "reward": 0.7096991382216378
+          },
+          "n_batches": 1,
+          "n_units": 100,
+          "pos": 37,
+          "seed": 2027
+        },
+        {
+          "batch_mean": {
+            "ap": 0.7130636263892312,
+            "fpr": 0.047619047619047616,
+            "recall_at_fpr05": 0.4594594594594595,
+            "reward": 0.6496625846567883
+          },
+          "n_batches": 1,
+          "n_units": 100,
+          "pos": 37,
+          "seed": 4242
+        },
+        {
+          "batch_mean": {
+            "ap": 0.7396045992440343,
+            "fpr": 0.047619047619047616,
+            "recall_at_fpr05": 0.4864864864864865,
+            "reward": 0.6763250710546473
+          },
+          "n_batches": 1,
+          "n_units": 100,
+          "pos": 37,
+          "seed": 5555
+        }
+      ],
+      "strategy": "cat"
+    },
+    "v140_cat": {
+      "failure_reasons": [],
+      "live_replay": {
+        "max": 0.9135303694661181,
+        "mean": 0.514544854974885,
+        "min": 0.04135798151715998,
+        "spearman": 0.9631280965613356,
+        "std": 0.24448137468900213,
+        "top5": [
+          0.9135303694661181,
+          0.9023169389073343,
+          0.8935955900664081,
+          0.8930925426795107,
+          0.8855183255958387
+        ],
+        "top_indices": [
+          7,
+          38,
+          9,
+          59,
+          4,
+          86,
+          12,
+          72,
+          53,
+          85
+        ],
+        "top_overlap": 0.8
+      },
+      "model": "data/models/v140_multiseed_livesized_20260707_probe/20260707_054640/model.pkl",
+      "pass": true,
+      "seed_reward_mean": 0.9447446884774605,
+      "seed_reward_min": 0.9013318377583384,
+      "seed_reward_std": 0.028915607877532515,
+      "seed_rows": [
+        {
+          "batch_mean": {
+            "ap": 0.933257265159266,
+            "fpr": 0.046875,
+            "recall_at_fpr05": 0.8055555555555556,
+            "reward": 0.9013318377583384
+          },
+          "n_batches": 1,
+          "n_units": 100,
+          "pos": 36,
+          "seed": 101
+        },
+        {
+          "batch_mean": {
+            "ap": 0.9604741876805472,
+            "fpr": 0.015873015873015872,
+            "recall_at_fpr05": 0.8378378378378378,
+            "reward": 0.9298151002198698
+          },
+          "n_batches": 1,
+          "n_units": 100,
+          "pos": 37,
+          "seed": 151
+        },
+        {
+          "batch_mean": {
+            "ap": 0.9697240632838577,
+            "fpr": 0.047619047619047616,
+            "recall_at_fpr05": 0.918918918918919,
+            "reward": 0.9570227771926231
+          },
+          "n_batches": 1,
+          "n_units": 100,
+          "pos": 37,
+          "seed": 2027
+        },
+        {
+          "batch_mean": {
+            "ap": 0.9654026970791489,
+            "fpr": 0.031746031746031744,
+            "recall_at_fpr05": 0.8918918918918919,
+            "reward": 0.9470249957823347
+          },
+          "n_batches": 1,
+          "n_units": 100,
+          "pos": 37,
+          "seed": 4242
+        },
+        {
+          "batch_mean": {
+            "ap": 0.9937139842545246,
+            "fpr": 0.015873015873015872,
+            "recall_at_fpr05": 0.972972972972973,
+            "reward": 0.9885287314341367
+          },
+          "n_batches": 1,
+          "n_units": 100,
+          "pos": 37,
+          "seed": 5555
+        }
+      ],
+      "strategy": "cat"
+    },
+    "v140_rank_mean": {
+      "failure_reasons": [],
+      "live_replay": {
+        "max": 0.9875,
+        "mean": 0.5050000000000001,
+        "min": 0.0225,
+        "std": 0.2763188828147653,
+        "top5": [
+          0.9875,
+          0.975,
+          0.9525,
+          0.9524999999999999,
+          0.9225
+        ],
+        "top_indices": [
+          4,
+          59,
+          7,
+          38,
+          92,
+          48,
+          9,
+          72,
+          53,
+          86
+        ]
+      },
+      "model": "data/models/v140_multiseed_livesized_20260707_probe/20260707_054640/model.pkl",
+      "pass": true,
+      "seed_reward_mean": 0.951580988194024,
+      "seed_reward_min": 0.9127266329684294,
+      "seed_reward_std": 0.03146822034961525,
+      "seed_rows": [
+        {
+          "batch_mean": {
+            "ap": 0.9484503254393872,
+            "fpr": 0.046875,
+            "recall_at_fpr05": 0.8055555555555556,
+            "reward": 0.9127266329684294
+          },
+          "n_batches": 1,
+          "n_units": 100,
+          "pos": 36,
+          "seed": 101
+        },
+        {
+          "batch_mean": {
+            "ap": 0.9577436734105529,
+            "fpr": 0.015873015873015872,
+            "recall_at_fpr05": 0.8108108108108109,
+            "reward": 0.9210104577606174
+          },
+          "n_batches": 1,
+          "n_units": 100,
+          "pos": 37,
+          "seed": 151
+        },
+        {
+          "batch_mean": {
+            "ap": 0.9701065853849327,
+            "fpr": 0.047619047619047616,
+            "recall_at_fpr05": 0.918918918918919,
+            "reward": 0.9573096687684292
+          },
+          "n_batches": 1,
+          "n_units": 100,
+          "pos": 37,
+          "seed": 2027
+        },
+        {
+          "batch_mean": {
+            "ap": 0.976021375142224,
+            "fpr": 0.031746031746031744,
+            "recall_at_fpr05": 0.9459459459459459,
+            "reward": 0.9685025178431544
+          },
+          "n_batches": 1,
+          "n_units": 100,
+          "pos": 37,
+          "seed": 4242
+        },
+        {
+          "batch_mean": {
+            "ap": 0.9978075515059868,
+            "fpr": 0.015873015873015872,
+            "recall_at_fpr05": 1.0,
+            "reward": 0.9983556636294901
+          },
+          "n_batches": 1,
+          "n_units": 100,
+          "pos": 37,
+          "seed": 5555
+        }
+      ],
+      "strategy": "rank_mean"
+    }
+  },
+  "source_date_max": "2026-07-07",
+  "top_results": [
+    {
+      "ap": 0.8940111390333355,
+      "config": "behav_ngram:batch_only",
+      "last2_reward": 0.817185648216519,
+      "model": "rank_mean",
+      "recall_at_fpr05": 0.5716029950393644,
+      "reward": 0.8134091030348428
+    },
+    {
+      "ap": 0.8955044042774105,
+      "config": "behav_ngram:batch_only",
+      "last2_reward": 0.8155995449993162,
+      "model": "cat",
+      "recall_at_fpr05": 0.565713904636071,
+      "reward": 0.8130567793670759
+    },
+    {
+      "ap": 0.8927619112367425,
+      "config": "behav_ngram:batch_only",
+      "last2_reward": 0.8011265977999809,
+      "model": "avg",
+      "recall_at_fpr05": 0.5507370057768023,
+      "reward": 0.8072556848717574
+    },
+    {
+      "ap": 0.8799781568101963,
+      "config": "behav_ngram:batch_only",
+      "last2_reward": 0.8162148847332518,
+      "model": "et",
+      "recall_at_fpr05": 0.5576204392500411,
+      "reward": 0.7993887274201573
+    },
+    {
+      "ap": 0.8867242079159539,
+      "config": "behav_ngram:batch_only",
+      "last2_reward": 0.7901221295399713,
+      "model": "stack",
+      "recall_at_fpr05": 0.498833040625623,
+      "reward": 0.7897514160933711
+    },
+    {
+      "ap": 0.8766773398209929,
+      "config": "behav_ngram:batch_only",
+      "last2_reward": 0.7896594572832241,
+      "model": "xgb",
+      "recall_at_fpr05": 0.5254523667186332,
+      "reward": 0.7888710965454031
+    },
+    {
+      "ap": 0.8718423812284589,
+      "config": "behav_ngram:batch_only",
+      "last2_reward": 0.7732469750195512,
+      "model": "lgb",
+      "recall_at_fpr05": 0.4914078969545757,
+      "reward": 0.7767337601599882
+    },
+    {
+      "ap": 0.8420968344930413,
+      "config": "super:batch_only",
+      "last2_reward": 0.7366496577219466,
+      "model": "avg",
+      "recall_at_fpr05": 0.4672887837563442,
+      "reward": 0.7483948218088671
+    },
+    {
+      "ap": 0.8411472718384171,
+      "config": "super:batch_only",
+      "last2_reward": 0.7388611222517457,
+      "model": "rank_mean",
+      "recall_at_fpr05": 0.45536433439003426,
+      "reward": 0.7447015374763215
+    },
+    {
+      "ap": 0.836469640905763,
+      "config": "super:batch_only",
+      "last2_reward": 0.731111613935922,
+      "model": "cat",
+      "recall_at_fpr05": 0.45096385665990846,
+      "reward": 0.7400931948442994
+    },
+    {
+      "ap": 0.8321522280043082,
+      "config": "super:batch_only",
+      "last2_reward": 0.7130490581287143,
+      "model": "et",
+      "recall_at_fpr05": 0.45399450153917337,
+      "reward": 0.7376127963880245
+    },
+    {
+      "ap": 0.8311156829002486,
+      "config": "super:batch_only",
+      "last2_reward": 0.7232404026381491,
+      "model": "stack",
+      "recall_at_fpr05": 0.44611145063707497,
+      "reward": 0.7348646248344552
+    }
+  ],
+  "training_data": "Poker44 public benchmark API only; miner-visible payload fields only"
+}
