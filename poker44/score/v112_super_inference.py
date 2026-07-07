@@ -143,6 +143,45 @@ def _base_score_matrix(
     )
 
 
+def _rank01(values: Sequence[float]) -> np.ndarray:
+    arr = np.asarray(values, dtype=float)
+    if arr.size == 0:
+        return arr
+    return rankdata(arr, method="average") / max(len(arr), 1)
+
+
+def _score_blend_children(
+    chunks: list[list[dict[str, Any]]],
+    bundle: dict[str, Any],
+) -> list[float]:
+    children = list(bundle.get("blend_children") or [])
+    if not children:
+        raise ValueError("blend bundle has no children")
+    mode = str(bundle.get("blend_mode") or "rank_mean").lower()
+    weighted: list[np.ndarray] = []
+    weights: list[float] = []
+    for child in children:
+        child_bundle = child.get("bundle")
+        if child_bundle is None and child.get("model_path"):
+            child_bundle = load_bundle(child["model_path"])
+        if child_bundle is None:
+            raise ValueError("blend child is missing embedded bundle")
+        strategy = str(child.get("strategy") or "rank_mean")
+        scores = np.asarray(score_chunks(chunks, child_bundle, strategy=strategy), dtype=float)
+        if mode in {"rank_mean", "rank_space", "rank"}:
+            scores = _rank01(scores)
+        weighted.append(scores)
+        weights.append(float(child.get("weight", 1.0)))
+    if not weighted:
+        return [0.5 for _ in chunks]
+    matrix = np.column_stack(weighted)
+    weight_arr = np.asarray(weights, dtype=float)
+    if float(np.sum(weight_arr)) <= 1e-12:
+        weight_arr = np.ones_like(weight_arr)
+    pred = matrix @ (weight_arr / float(np.sum(weight_arr)))
+    return [float(np.clip(v, 0.0, 1.0)) for v in pred]
+
+
 def _split_chunk(chunk: list[dict[str, Any]], segment_size: int) -> list[list[dict[str, Any]]]:
     if segment_size <= 0 or len(chunk) <= segment_size:
         return [chunk]
@@ -217,6 +256,9 @@ def score_chunks(
         return out
 
     original_chunks = _unwrap(chunks)
+    if bundle.get("blend_children"):
+        return _score_blend_children(original_chunks, bundle)
+
     X = _build_x(original_chunks, bundle)
     models = bundle["models"]
 

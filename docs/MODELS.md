@@ -209,3 +209,30 @@ Supported runtime strategies:
 
 The deployment layer applies rank-cap calibration after scoring. The canary
 variant uses `rank_mean` with `top2` on one Cherry slot.
+
+### `v142_rankblend`
+
+Rank-space blend of two independently gated live-sized public-benchmark rankers:
+`v140_multi` with `rank_mean` and a stricter drift-filtered v141 ET child. The
+bundle is self-contained and embeds both child bundles; it does not reference
+wallets, host identifiers, validator-private labels, or external model paths.
+
+Files:
+
+- `poker44/score/v112_super_inference.py`
+- `poker44/score/ngram_ranker.py`
+- `poker44/score/robust_schema/features.py`
+- `poker44/score/sequence_schema.py`
+- `poker44/score/features_pot_geometry.py`
+- `poker44/score/features_v13_safe.py`
+- `poker44/score/extended_features.py`
+- `poker44/score/enterprise_features.py`
+- `data/models/v142_rankblend/model.pkl`
+- `data/models/v142_rankblend/report.json`
+
+Supported runtime strategy:
+
+- `rank_mean`
+
+The deployment layer applies rank-cap calibration after scoring. This family is
+prepared as a candidate and should only be deployed after a live reflection gate.

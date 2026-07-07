@@ -1,0 +1,20 @@
+{
+  "blend_mode": "rank_mean",
+  "children": [
+    {
+      "name": "v140_rank_mean",
+      "strategy": "rank_mean",
+      "weight": 0.5
+    },
+    {
+      "name": "v141_strict_et",
+      "strategy": "et",
+      "weight": 0.5
+    }
+  ],
+  "created_at": "2026-07-07T07:03:28.237628+00:00",
+  "model_path": "data/models/v142_rankblend_20260707_probe/20260707_070326/model.pkl",
+  "model_sha256": "4ea2e7accfbc0cb034ff39d76fe55bf1b2756470662af5e5ad7accec99212636",
+  "training_data_statement": "Poker44 public benchmark v1.13 through 2026-07-07; child models trained on miner-visible, same-label live-sized benchmark merges; no live labels.",
+  "version": "v142_rankblend_20260707_070326"
+}
