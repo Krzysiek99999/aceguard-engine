@@ -54,8 +54,8 @@ The deployment layer decides top1/top2/top3 through rank-cap calibration.
 
 ### `v113_daily`
 
-Daily refreshed supervised schema model trained on current public Poker44 v1.12
-benchmark releases using miner-visible payload views only.
+Daily refreshed supervised schema model trained on public Poker44 benchmark
+releases using miner-visible payload views only.
 
 Files:
 
@@ -144,3 +144,33 @@ Supported runtime strategies:
 - `et`
 
 The deployment layer applies rank-cap calibration after scoring.
+
+### `v136_live`
+
+Current live-sized v1.13 supervised schema model trained on public Poker44
+benchmark releases through source date 2026-07-07. The training contract merges
+same-date, same-label public benchmark chunks into live-sized units and validates
+ranking quality across source dates. No validator-private labels, wallets,
+host identifiers, or deployment logs are used.
+
+Files:
+
+- `poker44/score/v112_super_inference.py`
+- `poker44/score/robust_schema/features.py`
+- `poker44/score/sequence_schema.py`
+- `poker44/score/statistical_v25.py`
+- `data/models/v136_livesized_20260707/model.pkl`
+- `data/models/v136_livesized_20260707/report.json`
+
+Supported runtime strategies:
+
+- `cat`
+- `xgb`
+- `lgb`
+- `et`
+- `avg`
+- `rank_mean`
+- `stack`
+
+The deployment layer applies rank-cap calibration after scoring. The canary
+variant uses `cat` with `top2` on one Cherry slot.

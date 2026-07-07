@@ -1,0 +1,143 @@
+{
+  "best_local": {
+    "feature_mode": "batch_only",
+    "feature_set": "super",
+    "model": "cat",
+    "reward": 0.8110167988024705
+  },
+  "created_at": "2026-07-07T00:35:34.327403+00:00",
+  "hand_count": {
+    "max": 110.0,
+    "mean": 95.390625,
+    "median": 90.0,
+    "min": 80.0,
+    "p25": 90.0,
+    "p75": 100.0
+  },
+  "model_family": "v136_live",
+  "model_sha256": "9886be7841a5bf968f74618ed875be810dfce278e458af784c1eb0bcc82ecf37",
+  "model_variant_examples": [
+    "v136_live_cat_top2",
+    "v136_live_rank_mean_top2"
+  ],
+  "n_dates": 8,
+  "n_units": 128,
+  "positive_units": 64,
+  "private_data_attestation": "No validator-private labels, wallets, host identifiers, or deployment logs used.",
+  "shape_gate": {
+    "v136_super_cat": {
+      "live_std": 0.2514578791320391,
+      "live_top_indices": [
+        91,
+        26,
+        23,
+        10,
+        43,
+        6,
+        38,
+        80,
+        44,
+        3
+      ],
+      "pass": true,
+      "seed_reward_mean": 0.7838763999689259,
+      "seed_reward_min": 0.7259440688608145,
+      "seed_reward_std": 0.0659022080563719
+    },
+    "v136_super_rank_mean": {
+      "live_std": 0.26637854877973943,
+      "live_top_indices": [
+        43,
+        44,
+        91,
+        6,
+        26,
+        23,
+        38,
+        3,
+        80,
+        41
+      ],
+      "pass": true,
+      "seed_reward_mean": 0.7295331872608555,
+      "seed_reward_min": 0.6544923286855566,
+      "seed_reward_std": 0.08569792666563958
+    }
+  },
+  "source_date_max": "2026-07-07",
+  "source_release_version": "v1.13",
+  "top_public_metrics": [
+    {
+      "ap": 0.8656400160209116,
+      "config": "super:batch_only",
+      "last2_reward": 0.7171632153266403,
+      "reward": 0.8110167988024705,
+      "strategy": "cat"
+    },
+    {
+      "ap": 0.8572284833457577,
+      "config": "super:batch_only",
+      "last2_reward": 0.6754868735005641,
+      "reward": 0.7941976387855946,
+      "strategy": "xgb"
+    },
+    {
+      "ap": 0.8558036377514059,
+      "config": "super:batch_only",
+      "last2_reward": 0.6721564726223296,
+      "reward": 0.7922531287139549,
+      "strategy": "avg"
+    },
+    {
+      "ap": 0.853080820383708,
+      "config": "super:batch_only",
+      "last2_reward": 0.6692633524895805,
+      "reward": 0.7889597644369302,
+      "strategy": "rank_mean"
+    },
+    {
+      "ap": 0.8683133955187514,
+      "config": "behav_mix:batch_only",
+      "last2_reward": 0.7607536091384368,
+      "reward": 0.7873711827751997,
+      "strategy": "rank_mean"
+    },
+    {
+      "ap": 0.8683133955187514,
+      "config": "behav_ngram:batch_only",
+      "last2_reward": 0.7607536091384368,
+      "reward": 0.7873711827751997,
+      "strategy": "rank_mean"
+    },
+    {
+      "ap": 0.8409965287078827,
+      "config": "super:batch_only",
+      "last2_reward": 0.6716983115361284,
+      "reward": 0.7710126617961773,
+      "strategy": "stack"
+    },
+    {
+      "ap": 0.858096632645232,
+      "config": "behav_mix:batch_only",
+      "last2_reward": 0.7451372136533271,
+      "reward": 0.7704493513608008,
+      "strategy": "avg"
+    },
+    {
+      "ap": 0.858096632645232,
+      "config": "behav_ngram:batch_only",
+      "last2_reward": 0.7451372136533271,
+      "reward": 0.7704493513608008,
+      "strategy": "avg"
+    },
+    {
+      "ap": 0.8394973543591648,
+      "config": "super:batch_only",
+      "last2_reward": 0.6509465727029144,
+      "reward": 0.7673857785321363,
+      "strategy": "lgb"
+    }
+  ],
+  "training_data": "public Poker44 benchmark API, miner-visible payload view only",
+  "training_unit_contract": "same-date same-label benchmark chunks merged to 70-110 hands"
+}
