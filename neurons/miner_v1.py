@@ -1169,7 +1169,7 @@ class Miner(BaseMinerNeuron):
             env_name = "POKER44_V193_MODEL_PATH"
         elif self.variant_cfg["family"] == "v190_contract60_80_100_ks050_livesized":
             env_name = "POKER44_V190_MODEL_PATH"
-        elif self.variant_cfg["family"] == "v200_stackseq_last3":
+        elif self.variant_cfg["family"] in {"v200_stackseq_last3", "v201_stackseq_wide8"}:
             return self._score_stackseq_model(chunks)
         else:
             env_name = "POKER44_V112_SUPER_MODEL_PATH"
@@ -1236,6 +1236,7 @@ class Miner(BaseMinerNeuron):
                 "v193_v11lock1_v145rank_rest",
                 "v190_contract60_80_100_ks050_livesized",
                 "v200_stackseq_last3",
+                "v201_stackseq_wide8",
             }:
                 scores = self._score_schema_model(chunks)
             else:
