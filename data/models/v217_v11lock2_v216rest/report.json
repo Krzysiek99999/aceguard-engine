@@ -1,0 +1,432 @@
+{
+  "anchor": "deterministic public v11 behavioural scorer",
+  "created_at": "2026-07-08T21:01:08.163853+00:00",
+  "family": "v217_v11lock2_v216rest",
+  "live_overlap_reference": {
+    "fingerprint": "97d7d7b9fed3b7eef9f19aa8",
+    "pairs": [
+      {
+        "a": "v11",
+        "b": "v216_et",
+        "spearman": 0.2505130513051305,
+        "top10_jaccard": 0.1111111111111111,
+        "top5_jaccard": 0.1111111111111111
+      },
+      {
+        "a": "v11",
+        "b": "v209_et",
+        "spearman": 0.3175637563756375,
+        "top10_jaccard": 0.1111111111111111,
+        "top5_jaccard": 0.1111111111111111
+      },
+      {
+        "a": "v11",
+        "b": "v190_et",
+        "spearman": 0.19362736273627362,
+        "top10_jaccard": 0.05263157894736842,
+        "top5_jaccard": 0.1111111111111111
+      },
+      {
+        "a": "v11",
+        "b": "v216_audit_raw",
+        "spearman": 0.2505130513051305,
+        "top10_jaccard": 0.1111111111111111,
+        "top5_jaccard": 0.1111111111111111
+      },
+      {
+        "a": "v209_et",
+        "b": "v216_et",
+        "spearman": 0.944986498649865,
+        "top10_jaccard": 0.6666666666666666,
+        "top5_jaccard": 1.0
+      },
+      {
+        "a": "v209_et",
+        "b": "v216_audit_raw",
+        "spearman": 0.944986498649865,
+        "top10_jaccard": 0.6666666666666666,
+        "top5_jaccard": 1.0
+      },
+      {
+        "a": "v190_et",
+        "b": "v216_et",
+        "spearman": 0.8574857485748575,
+        "top10_jaccard": 0.42857142857142855,
+        "top5_jaccard": 0.42857142857142855
+      },
+      {
+        "a": "v190_et",
+        "b": "v209_et",
+        "spearman": 0.9338733873387337,
+        "top10_jaccard": 0.6666666666666666,
+        "top5_jaccard": 0.42857142857142855
+      },
+      {
+        "a": "v190_et",
+        "b": "v216_audit_raw",
+        "spearman": 0.8574857485748575,
+        "top10_jaccard": 0.42857142857142855,
+        "top5_jaccard": 0.42857142857142855
+      },
+      {
+        "a": "v216_audit_raw",
+        "b": "v216_et",
+        "spearman": 0.9999999999999999,
+        "top10_jaccard": 1.0,
+        "top5_jaccard": 1.0
+      }
+    ],
+    "payload_ts_utc": "2026-07-08T20:51:34Z",
+    "tops": {
+      "v11": {
+        "std": 0.04671113195933167,
+        "top10": [
+          36,
+          31,
+          93,
+          30,
+          60,
+          69,
+          78,
+          85,
+          2,
+          8
+        ],
+        "top5": [
+          36,
+          31,
+          93,
+          30,
+          60
+        ]
+      },
+      "v190_et": {
+        "std": 0.1453793314946566,
+        "top10": [
+          79,
+          9,
+          30,
+          86,
+          90,
+          0,
+          94,
+          92,
+          49,
+          25
+        ],
+        "top5": [
+          79,
+          9,
+          30,
+          86,
+          90
+        ]
+      },
+      "v209_et": {
+        "std": 0.14122785892703935,
+        "top10": [
+          9,
+          79,
+          94,
+          30,
+          52,
+          86,
+          0,
+          8,
+          90,
+          49
+        ],
+        "top5": [
+          9,
+          79,
+          94,
+          30,
+          52
+        ]
+      },
+      "v216_audit_raw": {
+        "std": 0.14703258479014916,
+        "top10": [
+          9,
+          79,
+          30,
+          94,
+          52,
+          0,
+          3,
+          19,
+          8,
+          90
+        ],
+        "top5": [
+          9,
+          79,
+          30,
+          94,
+          52
+        ]
+      },
+      "v216_et": {
+        "std": 0.1470325847746608,
+        "top10": [
+          9,
+          79,
+          30,
+          94,
+          52,
+          0,
+          3,
+          19,
+          8,
+          90
+        ],
+        "top5": [
+          9,
+          79,
+          30,
+          94,
+          52
+        ]
+      }
+    }
+  },
+  "lock_n": 2,
+  "model_path": "data/models/v217_v11lock2_v216rest/model.pkl",
+  "model_sha256": "97eff2a2afd3720b924060f4dadaaea9300f0852ee241f3d3f3ad33692b9f5ae",
+  "no_wallets_or_host_data": true,
+  "oof_served_rankcap": {
+    "baseline_cfg_best": {
+      "model": "et",
+      "raw_reward": 0.8388849667159137,
+      "reward": 0.866920535833814,
+      "selection_metric": "served_rankcap",
+      "served_rankcap_reward": 0.866920535833814,
+      "served_rankcap_top_n": 1
+    },
+    "created_at": "2026-07-08T20:56:49.747386+00:00",
+    "live_meta": {
+      "batch_size": 100,
+      "chunk_count": 100,
+      "fingerprint": "97d7d7b9fed3b7eef9f19aa8",
+      "mode": "recent_distinct_forward_payloads",
+      "record_count": 1,
+      "record_limit": 1,
+      "source_path": "data/observations/live_forward/forward_v136_live_cat_top2.jsonl",
+      "sources": [
+        {
+          "batch_size": 100,
+          "chunks_used": 100,
+          "fingerprint": "97d7d7b9fed3b7eef9f19aa8",
+          "source_path": "data/observations/live_forward/forward_v136_live_cat_top2.jsonl",
+          "ts_utc": "2026-07-08T12:46:56Z",
+          "variant": "v136_live_cat_top2"
+        }
+      ],
+      "ts_utc": "2026-07-08T12:46:56Z"
+    },
+    "n_units": 834,
+    "rows": [
+      {
+        "best": {
+          "ap": 0.9137622779170168,
+          "by_date_reward": {
+            "2026-07-06": 0.8648449418434062,
+            "2026-07-07": 0.8494256762667055,
+            "2026-07-08": 0.8973140131652922
+          },
+          "fpr": 0.030300643840576,
+          "hard_fpr": 0.0,
+          "recall_at_fpr05": 0.6570124618761937,
+          "reward": 0.866920535833814,
+          "threshold_sanity_quality": 1.0,
+          "top_n": 1
+        },
+        "lock_n": 0,
+        "top5": {
+          "ap": 0.9137622779170168,
+          "by_date_reward": {
+            "2026-07-06": 0.8648449418434062,
+            "2026-07-07": 0.8494256762667055,
+            "2026-07-08": 0.8973140131652922
+          },
+          "fpr": 0.030300643840576,
+          "hard_fpr": 0.0,
+          "recall_at_fpr05": 0.6570124618761937,
+          "reward": 0.866920535833814,
+          "threshold_sanity_quality": 1.0,
+          "top_n": 5
+        }
+      },
+      {
+        "best": {
+          "ap": 0.9139489755358132,
+          "by_date_reward": {
+            "2026-07-06": 0.8649919662182084,
+            "2026-07-07": 0.8494256762667055,
+            "2026-07-08": 0.8973140131652922
+          },
+          "fpr": 0.030300643840576,
+          "hard_fpr": 0.0,
+          "recall_at_fpr05": 0.6570124618761937,
+          "reward": 0.8669858800003927,
+          "threshold_sanity_quality": 1.0,
+          "top_n": 1
+        },
+        "lock_n": 1,
+        "top5": {
+          "ap": 0.9139489755358132,
+          "by_date_reward": {
+            "2026-07-06": 0.8649919662182084,
+            "2026-07-07": 0.8494256762667055,
+            "2026-07-08": 0.8973140131652922
+          },
+          "fpr": 0.030300643840576,
+          "hard_fpr": 0.0,
+          "recall_at_fpr05": 0.6570124618761937,
+          "reward": 0.8669858800003927,
+          "threshold_sanity_quality": 1.0,
+          "top_n": 5
+        }
+      },
+      {
+        "best": {
+          "ap": 0.9139489755358132,
+          "by_date_reward": {
+            "2026-07-06": 0.8649919662182084,
+            "2026-07-07": 0.8494256762667055,
+            "2026-07-08": 0.8973140131652922
+          },
+          "fpr": 0.030300643840576,
+          "hard_fpr": 0.0,
+          "recall_at_fpr05": 0.6570124618761937,
+          "reward": 0.8669858800003927,
+          "threshold_sanity_quality": 1.0,
+          "top_n": 1
+        },
+        "lock_n": 2,
+        "top5": {
+          "ap": 0.9139489755358132,
+          "by_date_reward": {
+            "2026-07-06": 0.8649919662182084,
+            "2026-07-07": 0.8494256762667055,
+            "2026-07-08": 0.8973140131652922
+          },
+          "fpr": 0.030300643840576,
+          "hard_fpr": 0.0,
+          "recall_at_fpr05": 0.6570124618761937,
+          "reward": 0.8669858800003927,
+          "threshold_sanity_quality": 1.0,
+          "top_n": 5
+        }
+      },
+      {
+        "best": {
+          "ap": 0.8967213307770278,
+          "by_date_reward": {
+            "2026-07-06": 0.8669861098886736,
+            "2026-07-07": 0.8438738338654058,
+            "2026-07-08": 0.7739884803997554
+          },
+          "fpr": 0.030300643840576,
+          "hard_fpr": 0.0,
+          "recall_at_fpr05": 0.5825447074084391,
+          "reward": 0.8386158779944914,
+          "threshold_sanity_quality": 1.0,
+          "top_n": 1
+        },
+        "lock_n": 3,
+        "top5": {
+          "ap": 0.8967213307770278,
+          "by_date_reward": {
+            "2026-07-06": 0.8669861098886736,
+            "2026-07-07": 0.8438738338654058,
+            "2026-07-08": 0.7698218137330888
+          },
+          "fpr": 0.030300643840576,
+          "hard_fpr": 0.01834215167548501,
+          "recall_at_fpr05": 0.5825447074084391,
+          "reward": 0.8376899520685656,
+          "threshold_sanity_quality": 0.9969135802469135,
+          "top_n": 5
+        }
+      },
+      {
+        "best": {
+          "ap": 0.8879074569581226,
+          "by_date_reward": {
+            "2026-07-06": 0.8689931265206903,
+            "2026-07-07": 0.8365488652710192,
+            "2026-07-08": 0.7588982305807082
+          },
+          "fpr": 0.030300643840576,
+          "hard_fpr": 0.0,
+          "recall_at_fpr05": 0.576484101347833,
+          "reward": 0.8337128403396927,
+          "threshold_sanity_quality": 1.0,
+          "top_n": 1
+        },
+        "lock_n": 4,
+        "top5": {
+          "ap": 0.8879074569581226,
+          "by_date_reward": {
+            "2026-07-06": 0.8689931265206903,
+            "2026-07-07": 0.8365488652710192,
+            "2026-07-08": 0.7547315639140415
+          },
+          "fpr": 0.030300643840576,
+          "hard_fpr": 0.022795414462081127,
+          "recall_at_fpr05": 0.576484101347833,
+          "reward": 0.832786914413767,
+          "threshold_sanity_quality": 0.9969135802469135,
+          "top_n": 5
+        }
+      },
+      {
+        "best": {
+          "ap": 0.8799807716953183,
+          "by_date_reward": {
+            "2026-07-06": 0.8465354418080286,
+            "2026-07-07": 0.8365488652710192,
+            "2026-07-08": 0.6720108888989332
+          },
+          "fpr": 0.02536237223563773,
+          "hard_fpr": 0.0,
+          "recall_at_fpr05": 0.48810026296399456,
+          "reward": 0.8044233489825597,
+          "threshold_sanity_quality": 1.0,
+          "top_n": 1
+        },
+        "lock_n": 5,
+        "top5": {
+          "ap": 0.8799807716953183,
+          "by_date_reward": {
+            "2026-07-06": 0.8465354418080286,
+            "2026-07-07": 0.8365488652710192,
+            "2026-07-08": 0.6678442222322666
+          },
+          "fpr": 0.02536237223563773,
+          "hard_fpr": 0.027248677248677248,
+          "recall_at_fpr05": 0.48810026296399456,
+          "reward": 0.8034974230566339,
+          "threshold_sanity_quality": 0.9969135802469135,
+          "top_n": 5
+        }
+      }
+    ]
+  },
+  "privacy_sanitized": true,
+  "public_variant": "v217_rank_mean_top5",
+  "rest_child": {
+    "name": "v216_served_rankcap_ks060",
+    "sha256": "10ec68b65e1762191c8d6da02bd2e24d454b222979b95d95d4dd64d1fe05076b",
+    "strategy": "et",
+    "weight": 1.0
+  },
+  "selection_reason": "OOF lock2+v216-rest reward 0.866986 vs v216 baseline 0.866921, while live batch top5 overlap with v11 improves from 1/5 to 3/5.",
+  "training_data_sources": [
+    "https://api.poker44.net/api/v1/benchmark",
+    "https://api.poker44.net/api/v1/benchmark/chunks?sourceDate=2026-07-08"
+  ],
+  "training_data_statement": "Model combines deterministic public v11 top-2 lock with v216 served-rankcap KS<=0.60 rest ranking. The v216 child was trained only on public Poker44 benchmark releaseVersion v1.13 through sourceDate 2026-07-08 using miner-visible payload fields. Unlabeled miner-received forward-audit payloads were used only for shape/drift checks and live-overlap analysis. No validator-private labels, wallets, hotkeys, IP addresses, deployment logs, or private user data were used for training.",
+  "version": "v217_v11lock2_v216rest_20260708_205711"
+}

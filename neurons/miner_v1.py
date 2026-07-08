@@ -27,6 +27,7 @@ This file intentionally supports only the active public model families:
 - v190_<strategy>_top<N>
 - v209_<strategy>_top<N>
 - v216_<strategy>_top<N>
+- v217_<strategy>_top<N>
 - v200_<strategy>_top<N>
 
 Deployment secrets, wallet names, host details, audit logs, and private run
@@ -264,6 +265,7 @@ def _variant_config(name: str) -> dict[str, Any]:
     v190_contract60_80_100_ks050_livesized = False
     v209_served_rankcap_ks055 = False
     v216_served_rankcap_ks060 = False
+    v217_v11lock2_v216rest = False
     v200_stackseq_last3 = False
     v201_stackseq_wide8 = False
     prefix = "v112_super_"
@@ -352,6 +354,10 @@ def _variant_config(name: str) -> dict[str, Any]:
         prefix = "v216_"
         live_sized = True
         v216_served_rankcap_ks060 = True
+    elif name.startswith("v217_"):
+        prefix = "v217_"
+        live_sized = True
+        v217_v11lock2_v216rest = True
     elif name.startswith("v200_"):
         prefix = "v200_"
         live_sized = True
@@ -402,6 +408,8 @@ def _variant_config(name: str) -> dict[str, Any]:
             if v209_served_rankcap_ks055
             else "v216_served_rankcap_ks060"
             if v216_served_rankcap_ks060
+            else "v217_v11lock2_v216rest"
+            if v217_v11lock2_v216rest
             else "v200_stackseq_last3"
             if v200_stackseq_last3
             else "v201_stackseq_wide8"
@@ -460,6 +468,8 @@ def _variant_config(name: str) -> dict[str, Any]:
                     if v209_served_rankcap_ks055
                     else "Served-rankcap-selected live-shaped behavioural n-gram ranker trained on public benchmark chunks with 60/80/100 chunk contracts and worst-live-payload KS<=0.60 feature filtering."
                     if v216_served_rankcap_ks060
+                    else "v11 top-2 locked behavioural anchor with v216 served-rankcap KS<=0.60 ranker ordering the remaining chunks."
+                    if v217_v11lock2_v216rest
                     else "Wider stacked tree and chunk-sequence model trained on latest public benchmark releases with miner-visible payload fields only."
                     if v201_stackseq_wide8
                     else "Stacked tree and chunk-sequence model trained on latest public benchmark releases with miner-visible payload fields only."
@@ -522,6 +532,8 @@ def _variant_config(name: str) -> dict[str, Any]:
                 if v209_served_rankcap_ks055
                 else "data/models/v216_served_rankcap_ks060/model.pkl"
                 if v216_served_rankcap_ks060
+                else "data/models/v217_v11lock2_v216rest/model.pkl"
+                if v217_v11lock2_v216rest
                 else "data/models/v200_stackseq_last3/model.pkl"
                 if v200_stackseq_last3
                 else "data/models/v201_stackseq_wide8/model.pkl"
@@ -673,6 +685,7 @@ class Miner(BaseMinerNeuron):
             "v190_contract60_80_100_ks050_livesized",
             "v209_served_rankcap_ks055",
             "v216_served_rankcap_ks060",
+            "v217_v11lock2_v216rest",
             "v200_stackseq_last3",
             "v201_stackseq_wide8",
         }:
@@ -783,6 +796,14 @@ class Miner(BaseMinerNeuron):
                     / "v216_served_rankcap_ks060"
                     / "report.json"
                 )
+            if family == "v217_v11lock2_v216rest":
+                files.append(
+                    REPO_ROOT
+                    / "data"
+                    / "models"
+                    / "v217_v11lock2_v216rest"
+                    / "report.json"
+                )
             if family in {"v200_stackseq_last3", "v201_stackseq_wide8"}:
                 files.extend(
                     [
@@ -825,6 +846,9 @@ class Miner(BaseMinerNeuron):
             "v184_v11lock2_v181rest",
             "v193_v11lock1_v145rank_rest",
             "v190_contract60_80_100_ks050_livesized",
+            "v209_served_rankcap_ks055",
+            "v216_served_rankcap_ks060",
+            "v217_v11lock2_v216rest",
             "v200_stackseq_last3",
             "v201_stackseq_wide8",
         }:
@@ -934,6 +958,17 @@ class Miner(BaseMinerNeuron):
                     "validator-private labels, wallets, hotkeys, IP addresses, or deployment "
                     "logs were used for training."
                 )
+            elif family == "v217_v11lock2_v216rest":
+                training_statement = (
+                    "Model combines the deterministic public v11 behavioural scorer with "
+                    "the v216 served-rankcap KS<=0.60 public-benchmark ranker. The served "
+                    "ranker locks the v11 top-2 picks and orders the remaining chunks with "
+                    "the v216 ranker trained on public Poker44 benchmark releaseVersion v1.13 "
+                    "through sourceDate 2026-07-08 using miner-visible hand/action payload "
+                    "fields only. Forward-audit payloads were used only for unlabeled "
+                    "train/serve shape and drift checks; no validator-private labels, "
+                    "wallets, hotkeys, IP addresses, or deployment logs were used for training."
+                )
             elif family == "v200_stackseq_last3":
                 training_statement = (
                     "Model trained only on public Poker44 benchmark releaseVersion v1.13 "
@@ -1022,6 +1057,7 @@ class Miner(BaseMinerNeuron):
                         "v190_contract60_80_100_ks050_livesized",
                         "v209_served_rankcap_ks055",
                         "v216_served_rankcap_ks060",
+                        "v217_v11lock2_v216rest",
                         "v200_stackseq_last3",
                     }
                     else
@@ -1098,6 +1134,8 @@ class Miner(BaseMinerNeuron):
             manifest["training_refresh"] = "served_rankcap_ks055_livesized_candidate_2026-07-08"
         if family == "v216_served_rankcap_ks060":
             manifest["training_refresh"] = "served_rankcap_ks060_livesized_candidate_2026-07-08"
+        if family == "v217_v11lock2_v216rest":
+            manifest["training_refresh"] = "v11_top2_lock_v216_rest_candidate_2026-07-08"
         if family == "v200_stackseq_last3":
             manifest["training_refresh"] = "stackseq_last3_public_benchmark_candidate_2026-07-08"
         if family == "v201_stackseq_wide8":
@@ -1243,6 +1281,8 @@ class Miner(BaseMinerNeuron):
             env_name = "POKER44_V209_MODEL_PATH"
         elif self.variant_cfg["family"] == "v216_served_rankcap_ks060":
             env_name = "POKER44_V216_MODEL_PATH"
+        elif self.variant_cfg["family"] == "v217_v11lock2_v216rest":
+            env_name = "POKER44_V217_MODEL_PATH"
         elif self.variant_cfg["family"] in {"v200_stackseq_last3", "v201_stackseq_wide8"}:
             return self._score_stackseq_model(chunks)
         else:
@@ -1311,6 +1351,7 @@ class Miner(BaseMinerNeuron):
                 "v190_contract60_80_100_ks050_livesized",
                 "v209_served_rankcap_ks055",
                 "v216_served_rankcap_ks060",
+                "v217_v11lock2_v216rest",
                 "v200_stackseq_last3",
                 "v201_stackseq_wide8",
             }:
