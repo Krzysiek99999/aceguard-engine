@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import gzip
 import math
 from collections import Counter
 from typing import Any
@@ -96,6 +97,115 @@ def _amount_bucket(value: float) -> str:
     if value <= 5.0:
         return "l"
     return "xl"
+
+
+def _ngram_set(values: tuple[Any, ...], size: int) -> frozenset[tuple[Any, ...]]:
+    if len(values) < size:
+        return frozenset()
+    return frozenset(tuple(values[i : i + size]) for i in range(len(values) - size + 1))
+
+
+def _jaccard(a: frozenset, b: frozenset) -> float:
+    union = a | b
+    return len(a & b) / len(union) if union else 1.0
+
+
+def _lz_complexity_ratio(text: str) -> float:
+    n = len(text)
+    if n <= 1:
+        return 0.0
+    seen: set[str] = set()
+    pos = 0
+    pieces = 0
+    while pos < n:
+        end = pos + 1
+        while end <= n and text[pos:end] in seen:
+            end += 1
+        seen.add(text[pos:end])
+        pieces += 1
+        pos = end
+    normalizer = n / max(math.log2(n), 1.0)
+    return _safe_div(float(pieces), normalizer)
+
+
+def _conditional_entropy(tokens: list[str]) -> float:
+    if len(tokens) < 2:
+        return 0.0
+    pairs = Counter(zip(tokens[:-1], tokens[1:]))
+    prev = Counter(tokens[:-1])
+    total = float(len(tokens) - 1)
+    value = 0.0
+    for (head, _tail), count in pairs.items():
+        p_pair = count / total
+        p_next = count / max(prev[head], 1)
+        value -= p_pair * math.log2(p_next)
+    return value
+
+
+def _repeat_pattern_features(
+    action_signatures: list[tuple[str, ...]],
+    amount_bucket_signatures: list[tuple[str, ...]],
+    street_signatures: list[tuple[str, ...]],
+) -> dict[str, float]:
+    total = len(action_signatures)
+    if total < 2:
+        return {
+            "repeat_pair_jaccard_mean": 0.0,
+            "repeat_effective_diversity": 1.0,
+            "repeat_exact_action_share": 0.0,
+            "repeat_exact_rich_share": 0.0,
+            "repeat_gzip_ratio": 1.0,
+            "repeat_lz_complexity": 0.0,
+            "repeat_transition_entropy": 0.0,
+        }
+
+    rich_signatures = [
+        tuple(f"{street}|{action}|{bucket}" for street, action, bucket in zip(streets, actions, buckets))
+        for streets, actions, buckets in zip(
+            street_signatures,
+            action_signatures,
+            amount_bucket_signatures,
+        )
+    ]
+
+    stride = max(1, total // 60)
+    sampled = list(range(0, total, stride))[:60]
+    bigrams = [_ngram_set(rich_signatures[idx], 2) for idx in sampled]
+
+    similarities: list[float] = []
+    row_mass = [1.0 for _ in bigrams]
+    for i in range(len(bigrams)):
+        for j in range(i + 1, len(bigrams)):
+            score = _jaccard(bigrams[i], bigrams[j])
+            similarities.append(score)
+            row_mass[i] += score
+            row_mass[j] += score
+
+    mass_sum = sum(row_mass)
+    if mass_sum > 0:
+        weights = [value / mass_sum for value in row_mass]
+        entropy = -sum(weight * math.log(weight) for weight in weights if weight > 0)
+        effective_diversity = _safe_div(math.exp(entropy), len(row_mass))
+    else:
+        effective_diversity = 1.0
+
+    hand_strings = ["".join(token[:1] for token in signature) or "-" for signature in rich_signatures]
+    joined = "#".join(hand_strings).encode()
+    whole_len = len(gzip.compress(joined, compresslevel=5))
+    part_len = sum(len(gzip.compress(item.encode(), compresslevel=5)) for item in hand_strings)
+
+    flat_actions = [action for signature in action_signatures for action in signature]
+    flat_text = "".join((action[:1] or "?") for action in flat_actions)
+
+    return {
+        "repeat_pair_jaccard_mean": _mean(similarities),
+        "repeat_effective_diversity": _clamp01(effective_diversity),
+        "repeat_exact_action_share": 1.0 - _safe_div(len(set(action_signatures)), total),
+        "repeat_exact_rich_share": 1.0 - _safe_div(len(set(rich_signatures)), total),
+        "repeat_gzip_ratio": _safe_div(float(whole_len), float(part_len)),
+        "repeat_lz_complexity": _lz_complexity_ratio(flat_text[:300]),
+        "repeat_transition_entropy": _conditional_entropy(flat_actions[:4000]),
+    }
 
 
 def _hand_features(hand: dict[str, Any]) -> dict[str, float]:
@@ -293,4 +403,11 @@ def chunk_features(chunk: list[dict[str, Any]]) -> dict[str, float]:
     out["schema_low_action_entropy_hand_rate"] = _safe_div(low_action_entropy, n)
     out["schema_high_actor_entropy_hand_rate"] = _safe_div(high_actor_entropy, n)
     out["schema_long_action_hand_rate"] = _safe_div(long_action_hand, n)
+    out.update(
+        _repeat_pattern_features(
+            action_signatures,
+            amount_bucket_signatures,
+            street_signatures,
+        )
+    )
     return out
