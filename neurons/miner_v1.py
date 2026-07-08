@@ -17,6 +17,13 @@ This file intentionally supports only the active public model families:
 - v136_live_<strategy>_top<N>
 - v140_multi_<strategy>_top<N>
 - v142_rankblend_<strategy>_top<N>
+- v173_<strategy>_top<N>
+- v175_<strategy>_top<N>
+- v179_<strategy>_top<N>
+- v181_<strategy>_top<N>
+- v183_<strategy>_top<N>
+- v184_<strategy>_top<N>
+- v190_<strategy>_top<N>
 
 Deployment secrets, wallet names, host details, audit logs, and private run
 scripts belong outside the public model repository.
@@ -243,6 +250,13 @@ def _variant_config(name: str) -> dict[str, Any]:
     v136_live = False
     v140_multi = False
     v142_rankblend = False
+    v173_actioncap8 = False
+    v175_actioncap8_ks075 = False
+    v179_actioncap8_livehand89_ks060 = False
+    v181_actioncap8_livehand89_maxks075_fullheads = False
+    v183_v11lock1_v181rest = False
+    v184_v11lock2_v181rest = False
+    v190_contract60_80_100_ks050_livesized = False
     prefix = "v112_super_"
     if name.startswith("v113_daily_"):
         prefix = "v113_daily_"
@@ -289,6 +303,34 @@ def _variant_config(name: str) -> dict[str, Any]:
         prefix = "v142_rankblend_"
         live_sized = True
         v142_rankblend = True
+    elif name.startswith("v173_"):
+        prefix = "v173_"
+        live_sized = True
+        v173_actioncap8 = True
+    elif name.startswith("v175_"):
+        prefix = "v175_"
+        live_sized = True
+        v175_actioncap8_ks075 = True
+    elif name.startswith("v179_"):
+        prefix = "v179_"
+        live_sized = True
+        v179_actioncap8_livehand89_ks060 = True
+    elif name.startswith("v181_"):
+        prefix = "v181_"
+        live_sized = True
+        v181_actioncap8_livehand89_maxks075_fullheads = True
+    elif name.startswith("v183_"):
+        prefix = "v183_"
+        live_sized = True
+        v183_v11lock1_v181rest = True
+    elif name.startswith("v184_"):
+        prefix = "v184_"
+        live_sized = True
+        v184_v11lock2_v181rest = True
+    elif name.startswith("v190_"):
+        prefix = "v190_"
+        live_sized = True
+        v190_contract60_80_100_ks050_livesized = True
 
     if name.startswith(prefix):
         tail = name[len(prefix) :]
@@ -316,7 +358,21 @@ def _variant_config(name: str) -> dict[str, Any]:
         else:
             strategy = strategy_aliases.get(strategy_part, "rank_mean")
         family = (
-            "v142_rankblend"
+            "v184_v11lock2_v181rest"
+            if v184_v11lock2_v181rest
+            else "v190_contract60_80_100_ks050_livesized"
+            if v190_contract60_80_100_ks050_livesized
+            else "v183_v11lock1_v181rest"
+            if v183_v11lock1_v181rest
+            else "v181_actioncap8_livehand89_maxks075_fullheads"
+            if v181_actioncap8_livehand89_maxks075_fullheads
+            else "v179_actioncap8_livehand89_ks060"
+            if v179_actioncap8_livehand89_ks060
+            else "v175_actioncap8_ks075"
+            if v175_actioncap8_ks075
+            else "v173_actioncap8"
+            if v173_actioncap8
+            else "v142_rankblend"
             if v142_rankblend
             else "v140_multi"
             if v140_multi
@@ -352,6 +408,20 @@ def _variant_config(name: str) -> dict[str, Any]:
                 (
                     "Live-sized behavioural rank stack with batch-normalized schema, sequence, pot-geometry, and temporal consistency features."
                     if v131_behav
+                    else "Live-shaped full-head behavioural n-gram rank ensemble with segment-capable serve strategy, max-8 action parity, and worst-live-payload KS<=0.75 feature filtering."
+                    if v181_actioncap8_livehand89_maxks075_fullheads
+                    else "Live-shaped behavioural n-gram ranker trained on public benchmark chunks with 60/80/100 chunk contracts, max-8 action parity, and worst-live-payload KS<=0.50 feature filtering."
+                    if v190_contract60_80_100_ks050_livesized
+                    else "v11 top-2 locked behavioural anchor with v181 segment ranker ordering the remaining chunks."
+                    if v184_v11lock2_v181rest
+                    else "v11 top-1 locked behavioural anchor with v181 segment ranker ordering the remaining chunks."
+                    if v183_v11lock1_v181rest
+                    else "Live-shaped action-capped behavioural n-gram ranker with KS<=0.60 multi-live stability filtering and 80-100 hand training units."
+                    if v179_actioncap8_livehand89_ks060
+                    else "Live-sized action-capped behavioural n-gram ranker with KS<=0.75 multi-live stability filtering and max-8 action parity."
+                    if v175_actioncap8_ks075
+                    else "Live-sized action-capped behavioural n-gram ranker trained on public v1.13 benchmark chunks with train/serve max-8 action parity."
+                    if v173_actioncap8
                     else "Rank-space blend of independently gated live-sized benchmark rankers."
                     if v142_rankblend
                     else "Multi-seed live-sized behavioural n-gram ranker trained on public v1.13 benchmark chunks through 2026-07-07."
@@ -388,6 +458,20 @@ def _variant_config(name: str) -> dict[str, Any]:
             "model_file": (
                 "data/models/v142_rankblend/model.pkl"
                 if v142_rankblend
+                else "data/models/v184_v11lock2_v181rest/model.pkl"
+                if v184_v11lock2_v181rest
+                else "data/models/v190_contract60_80_100_ks050_livesized/model.pkl"
+                if v190_contract60_80_100_ks050_livesized
+                else "data/models/v183_v11lock1_v181rest/model.pkl"
+                if v183_v11lock1_v181rest
+                else "data/models/v181_actioncap8_livehand89_maxks075_noidentity_fullheads/model.pkl"
+                if v181_actioncap8_livehand89_maxks075_fullheads
+                else "data/models/v179_actioncap8_livehand89_ks060_noidentity/model.pkl"
+                if v179_actioncap8_livehand89_ks060
+                else "data/models/v175_actioncap8_multilive_ks075_noidentity_livesized/model.pkl"
+                if v175_actioncap8_ks075
+                else "data/models/v173_actioncap8_noidentity_livesized/model.pkl"
+                if v173_actioncap8
                 else "data/models/v140_multiseed_livesized/model.pkl"
                 if v140_multi
                 else "data/models/v136_livesized_20260707/model.pkl"
@@ -414,7 +498,9 @@ def _variant_config(name: str) -> dict[str, Any]:
                             "data/models/v115_short/model.pkl"
                             if short_v115
                             else (
-                                "data/models/v113_daily/model.pkl"
+                                "data/models/v113_daily_seg35_mean_avg/model.pkl"
+                                if daily and strategy == "seg35_mean_avg"
+                                else "data/models/v113_daily/model.pkl"
                                 if daily
                                 else "data/models/v112_super/model.pkl"
                             )
@@ -513,6 +599,13 @@ class Miner(BaseMinerNeuron):
             "v136_live",
             "v140_multi",
             "v142_rankblend",
+            "v173_actioncap8",
+            "v175_actioncap8_ks075",
+            "v179_actioncap8_livehand89_ks060",
+            "v181_actioncap8_livehand89_maxks075_fullheads",
+            "v183_v11lock1_v181rest",
+            "v184_v11lock2_v181rest",
+            "v190_contract60_80_100_ks050_livesized",
         }:
             files.extend(
                 [
@@ -545,6 +638,58 @@ class Miner(BaseMinerNeuron):
                 files.append(
                     REPO_ROOT / "data" / "models" / "v142_rankblend" / "report.json"
                 )
+            if family == "v173_actioncap8":
+                files.append(
+                    REPO_ROOT / "data" / "models" / "v173_actioncap8_noidentity_livesized" / "report.json"
+                )
+            if family == "v175_actioncap8_ks075":
+                files.append(
+                    REPO_ROOT
+                    / "data"
+                    / "models"
+                    / "v175_actioncap8_multilive_ks075_noidentity_livesized"
+                    / "report.json"
+                )
+            if family == "v179_actioncap8_livehand89_ks060":
+                files.append(
+                    REPO_ROOT
+                    / "data"
+                    / "models"
+                    / "v179_actioncap8_livehand89_ks060_noidentity"
+                    / "report.json"
+                )
+            if family == "v181_actioncap8_livehand89_maxks075_fullheads":
+                files.append(
+                    REPO_ROOT
+                    / "data"
+                    / "models"
+                    / "v181_actioncap8_livehand89_maxks075_noidentity_fullheads"
+                    / "report.json"
+                )
+            if family == "v183_v11lock1_v181rest":
+                files.append(
+                    REPO_ROOT
+                    / "data"
+                    / "models"
+                    / "v183_v11lock1_v181rest"
+                    / "report.json"
+                )
+            if family == "v184_v11lock2_v181rest":
+                files.append(
+                    REPO_ROOT
+                    / "data"
+                    / "models"
+                    / "v184_v11lock2_v181rest"
+                    / "report.json"
+                )
+            if family == "v190_contract60_80_100_ks050_livesized":
+                files.append(
+                    REPO_ROOT
+                    / "data"
+                    / "models"
+                    / "v190_contract60_80_100_ks050_livesized"
+                    / "report.json"
+                )
         return [path for path in files if path.exists()]
 
     def _build_manifest(self) -> dict[str, Any]:
@@ -563,6 +708,13 @@ class Miner(BaseMinerNeuron):
             "v136_live",
             "v140_multi",
             "v142_rankblend",
+            "v173_actioncap8",
+            "v175_actioncap8_ks075",
+            "v179_actioncap8_livehand89_ks060",
+            "v181_actioncap8_livehand89_maxks075_fullheads",
+            "v183_v11lock1_v181rest",
+            "v184_v11lock2_v181rest",
+            "v190_contract60_80_100_ks050_livesized",
         }:
             if family == "v142_rankblend":
                 training_statement = (
@@ -571,6 +723,71 @@ class Miner(BaseMinerNeuron):
                     "fields only. It is a self-contained rank-space blend of two independently "
                     "trained live-sized public-benchmark rankers; no validator-private labels, "
                     "wallets, hotkeys, IP addresses, or deployment logs were used for training."
+                )
+            elif family == "v173_actioncap8":
+                training_statement = (
+                    "Model trained only on public Poker44 benchmark releaseVersion v1.13 "
+                    "through sourceDate 2026-07-08 using miner-visible hand/action payload "
+                    "fields only. Training merged public chunks into live-sized units and "
+                    "applied the same max-8 actions-per-hand cap used by the served bundle. "
+                    "No validator-private labels, wallets, hotkeys, IP addresses, or "
+                    "deployment logs were used for training."
+                )
+            elif family == "v175_actioncap8_ks075":
+                training_statement = (
+                    "Model trained only on public Poker44 benchmark releaseVersion v1.13 "
+                    "through sourceDate 2026-07-08 using miner-visible hand/action payload "
+                    "fields only. Training merged public chunks into live-sized units, "
+                    "applied max-8 actions-per-hand train/serve parity, and used unlabeled "
+                    "miner-received forward-audit payloads only to remove high train-live "
+                    "drift features by KS stability filtering. No validator-private labels, "
+                    "wallets, hotkeys, IP addresses, or deployment logs were used for training."
+                )
+            elif family == "v179_actioncap8_livehand89_ks060":
+                training_statement = (
+                    "Model trained only on public Poker44 benchmark releaseVersion v1.13 "
+                    "through sourceDate 2026-07-08 using miner-visible hand/action payload "
+                    "fields only. Training merged public chunks into 80-100 hand live-shaped "
+                    "units with target 89 hands, applied max-8 actions-per-hand train/serve "
+                    "parity, and used unlabeled miner-received forward-audit payloads only "
+                    "to remove train-live drift features with KS<=0.60 stability filtering. "
+                    "No validator-private labels, wallets, hotkeys, IP addresses, or "
+                    "deployment logs were used for training."
+                )
+            elif family == "v181_actioncap8_livehand89_maxks075_fullheads":
+                training_statement = (
+                    "Model trained only on public Poker44 benchmark releaseVersion v1.13 "
+                    "through sourceDate 2026-07-08 using miner-visible hand/action payload "
+                    "fields only. Training merged public chunks into 80-100 hand live-shaped "
+                    "units with target 89 hands, applied max-8 actions-per-hand train/serve "
+                    "parity, used six independently trained rank heads, and used unlabeled "
+                    "miner-received forward-audit payloads only to remove train-live drift "
+                    "features by worst-live-payload KS<=0.75 stability filtering. No "
+                    "validator-private labels, wallets, hotkeys, IP addresses, or deployment "
+                    "logs were used for training."
+                )
+            elif family in {"v183_v11lock1_v181rest", "v184_v11lock2_v181rest"}:
+                lock_text = "top-1" if family == "v183_v11lock1_v181rest" else "top-2"
+                training_statement = (
+                    "Model combines the deterministic public v11 behavioural scorer with "
+                    "a v181 segment ranker trained only on public Poker44 benchmark "
+                    "releaseVersion v1.13 through sourceDate 2026-07-08. The served "
+                    f"ranker locks v11 {lock_text} picks and orders the remaining chunks "
+                    "with the v181 public-benchmark ranker. Forward-audit payloads were "
+                    "used only for unlabeled train/serve shape and drift checks; no "
+                    "validator-private labels, wallets, hotkeys, IP addresses, or "
+                    "deployment logs were used for training."
+                )
+            elif family == "v190_contract60_80_100_ks050_livesized":
+                training_statement = (
+                    "Model trained only on public Poker44 benchmark releaseVersion v1.13 "
+                    "through sourceDate 2026-07-08 using miner-visible hand/action payload "
+                    "fields only. Training uses 60/80/100 hand live-shaped units, max-8 "
+                    "actions-per-hand train/serve parity, and unlabeled miner-received "
+                    "forward-audit payloads only to remove train-live drift features with "
+                    "worst-live-payload KS<=0.50 stability filtering. No validator-private "
+                    "labels, wallets, hotkeys, IP addresses, or deployment logs were used "
+                    "for training."
                 )
             elif family == "v140_multi":
                 training_statement = (
@@ -621,6 +838,20 @@ class Miner(BaseMinerNeuron):
                 "inference_mode": "remote",
                 "training_data_statement": training_statement,
                 "training_data_sources": (
+                    [
+                        "https://api.poker44.net/api/v1/benchmark",
+                        "https://api.poker44.net/api/v1/benchmark/chunks?sourceDate=2026-07-08",
+                    ]
+                    if family in {
+                        "v173_actioncap8",
+                        "v175_actioncap8_ks075",
+                        "v179_actioncap8_livehand89_ks060",
+                        "v181_actioncap8_livehand89_maxks075_fullheads",
+                        "v183_v11lock1_v181rest",
+                        "v184_v11lock2_v181rest",
+                        "v190_contract60_80_100_ks050_livesized",
+                    }
+                    else
                     [
                         "https://api.poker44.net/api/v1/benchmark",
                         "https://api.poker44.net/api/v1/benchmark/chunks?sourceDate=2026-07-07",
@@ -674,6 +905,20 @@ class Miner(BaseMinerNeuron):
             manifest["training_refresh"] = "v113_multiseed_livesized_candidate_2026-07-07"
         if family == "v142_rankblend":
             manifest["training_refresh"] = "rankblend_livesized_candidate_2026-07-07"
+        if family == "v173_actioncap8":
+            manifest["training_refresh"] = "actioncap8_noidentity_livesized_candidate_2026-07-08"
+        if family == "v175_actioncap8_ks075":
+            manifest["training_refresh"] = "actioncap8_multilive_ks075_candidate_2026-07-08"
+        if family == "v179_actioncap8_livehand89_ks060":
+            manifest["training_refresh"] = "actioncap8_livehand89_ks060_candidate_2026-07-08"
+        if family == "v181_actioncap8_livehand89_maxks075_fullheads":
+            manifest["training_refresh"] = "actioncap8_livehand89_maxks075_fullheads_segment_candidate_2026-07-08"
+        if family == "v183_v11lock1_v181rest":
+            manifest["training_refresh"] = "v11_top1_lock_v181_rest_candidate_2026-07-08"
+        if family == "v184_v11lock2_v181rest":
+            manifest["training_refresh"] = "v11_top2_lock_v181_rest_candidate_2026-07-08"
+        if family == "v190_contract60_80_100_ks050_livesized":
+            manifest["training_refresh"] = "contract60_80_100_ks050_livesized_candidate_2026-07-08"
         return manifest
 
     def _score_v5(self, chunks: list[list[dict[str, Any]]]) -> list[float]:
@@ -754,6 +999,20 @@ class Miner(BaseMinerNeuron):
             env_name = "POKER44_V140_MODEL_PATH"
         elif self.variant_cfg["family"] == "v142_rankblend":
             env_name = "POKER44_V142_MODEL_PATH"
+        elif self.variant_cfg["family"] == "v173_actioncap8":
+            env_name = "POKER44_V173_MODEL_PATH"
+        elif self.variant_cfg["family"] == "v175_actioncap8_ks075":
+            env_name = "POKER44_V175_MODEL_PATH"
+        elif self.variant_cfg["family"] == "v179_actioncap8_livehand89_ks060":
+            env_name = "POKER44_V179_MODEL_PATH"
+        elif self.variant_cfg["family"] == "v181_actioncap8_livehand89_maxks075_fullheads":
+            env_name = "POKER44_V181_MODEL_PATH"
+        elif self.variant_cfg["family"] == "v183_v11lock1_v181rest":
+            env_name = "POKER44_V183_MODEL_PATH"
+        elif self.variant_cfg["family"] == "v184_v11lock2_v181rest":
+            env_name = "POKER44_V184_MODEL_PATH"
+        elif self.variant_cfg["family"] == "v190_contract60_80_100_ks050_livesized":
+            env_name = "POKER44_V190_MODEL_PATH"
         else:
             env_name = "POKER44_V112_SUPER_MODEL_PATH"
         model_file = os.getenv(env_name, str(REPO_ROOT / self.variant_cfg["model_file"]))
@@ -810,6 +1069,13 @@ class Miner(BaseMinerNeuron):
                 "v136_live",
                 "v140_multi",
                 "v142_rankblend",
+                "v173_actioncap8",
+                "v175_actioncap8_ks075",
+                "v179_actioncap8_livehand89_ks060",
+                "v181_actioncap8_livehand89_maxks075_fullheads",
+                "v183_v11lock1_v181rest",
+                "v184_v11lock2_v181rest",
+                "v190_contract60_80_100_ks050_livesized",
             }:
                 scores = self._score_schema_model(chunks)
             else:

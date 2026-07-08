@@ -41,6 +41,29 @@ def _unwrap(chunks: Sequence[Any]) -> list[list[dict[str, Any]]]:
     return out
 
 
+def _cap_actions_per_hand(
+    chunks: list[list[dict[str, Any]]],
+    max_actions: int,
+) -> list[list[dict[str, Any]]]:
+    if max_actions <= 0:
+        return chunks
+    capped_chunks: list[list[dict[str, Any]]] = []
+    for chunk in chunks:
+        capped_chunk: list[dict[str, Any]] = []
+        for hand in chunk:
+            if not isinstance(hand, dict):
+                continue
+            actions = hand.get("actions")
+            if isinstance(actions, list) and len(actions) > max_actions:
+                capped = dict(hand)
+                capped["actions"] = list(actions[:max_actions])
+                capped_chunk.append(capped)
+            else:
+                capped_chunk.append(hand)
+        capped_chunks.append(capped_chunk)
+    return capped_chunks
+
+
 def _feature_dict(chunk: list[dict[str, Any]], feature_set: str) -> dict[str, float]:
     if feature_set == "v25":
         return {f"v25__{k}": float(v) for k, v in v25_features(chunk).items()}
@@ -57,10 +80,11 @@ def _feature_dict(chunk: list[dict[str, Any]], feature_set: str) -> dict[str, fl
         out.update({f"v25__{k}": float(v) for k, v in v25_features(chunk).items()})
         out.update({f"seq__{k}": float(v) for k, v in sequence_features(chunk).items()})
         return out
-    if feature_set in {"behav_mix", "v131", "behav_ngram", "v132"}:
+    if feature_set in {"behav_mix", "v131", "behav_ngram", "v132", "behav_ngram_response", "v157"}:
         from poker44.score.enterprise_features import compute_enterprise_features
         from poker44.score.extended_features import compute_extended_features
         from poker44.score.features_pot_geometry import extract_pot_geometry_features
+        from poker44.score.features_response_curves import extract_response_curve_features
         from poker44.score.features_v13_safe import chunk_features_v13
 
         out = {f"schema__{k}": float(v) for k, v in schema_features(chunk).items()}
@@ -72,6 +96,10 @@ def _feature_dict(chunk: list[dict[str, Any]], feature_set: str) -> dict[str, fl
         out.update({f"v13__{k}": float(v) for k, v in chunk_features_v13(chunk).items()})
         out.update({f"ext__{k}": float(v) for k, v in compute_extended_features(chunk).items()})
         out.update({f"ent__{k}": float(v) for k, v in compute_enterprise_features(chunk).items()})
+        if feature_set in {"behav_ngram_response", "v157"}:
+            out.update(
+                {f"resp__{k}": float(v) for k, v in extract_response_curve_features(chunk).items()}
+            )
         return out
     raise ValueError(f"unknown feature_set={feature_set}")
 
@@ -102,7 +130,13 @@ def _build_x(chunks: Sequence[Any], bundle: dict[str, Any]) -> np.ndarray:
     keys = list(bundle["keys"])
     mask = np.asarray(bundle["abs_stable_mask"], dtype=bool)
     hands = _unwrap(chunks)
+    hands = _cap_actions_per_hand(hands, int(bundle.get("serve_max_actions_per_hand") or 0))
     feats = [_feature_dict(chunk, feature_set) for chunk in hands]
+    hand_feature_model = bundle.get("hand_feature_model")
+    if hand_feature_model is not None:
+        hand_feature_rows = hand_feature_model.chunk_features_many(hands)
+        for feat, hand_feat in zip(feats, hand_feature_rows, strict=False):
+            feat.update({str(key): float(value) for key, value in hand_feat.items()})
     arr = _mat(feats, keys)
     pieces: list[np.ndarray] = []
     if feature_mode in {"abs_batch", "abs_only"}:
@@ -150,6 +184,26 @@ def _rank01(values: Sequence[float]) -> np.ndarray:
     return rankdata(arr, method="average") / max(len(arr), 1)
 
 
+def _score_child(
+    chunks: list[list[dict[str, Any]]],
+    child: dict[str, Any],
+) -> np.ndarray:
+    callable_name = str(child.get("callable") or "").lower()
+    if callable_name == "v11":
+        from poker44.score.ensemble_v11 import score_chunks_v11
+
+        raw, _telemetry, _types = score_chunks_v11(chunks)
+        return np.asarray(raw, dtype=float)
+
+    child_bundle = child.get("bundle")
+    if child_bundle is None and child.get("model_path"):
+        child_bundle = load_bundle(child["model_path"])
+    if child_bundle is None:
+        raise ValueError("child is missing embedded bundle/model_path/callable")
+    strategy = str(child.get("strategy") or "rank_mean")
+    return np.asarray(score_chunks(chunks, child_bundle, strategy=strategy), dtype=float)
+
+
 def _score_blend_children(
     chunks: list[list[dict[str, Any]]],
     bundle: dict[str, Any],
@@ -161,13 +215,7 @@ def _score_blend_children(
     weighted: list[np.ndarray] = []
     weights: list[float] = []
     for child in children:
-        child_bundle = child.get("bundle")
-        if child_bundle is None and child.get("model_path"):
-            child_bundle = load_bundle(child["model_path"])
-        if child_bundle is None:
-            raise ValueError("blend child is missing embedded bundle")
-        strategy = str(child.get("strategy") or "rank_mean")
-        scores = np.asarray(score_chunks(chunks, child_bundle, strategy=strategy), dtype=float)
+        scores = _score_child(chunks, child)
         if mode in {"rank_mean", "rank_space", "rank"}:
             scores = _rank01(scores)
         weighted.append(scores)
@@ -178,6 +226,104 @@ def _score_blend_children(
     weight_arr = np.asarray(weights, dtype=float)
     if float(np.sum(weight_arr)) <= 1e-12:
         weight_arr = np.ones_like(weight_arr)
+    pred = matrix @ (weight_arr / float(np.sum(weight_arr)))
+    return [float(np.clip(v, 0.0, 1.0)) for v in pred]
+
+
+def _score_toplock_children(
+    chunks: list[list[dict[str, Any]]],
+    bundle: dict[str, Any],
+) -> list[float]:
+    config = dict(bundle.get("top_lock") or {})
+    anchor = dict(config.get("anchor") or {"callable": "v11"})
+    lock_sequence = list(config.get("lock_sequence") or [])
+    rest_children = list(config.get("rest_children") or [])
+    if not rest_children:
+        raise ValueError("top_lock bundle has no rest_children")
+    lock_n = max(0, int(config.get("lock_n", 2)))
+
+    if lock_sequence:
+        first_child = dict(lock_sequence[0].get("child") or lock_sequence[0])
+        n = int(_score_child(chunks, first_child).size)
+    else:
+        anchor_scores = _score_child(chunks, anchor)
+        n = int(anchor_scores.size)
+    if n == 0:
+        return []
+
+    rest_signal = np.zeros(n, dtype=float)
+    total_weight = 0.0
+    for child in rest_children:
+        child_scores = _score_child(chunks, child)
+        rest_signal += float(child.get("weight", 1.0)) * _rank01(child_scores)
+        total_weight += float(child.get("weight", 1.0))
+    if total_weight > 1e-12:
+        rest_signal /= total_weight
+
+    locked: list[int] = []
+    locked_set: set[int] = set()
+    if lock_sequence:
+        for step in lock_sequence:
+            if not isinstance(step, dict):
+                continue
+            child = dict(step.get("child") or step)
+            step_lock_n = max(0, int(step.get("lock_n", 1)))
+            child_scores = _score_child(chunks, child)
+            if int(child_scores.size) != n:
+                raise RuntimeError(
+                    f"top_lock lock_sequence child returned {child_scores.size} scores for {n} chunks"
+                )
+            selected = 0
+            for idx in np.argsort(-child_scores, kind="mergesort"):
+                int_idx = int(idx)
+                if int_idx in locked_set:
+                    continue
+                locked.append(int_idx)
+                locked_set.add(int_idx)
+                selected += 1
+                if selected >= step_lock_n or len(locked) >= n:
+                    break
+    else:
+        anchor_order = list(np.argsort(-anchor_scores, kind="mergesort"))
+        locked = [int(idx) for idx in anchor_order[: min(lock_n, n)]]
+        locked_set = set(locked)
+    rest_order = [
+        int(idx)
+        for idx in np.argsort(-rest_signal, kind="mergesort")
+        if int(idx) not in locked_set
+    ]
+    order = locked + rest_order
+    out = np.zeros(n, dtype=float)
+    for rank, idx in enumerate(order):
+        out[idx] = 1.0 - (rank / max(n - 1, 1))
+    return [float(np.clip(v, 0.0, 1.0)) for v in out]
+
+
+def _score_strategy_blend(
+    chunks: list[list[dict[str, Any]]],
+    bundle: dict[str, Any],
+    strategy: str,
+) -> list[float]:
+    blend_specs = bundle.get("strategy_blend_weights") or {}
+    weights_by_strategy = blend_specs.get(strategy)
+    if not isinstance(weights_by_strategy, dict) or not weights_by_strategy:
+        raise ValueError(f"unknown strategy blend={strategy}")
+    pieces: list[np.ndarray] = []
+    weights: list[float] = []
+    for child_strategy, weight in sorted(weights_by_strategy.items()):
+        child_strategy = str(child_strategy)
+        if child_strategy == strategy:
+            raise ValueError(f"strategy blend {strategy} cannot reference itself")
+        weight = float(weight)
+        if weight <= 0.0:
+            continue
+        child_scores = np.asarray(score_chunks(chunks, bundle, strategy=child_strategy), dtype=float)
+        pieces.append(_rank01(child_scores))
+        weights.append(weight)
+    if not pieces:
+        return [0.5 for _ in chunks]
+    matrix = np.column_stack(pieces)
+    weight_arr = np.asarray(weights, dtype=float)
     pred = matrix @ (weight_arr / float(np.sum(weight_arr)))
     return [float(np.clip(v, 0.0, 1.0)) for v in pred]
 
@@ -256,6 +402,14 @@ def score_chunks(
         return out
 
     original_chunks = _unwrap(chunks)
+    original_chunks = _cap_actions_per_hand(
+        original_chunks,
+        int(bundle.get("serve_max_actions_per_hand") or 0),
+    )
+    if strategy in (bundle.get("strategy_blend_weights") or {}):
+        return _score_strategy_blend(original_chunks, bundle, strategy)
+    if bundle.get("top_lock"):
+        return _score_toplock_children(original_chunks, bundle)
     if bundle.get("blend_children"):
         return _score_blend_children(original_chunks, bundle)
 

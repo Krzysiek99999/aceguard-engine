@@ -1,0 +1,22 @@
+{
+  "benchmark_release_version": "v1.13",
+  "candidate_variants": [
+    "v190_et_top2",
+    "v190_seg30_mean_et_top2"
+  ],
+  "created_at": "2026-07-08T11:22:43.108472+00:00",
+  "family": "v190_contract60_80_100_ks050_livesized",
+  "model_path": "data/models/v190_contract60_80_100_ks050_livesized/model.pkl",
+  "model_sha256": "b489c976af481c565b3d7da52564059c21a198c197f84b64adaec096dbd6063d",
+  "privacy_sanitized": true,
+  "public_staging_normalized": true,
+  "public_staging_normalized_at_utc": "2026-07-08T11:22:43Z",
+  "selection_notes": "Primary future candidate is v190_et_top2; v190_seg30_mean_et_top2 is an offensive segment-sensitive alternate. This staging does not authorize deployment.",
+  "source_date_max": "2026-07-08",
+  "training_data_sources": [
+    "https://api.poker44.net/api/v1/benchmark",
+    "https://api.poker44.net/api/v1/benchmark/chunks?sourceDate=2026-07-08"
+  ],
+  "training_data_statement": "Model trained only on public Poker44 benchmark releaseVersion v1.13 through sourceDate 2026-07-08; training uses miner-visible hand/action payload fields, 60/80/100 live-shaped chunk contracts, max-8 actions-per-hand train/serve parity, and unlabeled miner-received forward-audit payloads only for train-live shape/KS feature filtering. No validator-private labels, wallets, hotkeys, IP addresses, or deployment logs were used for training.",
+  "version": "v190_contract60_80_100_ks050_20260708_102703"
+}
