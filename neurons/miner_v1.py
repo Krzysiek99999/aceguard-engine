@@ -1114,6 +1114,7 @@ class Miner(BaseMinerNeuron):
                 "v181_actioncap8_livehand89_maxks075_fullheads",
                 "v183_v11lock1_v181rest",
                 "v184_v11lock2_v181rest",
+                "v193_v11lock1_v145rank_rest",
                 "v190_contract60_80_100_ks050_livesized",
             }:
                 scores = self._score_schema_model(chunks)
