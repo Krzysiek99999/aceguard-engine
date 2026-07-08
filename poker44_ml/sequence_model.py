@@ -630,7 +630,9 @@ class ChunkSetTransformer(nn.Module):
             norm_first=False,
         )
         self.action_encoder = nn.TransformerEncoder(
-            action_layer, num_layers=config.n_action_layers
+            action_layer,
+            num_layers=config.n_action_layers,
+            enable_nested_tensor=False,
         )
         self.action_pool = _AttentionPool(d_model, config.n_heads, config.dropout)
 
@@ -644,7 +646,9 @@ class ChunkSetTransformer(nn.Module):
             norm_first=False,
         )
         self.hand_encoder = nn.TransformerEncoder(
-            hand_layer, num_layers=config.n_hand_layers
+            hand_layer,
+            num_layers=config.n_hand_layers,
+            enable_nested_tensor=False,
         )
         self.chunk_pool = _AttentionPool(d_model, config.n_heads, config.dropout)
         self.head = nn.Sequential(
