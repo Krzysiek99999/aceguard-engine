@@ -363,13 +363,13 @@
     "mode": "recent_distinct_forward_payloads",
     "record_count": 3,
     "record_limit": 3,
-    "source_path": "/Users/krzysiekm/Desktop/SN126/Poker44-subnet/data/observations/live_forward/forward_v136_live_cat_top2.jsonl",
+    "source_path": "forward_audit_summary/redacted/forward_v136_live_cat_top2.jsonl",
     "sources": [
       {
         "batch_size": 100,
         "chunks_used": 100,
         "fingerprint": "da6972af14b716b7a05e4e21",
-        "source_path": "/Users/krzysiekm/Desktop/SN126/Poker44-subnet/data/observations/live_forward/forward_v118_seg35_seg35_mean_et_top2.jsonl",
+        "source_path": "forward_audit_summary/redacted/forward_v118_seg35_seg35_mean_et_top2.jsonl",
         "ts_utc": "2026-07-06T12:59:51Z",
         "variant": "v118_seg35_seg35_mean_et_top2"
       },
@@ -377,7 +377,7 @@
         "batch_size": 100,
         "chunks_used": 100,
         "fingerprint": "eb6e67eb2ec1cc8acf955598",
-        "source_path": "/Users/krzysiekm/Desktop/SN126/Poker44-subnet/data/observations/live_forward/forward_v113_daily_seg35_mean_avg_top2.jsonl",
+        "source_path": "forward_audit_summary/redacted/forward_v113_daily_seg35_mean_avg_top2.jsonl",
         "ts_utc": "2026-07-07T13:09:00Z",
         "variant": "v113_daily_seg35_mean_avg_top2"
       },
@@ -385,7 +385,7 @@
         "batch_size": 100,
         "chunks_used": 100,
         "fingerprint": "97d7d7b9fed3b7eef9f19aa8",
-        "source_path": "/Users/krzysiekm/Desktop/SN126/Poker44-subnet/data/observations/live_forward/forward_v136_live_cat_top2.jsonl",
+        "source_path": "forward_audit_summary/redacted/forward_v136_live_cat_top2.jsonl",
         "ts_utc": "2026-07-08T12:46:56Z",
         "variant": "v136_live_cat_top2"
       }
