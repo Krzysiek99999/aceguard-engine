@@ -1359,6 +1359,10 @@ class Miner(BaseMinerNeuron):
             floor = float(np.nanmax(raw_scores)) if np.isfinite(raw_scores).any() else 0.0
             for rank, idx in enumerate(locked):
                 raw_scores[int(idx)] = floor + float(len(locked) - rank)
+            shaped = np.zeros_like(raw_scores, dtype=float)
+            for rank, idx in enumerate(np.argsort(-raw_scores, kind="mergesort")):
+                shaped[int(idx)] = float(len(raw_scores) - rank)
+            raw_scores = shaped
 
         self._last_raw_scores = [float(v) for v in raw_scores]
         top_n = _env_int("POKER44_MAX_N", self.variant_cfg["default_top_n"])
