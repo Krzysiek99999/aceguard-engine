@@ -2,7 +2,7 @@
   "created_at": "2026-07-08T13:19:08.704788+00:00",
   "family": "v160_toplock",
   "lock_n": 1,
-  "model_path": "data/models/v193_v11lock1_v145rank_rest/20260708_131907/model.pkl",
+  "model_path": "data/models/v193_v11lock1_v145rank_rest/model.pkl",
   "model_sha256": "ada627baeec74a63321f4010f1e5800d5b77397b671207a62afc3e5efd5a46ef",
   "rest_child": {
     "name": "v145_human_wmean_rank",
