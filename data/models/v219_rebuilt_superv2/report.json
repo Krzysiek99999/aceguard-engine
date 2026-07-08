@@ -1,0 +1,12 @@
+{
+  "benchmark_eval_artifact": "data/observations/live_forward/rebuilt_superv2_local_eval_20260708T2232Z.json",
+  "created_at_utc": "2026-07-08T22:35:00Z",
+  "decision": "staged_local_only_not_deployed",
+  "family": "v219_rebuilt_superv2",
+  "live_replay_artifact": "data/observations/live_forward/rebuilt_superv2_live_replay_20260708T2233Z.json",
+  "model_path": "data/models/v219_rebuilt_superv2/model.joblib",
+  "model_sha256": "3826fcbc3f14f9994db4db68f7cc2bd645f21bda909c5424afa064234fee188a",
+  "serve_note": "Continuous scores are all >0.5 on live replay; if deployed under current hybrid scoring, use rank-cap/topK or add live-shape calibration. Do not serve continuous raw scores blindly.",
+  "source_model": "data/models/rebuilt_superv2_local/20260708_222828/poker44_stacked_robust.joblib",
+  "training": "Local rebuild of public super-v2 stacked architecture, trained on public Poker44 benchmark v1.13 only, miner-visible payload sanitization, no live labels."
+}
