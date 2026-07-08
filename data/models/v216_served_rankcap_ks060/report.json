@@ -1,0 +1,106 @@
+{
+  "all_model_summary": {
+    "avg": {
+      "last2_global_reward": 0.7946497197525251,
+      "raw_official_batch100_reward": 0.8086166964011489,
+      "served_rankcap_reward": 0.8432256203666357
+    },
+    "cat": {
+      "last2_global_reward": 0.7708401046724249,
+      "raw_official_batch100_reward": 0.7911499162192833,
+      "served_rankcap_reward": 0.8238508777901185
+    },
+    "et": {
+      "last2_global_reward": 0.8219556808461571,
+      "raw_official_batch100_reward": 0.8388849667159137,
+      "served_rankcap_reward": 0.866920535833814
+    },
+    "lgb": {
+      "last2_global_reward": 0.7689706039319271,
+      "raw_official_batch100_reward": 0.7887921252110021,
+      "served_rankcap_reward": 0.8203518082045426
+    },
+    "linear": {
+      "last2_global_reward": 0.7324412676282878,
+      "raw_official_batch100_reward": 0.7327267960744924,
+      "served_rankcap_reward": 0.7879633018208142
+    },
+    "rank_mean": {
+      "last2_global_reward": 0.7965355233985206,
+      "raw_official_batch100_reward": 0.8142484164219921,
+      "served_rankcap_reward": 0.8475225640527024
+    },
+    "rf": {
+      "last2_global_reward": 0.7510873100127984,
+      "raw_official_batch100_reward": 0.7669634879320641,
+      "served_rankcap_reward": 0.8151999982268537
+    },
+    "stack": {
+      "last2_global_reward": 0.7851494570888021,
+      "raw_official_batch100_reward": 0.810158562534489,
+      "served_rankcap_reward": 0.8400658363306517
+    },
+    "xgb": {
+      "last2_global_reward": 0.7688018936490463,
+      "raw_official_batch100_reward": 0.7887840669492139,
+      "served_rankcap_reward": 0.8264791209501575
+    }
+  },
+  "benchmark_release_version": "v1.13",
+  "benchmark_source_date_max": "2026-07-08",
+  "benchmark_split": "",
+  "created_from_source_report": "data/models/v216_served_rankcap_ks060_allheads_seed209/20260708_203902/report.json",
+  "deployment_strategy": "et",
+  "drop_key_substrings": [
+    "amount",
+    "pot",
+    "stack",
+    "blind",
+    "normalized_amount"
+  ],
+  "family": "v216_served_rankcap_ks060",
+  "feature_mode": "batch_only",
+  "feature_set": "behav_ngram",
+  "live_forward_shape_use": "unlabeled shape/drift filtering only; no live labels",
+  "local_oof": {
+    "ap": 0.9137622779170168,
+    "fpr": 0.030300643840576,
+    "hard_fpr": 0.0,
+    "last2_global_reward": 0.8219556808461571,
+    "raw_official_batch100_reward": 0.8388849667159137,
+    "recall_at_fpr05": 0.6570124618761937,
+    "served_rankcap_by_date_reward": {
+      "2026-07-06": 0.8648449418434062,
+      "2026-07-07": 0.8494256762667055,
+      "2026-07-08": 0.8973140131652922
+    },
+    "served_rankcap_reward": 0.866920535833814,
+    "served_rankcap_top_n_selected_by_metric": 1
+  },
+  "lock_n": null,
+  "merge_seeds": [
+    126,
+    2026,
+    8192,
+    9137,
+    14001
+  ],
+  "model_path": "data/models/v216_served_rankcap_ks060/model.pkl",
+  "model_seed": 209,
+  "model_sha256": "10ec68b65e1762191c8d6da02bd2e24d454b222979b95d95d4dd64d1fe05076b",
+  "n_units": 834,
+  "positive_units": 415,
+  "privacy_sanitized": true,
+  "public_staging_normalized": true,
+  "public_variant": "v216_et_top5",
+  "selected_model": "et",
+  "selection_metric": "served_rankcap",
+  "stable_all_ks_max": 0.6,
+  "stable_live_ks_mode": "max",
+  "training_data_sources": [
+    "https://api.poker44.net/api/v1/benchmark",
+    "https://api.poker44.net/api/v1/benchmark/chunks?sourceDate=2026-07-08"
+  ],
+  "training_data_statement": "Model trained only on public Poker44 benchmark releaseVersion v1.13 through sourceDate 2026-07-08; live-sized training uses 60/80/100 hand chunk contracts, served rank-cap official reward selection, max train/live KS<=0.60 shape gating, miner-visible payload fields only, and no validator-private labels.",
+  "version": "v216_served_rankcap_ks060_20260708_203902"
+}
