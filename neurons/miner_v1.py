@@ -528,7 +528,7 @@ def _variant_config(name: str) -> dict[str, Any]:
                 )
             ),
             "strategy": strategy,
-            "default_top_n": max(1, min(5, top_n)),
+            "default_top_n": max(1, top_n),
             "model_file": (
                 "data/models/v142_rankblend/model.pkl"
                 if v142_rankblend
