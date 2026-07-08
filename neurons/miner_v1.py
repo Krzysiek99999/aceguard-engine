@@ -816,12 +816,11 @@ class Miner(BaseMinerNeuron):
                 training_statement = (
                     "Model trained only on public Poker44 benchmark releaseVersion v1.13 "
                     "through sourceDate 2026-07-08 using miner-visible hand/action payload "
-                    "fields only. Training uses 60/80/100 hand live-shaped units, max-8 "
-                    "actions-per-hand train/serve parity, and unlabeled miner-received "
-                    "forward-audit payloads only to remove train-live drift features with "
-                    "worst-live-payload KS<=0.50 stability filtering. No validator-private "
-                    "labels, wallets, hotkeys, IP addresses, or deployment logs were used "
-                    "for training."
+                    "fields only. Training uses 60/80/100 hand live-shaped units and "
+                    "unlabeled miner-received forward-audit payloads only to remove "
+                    "train-live drift features with worst-live-payload KS<=0.50 stability "
+                    "filtering. No validator-private labels, wallets, hotkeys, IP "
+                    "addresses, or deployment logs were used for training."
                 )
             elif family == "v140_multi":
                 training_statement = (

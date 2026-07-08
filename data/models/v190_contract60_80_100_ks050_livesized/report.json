@@ -1,22 +1,427 @@
 {
+  "action_cap": {
+    "actions_removed": 0,
+    "hands_seen": 0,
+    "hands_trimmed": 0,
+    "max_actions_per_hand": 0
+  },
+  "batch_size": 100,
+  "benchmark_dir": "data/benchmark_v112",
+  "benchmark_last_n_dates": 3,
   "benchmark_release_version": "v1.13",
-  "candidate_variants": [
-    "v190_et_top2",
-    "v190_seg30_mean_et_top2"
+  "benchmark_split": "",
+  "best": {
+    "feature_mode": "batch_only",
+    "feature_set": "behav_ngram",
+    "model": "et",
+    "reward": 0.7975756546114207
+  },
+  "configs": {
+    "behav_ngram:batch_only": {
+      "best": {
+        "model": "et",
+        "reward": 0.7975756546114207
+      },
+      "drop_key_substrings": [
+        "amount",
+        "pot",
+        "stack",
+        "blind",
+        "normalized_amount"
+      ],
+      "feature_mode": "batch_only",
+      "feature_set": "behav_ngram",
+      "fold_safe_stable_mask": false,
+      "matrix_shape": [
+        834,
+        385
+      ],
+      "models": {
+        "avg": {
+          "ap_global": 0.834293550719649,
+          "auc": 0.8294735026022946,
+          "last2_dates": [
+            "2026-07-07",
+            "2026-07-08"
+          ],
+          "last2_global": {
+            "ap": 0.8233096457263138,
+            "fpr": 0.040293040293040296,
+            "hard_bot_recall": 0.7137546468401487,
+            "hard_fpr": 0.2454212454212454,
+            "positive_prediction_rate": 0.477859778597786,
+            "recall_at_fpr05": 0.40148698884758366,
+            "reward": 0.7101307241847366,
+            "threshold_sanity_quality": 0.8384208384208385
+          },
+          "official_batch100": {
+            "ap": 0.8422122910473805,
+            "fpr": 0.03286673023644963,
+            "recall_at_fpr05": 0.48219620274127617,
+            "reward": 0.7482291923807713
+          }
+        },
+        "cat": {
+          "ap_global": 0.8291237638779001,
+          "auc": 0.8241941513068982,
+          "last2_dates": [
+            "2026-07-07",
+            "2026-07-08"
+          ],
+          "last2_global": {
+            "ap": 0.8133441165073899,
+            "fpr": 0.04395604395604396,
+            "hard_bot_recall": 0.724907063197026,
+            "hard_fpr": 0.24175824175824176,
+            "positive_prediction_rate": 0.48154981549815495,
+            "recall_at_fpr05": 0.3754646840148699,
+            "reward": 0.7000570987293003,
+            "threshold_sanity_quality": 0.8424908424908425
+          },
+          "official_batch100": {
+            "ap": 0.8413401487246456,
+            "fpr": 0.03286673023644963,
+            "recall_at_fpr05": 0.45335357553386907,
+            "reward": 0.7401400820958784
+          }
+        },
+        "et": {
+          "ap_global": 0.8638695193753876,
+          "auc": 0.8547890847399143,
+          "last2_dates": [
+            "2026-07-07",
+            "2026-07-08"
+          ],
+          "last2_global": {
+            "ap": 0.8486546456177031,
+            "fpr": 0.04395604395604396,
+            "hard_bot_recall": 0.7286245353159851,
+            "hard_fpr": 0.23809523809523808,
+            "positive_prediction_rate": 0.48154981549815495,
+            "recall_at_fpr05": 0.5018587360594795,
+            "reward": 0.751555000752294,
+            "threshold_sanity_quality": 0.8465608465608466
+          },
+          "official_batch100": {
+            "ap": 0.8739522866367484,
+            "fpr": 0.03290280527252466,
+            "recall_at_fpr05": 0.5971570622094732,
+            "reward": 0.7975756546114207
+          }
+        },
+        "lgb": {
+          "ap_global": 0.8021867771519561,
+          "auc": 0.8106392155735113,
+          "last2_dates": [
+            "2026-07-07",
+            "2026-07-08"
+          ],
+          "last2_global": {
+            "ap": 0.7944167803340939,
+            "fpr": 0.04395604395604396,
+            "hard_bot_recall": 0.7211895910780669,
+            "hard_fpr": 0.2564102564102564,
+            "positive_prediction_rate": 0.4870848708487085,
+            "recall_at_fpr05": 0.3345724907063197,
+            "reward": 0.6762808681920767,
+            "threshold_sanity_quality": 0.8262108262108263
+          },
+          "official_batch100": {
+            "ap": 0.8150902019122884,
+            "fpr": 0.028449542485928545,
+            "recall_at_fpr05": 0.40170188147127356,
+            "reward": 0.7103975298111543
+          }
+        },
+        "rank_mean": {
+          "ap_global": 0.8391172609237141,
+          "auc": 0.8334071369008254,
+          "last2_dates": [
+            "2026-07-07",
+            "2026-07-08"
+          ],
+          "last2_global": {
+            "ap": 0.8268157035321853,
+            "fpr": 0.040293040293040296,
+            "hard_bot_recall": 0.7323420074349443,
+            "hard_fpr": 0.2783882783882784,
+            "positive_prediction_rate": 0.503690036900369,
+            "recall_at_fpr05": 0.40892193308550184,
+            "reward": 0.7025993166991559,
+            "threshold_sanity_quality": 0.8017908017908018
+          },
+          "official_batch100": {
+            "ap": 0.8461509037296401,
+            "fpr": 0.030487346335326595,
+            "recall_at_fpr05": 0.4960935267853507,
+            "reward": 0.7465188848737477
+          }
+        },
+        "stack": {
+          "ap_global": 0.8021363263898378,
+          "auc": 0.8146303591454123,
+          "last2_dates": [
+            "2026-07-07",
+            "2026-07-08"
+          ],
+          "last2_global": {
+            "ap": 0.7864466374346255,
+            "fpr": 0.047619047619047616,
+            "hard_bot_recall": 0.7211895910780669,
+            "hard_fpr": 0.2490842490842491,
+            "positive_prediction_rate": 0.4833948339483395,
+            "recall_at_fpr05": 0.27137546468401486,
+            "reward": 0.6569742128125737,
+            "threshold_sanity_quality": 0.8343508343508343
+          },
+          "official_batch100": {
+            "ap": 0.8237038072417755,
+            "fpr": 0.030846528216247608,
+            "recall_at_fpr05": 0.44620267611881864,
+            "reward": 0.7313732333770938
+          }
+        },
+        "xgb": {
+          "ap_global": 0.8190561934064018,
+          "auc": 0.8127325531241911,
+          "last2_dates": [
+            "2026-07-07",
+            "2026-07-08"
+          ],
+          "last2_global": {
+            "ap": 0.8075519882854374,
+            "fpr": 0.04395604395604396,
+            "hard_bot_recall": 0.7063197026022305,
+            "hard_fpr": 0.2783882783882784,
+            "positive_prediction_rate": 0.4907749077490775,
+            "recall_at_fpr05": 0.36059479553903345,
+            "reward": 0.6813588750988536,
+            "threshold_sanity_quality": 0.8017908017908018
+          },
+          "official_batch100": {
+            "ap": 0.8305995659561307,
+            "fpr": 0.024728202097921495,
+            "recall_at_fpr05": 0.42913314730924795,
+            "reward": 0.7236479972542252
+          }
+        }
+      },
+      "n_abs_features": 0,
+      "n_dropped_all_features": 676,
+      "n_dropped_name_features": 43,
+      "n_features": 385,
+      "stable_abs_ks_max": null,
+      "stable_all_ks_max": 0.5,
+      "stable_live_ks_mode": "max",
+      "top_dropped_abs_features": [],
+      "top_dropped_all_features": [
+        {
+          "key": "ent__e100_pot_frac_mean",
+          "ks": 1.0
+        },
+        {
+          "key": "ent__e101_pot_frac_std",
+          "ks": 1.0
+        },
+        {
+          "key": "ent__e102_pot_frac_p50",
+          "ks": 1.0
+        },
+        {
+          "key": "ent__e103_pot_frac_near_standard",
+          "ks": 1.0
+        },
+        {
+          "key": "ent__e105_pot_frac_near_pot",
+          "ks": 1.0
+        },
+        {
+          "key": "ent__e106_round_bet_distance_mean",
+          "ks": 1.0
+        },
+        {
+          "key": "ent__e107_round_bet_distance_max",
+          "ks": 1.0
+        },
+        {
+          "key": "ent__e108_round_bet_distance_p25",
+          "ks": 1.0
+        },
+        {
+          "key": "ent__e109_round_bet_distance_p75",
+          "ks": 1.0
+        },
+        {
+          "key": "ent__e110_round_bet_perfect_ratio",
+          "ks": 1.0
+        },
+        {
+          "key": "ent__e111_n_actions_per_hand_cv",
+          "ks": 1.0
+        },
+        {
+          "key": "ent__e114_pot_growth_per_hand_cv",
+          "ks": 1.0
+        },
+        {
+          "key": "ent__e117_aggression_per_hand_p90",
+          "ks": 1.0
+        },
+        {
+          "key": "ent__e132_growth_preflop_velocity",
+          "ks": 1.0
+        },
+        {
+          "key": "ent__e133_growth_flop_velocity",
+          "ks": 1.0
+        },
+        {
+          "key": "ent__e136_growth_preflop_std",
+          "ks": 1.0
+        },
+        {
+          "key": "ent__e137_growth_flop_std",
+          "ks": 1.0
+        },
+        {
+          "key": "ent__e138_growth_turn_std",
+          "ks": 1.0
+        },
+        {
+          "key": "ent__e140_bet_clusters_count",
+          "ks": 1.0
+        },
+        {
+          "key": "ent__e141_bet_top3_clusters_concentration",
+          "ks": 1.0
+        }
+      ],
+      "top_dropped_name_features": [
+        "ent__e127_short_stack_vpip",
+        "ent__e128_mid_stack_vpip",
+        "ent__e129_deep_stack_vpip",
+        "ent__e130_vpip_stack_bracket_std",
+        "ent__e131_vpip_stack_consistency",
+        "ext__pot_fft_dominant_freq",
+        "ext__pot_fft_spectral_centroid",
+        "ext__pot_fft_spectral_entropy",
+        "ext__pot_fft_spectral_rolloff",
+        "ext__pot_fft_top1_mag",
+        "ext__pot_fft_top2_mag",
+        "ext__pot_fft_top3_mag",
+        "ext__pot_fft_total_energy",
+        "ext__temporal_pot_growth_cv",
+        "schema__schema_amount_max_bb_min",
+        "schema__schema_amount_mean_bb_min",
+        "schema__schema_amount_q90_bb_min",
+        "schema__schema_amount_std_bb_min",
+        "schema__schema_blind_share_max",
+        "schema__schema_blind_share_mean",
+        "schema__schema_blind_share_min",
+        "schema__schema_blind_share_q10",
+        "schema__schema_blind_share_q50",
+        "schema__schema_blind_share_q90",
+        "schema__schema_blind_share_std",
+        "schema__schema_nonzero_amount_share_max",
+        "schema__schema_nonzero_amount_share_min",
+        "schema__schema_nonzero_amount_share_q90",
+        "schema__schema_nonzero_amount_share_std",
+        "schema__schema_pot_delta_mean_bb_min",
+        "schema__schema_pot_monotonic_rate_max",
+        "schema__schema_pot_monotonic_rate_mean",
+        "v13__h_amount_max_bb_min",
+        "v13__h_amount_mean_bb_min",
+        "v13__h_amount_std_bb_min",
+        "v13__h_nonzero_amount_share_iqr",
+        "v13__h_nonzero_amount_share_max",
+        "v13__h_nonzero_amount_share_min",
+        "v13__h_nonzero_amount_share_q90",
+        "v13__h_nonzero_amount_share_std"
+      ]
+    }
+  },
+  "created_at": "2026-07-08T16:19:52.733160+00:00",
+  "drop_key_substrings": [
+    "amount",
+    "pot",
+    "stack",
+    "blind",
+    "normalized_amount"
   ],
-  "created_at": "2026-07-08T11:22:43.108472+00:00",
-  "family": "v190_contract60_80_100_ks050_livesized",
-  "model_path": "data/models/v190_contract60_80_100_ks050_livesized/model.pkl",
-  "model_sha256": "b489c976af481c565b3d7da52564059c21a198c197f84b64adaec096dbd6063d",
-  "privacy_sanitized": true,
-  "public_staging_normalized": true,
-  "public_staging_normalized_at_utc": "2026-07-08T11:22:43Z",
-  "selection_notes": "Primary future candidate is v190_et_top2; v190_seg30_mean_et_top2 is an offensive segment-sensitive alternate. This staging does not authorize deployment.",
+  "hand_count": {
+    "max": 100.0,
+    "mean": 89.28057553956835,
+    "median": 90.0,
+    "min": 60.0,
+    "p25": 80.0,
+    "p75": 100.0
+  },
+  "live_abs_stability_source": {
+    "batch_size": 100,
+    "chunk_count": 300,
+    "fingerprint": "97d7d7b9fed3b7eef9f19aa8",
+    "mode": "recent_distinct_forward_payloads",
+    "record_count": 3,
+    "record_limit": 3,
+    "source_path": "/Users/krzysiekm/Desktop/SN126/Poker44-subnet/data/observations/live_forward/forward_v136_live_cat_top2.jsonl",
+    "sources": [
+      {
+        "batch_size": 100,
+        "chunks_used": 100,
+        "fingerprint": "da6972af14b716b7a05e4e21",
+        "source_path": "/Users/krzysiekm/Desktop/SN126/Poker44-subnet/data/observations/live_forward/forward_v118_seg35_seg35_mean_et_top2.jsonl",
+        "ts_utc": "2026-07-06T12:59:51Z",
+        "variant": "v118_seg35_seg35_mean_et_top2"
+      },
+      {
+        "batch_size": 100,
+        "chunks_used": 100,
+        "fingerprint": "eb6e67eb2ec1cc8acf955598",
+        "source_path": "/Users/krzysiekm/Desktop/SN126/Poker44-subnet/data/observations/live_forward/forward_v113_daily_seg35_mean_avg_top2.jsonl",
+        "ts_utc": "2026-07-07T13:09:00Z",
+        "variant": "v113_daily_seg35_mean_avg_top2"
+      },
+      {
+        "batch_size": 100,
+        "chunks_used": 100,
+        "fingerprint": "97d7d7b9fed3b7eef9f19aa8",
+        "source_path": "/Users/krzysiekm/Desktop/SN126/Poker44-subnet/data/observations/live_forward/forward_v136_live_cat_top2.jsonl",
+        "ts_utc": "2026-07-08T12:46:56Z",
+        "variant": "v136_live_cat_top2"
+      }
+    ],
+    "ts_utc": "2026-07-08T12:46:56Z"
+  },
+  "live_action_cap": {
+    "actions_removed": 0,
+    "hands_seen": 0,
+    "hands_trimmed": 0,
+    "max_actions_per_hand": 0
+  },
+  "live_forward_record_limit": 3,
+  "live_numeric_scale": {
+    "groups": {},
+    "mode": "none"
+  },
+  "merge_seeds": [
+    126,
+    2026,
+    8192,
+    9137,
+    14001
+  ],
+  "model_seed": 190,
+  "n_dates": 3,
+  "n_units": 834,
+  "pos": 415,
   "source_date_max": "2026-07-08",
-  "training_data_sources": [
-    "https://api.poker44.net/api/v1/benchmark",
-    "https://api.poker44.net/api/v1/benchmark/chunks?sourceDate=2026-07-08"
-  ],
-  "training_data_statement": "Model trained only on public Poker44 benchmark releaseVersion v1.13 through sourceDate 2026-07-08; training uses miner-visible hand/action payload fields, 60/80/100 live-shaped chunk contracts, max-8 actions-per-hand train/serve parity, and unlabeled miner-received forward-audit payloads only for train-live shape/KS feature filtering. No validator-private labels, wallets, hotkeys, IP addresses, or deployment logs were used for training.",
-  "version": "v190_contract60_80_100_ks050_20260708_102703"
+  "source_date_min": "2026-07-06",
+  "stable_abs_ks_max": null,
+  "stable_all_ks_max": 0.5,
+  "stable_live_ks_mode": "max",
+  "training_unit_contract_params": {
+    "max_hands": 100,
+    "min_hands": 60,
+    "target_hands": 80
+  }
 }
