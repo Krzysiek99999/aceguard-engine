@@ -1,0 +1,59 @@
+{
+  "benchmark_release_version": "v1.13",
+  "benchmark_source_date_max": "2026-07-08",
+  "benchmark_split": "",
+  "created_from_source_report": "data/models/v209_served_rankcap_sweep_ks055/20260708_201633/report.json",
+  "deployment_strategy": "et",
+  "drop_key_substrings": [
+    "amount",
+    "pot",
+    "stack",
+    "blind",
+    "normalized_amount"
+  ],
+  "family": "v209_served_rankcap_ks055",
+  "feature_mode": "batch_only",
+  "feature_set": "behav_ngram",
+  "live_forward_shape_use": "unlabeled shape/drift filtering only; no live labels",
+  "local_oof": {
+    "ap": 0.8901218162482161,
+    "fpr": 0.03247147331945358,
+    "hard_fpr": 0.0,
+    "last2_global_reward": 0.7770009878581252,
+    "raw_official_batch100_reward": 0.806455384671142,
+    "recall_at_fpr05": 0.607600761688812,
+    "served_rankcap_by_date_reward": {
+      "2026-07-06": 0.8227687641616368,
+      "2026-07-07": 0.8497415818264242,
+      "2026-07-08": 0.8770529878079264
+    },
+    "served_rankcap_reward": 0.8438228641935193,
+    "served_rankcap_top_n_selected_by_metric": 1
+  },
+  "lock_n": null,
+  "merge_seeds": [
+    126,
+    2026,
+    8192,
+    9137,
+    14001
+  ],
+  "model_path": "data/models/v209_served_rankcap_ks055/model.pkl",
+  "model_seed": 209,
+  "model_sha256": "06100a0a9b8caef08613f43d047ec093863ee0ad2f56b657618dad397947b3a4",
+  "n_units": 834,
+  "positive_units": 415,
+  "privacy_sanitized": true,
+  "public_staging_normalized": true,
+  "public_variant": "v209_et_top5",
+  "selected_model": "et",
+  "selection_metric": "served_rankcap",
+  "stable_all_ks_max": 0.55,
+  "stable_live_ks_mode": "max",
+  "training_data_sources": [
+    "https://api.poker44.net/api/v1/benchmark",
+    "https://api.poker44.net/api/v1/benchmark/chunks?sourceDate=2026-07-08"
+  ],
+  "training_data_statement": "Model trained only on public Poker44 benchmark releaseVersion v1.13 through sourceDate 2026-07-08; live-sized training uses 60/80/100 hand chunk contracts, served rank-cap official reward selection, max train/live KS<=0.55 shape gating, miner-visible payload fields only, and no validator-private labels.",
+  "version": "v209_served_rankcap_ks055_20260708_201633"
+}
