@@ -25,6 +25,7 @@ This file intentionally supports only the active public model families:
 - v184_<strategy>_top<N>
 - v193_<strategy>_top<N>
 - v190_<strategy>_top<N>
+- v200_<strategy>_top<N>
 
 Deployment secrets, wallet names, host details, audit logs, and private run
 scripts belong outside the public model repository.
@@ -259,6 +260,7 @@ def _variant_config(name: str) -> dict[str, Any]:
     v184_v11lock2_v181rest = False
     v193_v11lock1_v145rank_rest = False
     v190_contract60_80_100_ks050_livesized = False
+    v200_stackseq_last3 = False
     prefix = "v112_super_"
     if name.startswith("v113_daily_"):
         prefix = "v113_daily_"
@@ -337,6 +339,10 @@ def _variant_config(name: str) -> dict[str, Any]:
         prefix = "v190_"
         live_sized = True
         v190_contract60_80_100_ks050_livesized = True
+    elif name.startswith("v200_"):
+        prefix = "v200_"
+        live_sized = True
+        v200_stackseq_last3 = True
 
     if name.startswith(prefix):
         tail = name[len(prefix) :]
@@ -356,6 +362,11 @@ def _variant_config(name: str) -> dict[str, Any]:
             "xgb": "xgb",
             "stack": "stack",
             "avg": "avg",
+            "raw": "raw",
+            "precal": "raw",
+            "cal": "calibrated",
+            "calibrated": "calibrated",
+            "final": "final",
         }
         if strategy_part.startswith(("avg_no_", "avg_w", "blend_", "seg")) or strategy_part in {
             "v125_weighted",
@@ -370,6 +381,8 @@ def _variant_config(name: str) -> dict[str, Any]:
             if v193_v11lock1_v145rank_rest
             else "v190_contract60_80_100_ks050_livesized"
             if v190_contract60_80_100_ks050_livesized
+            else "v200_stackseq_last3"
+            if v200_stackseq_last3
             else "v183_v11lock1_v181rest"
             if v183_v11lock1_v181rest
             else "v181_actioncap8_livehand89_maxks075_fullheads"
@@ -420,6 +433,8 @@ def _variant_config(name: str) -> dict[str, Any]:
                     if v181_actioncap8_livehand89_maxks075_fullheads
                     else "Live-shaped behavioural n-gram ranker trained on public benchmark chunks with 60/80/100 chunk contracts, max-8 action parity, and worst-live-payload KS<=0.50 feature filtering."
                     if v190_contract60_80_100_ks050_livesized
+                    else "Stacked tree and chunk-sequence model trained on latest public benchmark releases with miner-visible payload fields only."
+                    if v200_stackseq_last3
                     else "v11 top-2 locked behavioural anchor with v181 segment ranker ordering the remaining chunks."
                     if v184_v11lock2_v181rest
                     else "v11 top-1 locked behavioural anchor with v145 human-corpus ranker ordering the remaining chunks."
@@ -474,6 +489,8 @@ def _variant_config(name: str) -> dict[str, Any]:
                 if v193_v11lock1_v145rank_rest
                 else "data/models/v190_contract60_80_100_ks050_livesized/model.pkl"
                 if v190_contract60_80_100_ks050_livesized
+                else "data/models/v200_stackseq_last3/model.pkl"
+                if v200_stackseq_last3
                 else "data/models/v183_v11lock1_v181rest/model.pkl"
                 if v183_v11lock1_v181rest
                 else "data/models/v181_actioncap8_livehand89_maxks075_noidentity_fullheads/model.pkl"
@@ -619,6 +636,7 @@ class Miner(BaseMinerNeuron):
             "v184_v11lock2_v181rest",
             "v193_v11lock1_v145rank_rest",
             "v190_contract60_80_100_ks050_livesized",
+            "v200_stackseq_last3",
         }:
             files.extend(
                 [
@@ -711,6 +729,22 @@ class Miner(BaseMinerNeuron):
                     / "v190_contract60_80_100_ks050_livesized"
                     / "report.json"
                 )
+            if family == "v200_stackseq_last3":
+                files.extend(
+                    [
+                        REPO_ROOT / "poker44_ml" / "__init__.py",
+                        REPO_ROOT / "poker44_ml" / "features.py",
+                        REPO_ROOT / "poker44_ml" / "inference.py",
+                        REPO_ROOT / "poker44_ml" / "stacked.py",
+                        REPO_ROOT / "poker44_ml" / "sequence_model.py",
+                        REPO_ROOT / "poker44_ml" / "calibration.py",
+                        REPO_ROOT
+                        / "data"
+                        / "models"
+                        / "v200_stackseq_last3"
+                        / "report.json",
+                    ]
+                )
         return [path for path in files if path.exists()]
 
     def _build_manifest(self) -> dict[str, Any]:
@@ -737,6 +771,7 @@ class Miner(BaseMinerNeuron):
             "v184_v11lock2_v181rest",
             "v193_v11lock1_v145rank_rest",
             "v190_contract60_80_100_ks050_livesized",
+            "v200_stackseq_last3",
         }:
             if family == "v142_rankblend":
                 training_statement = (
@@ -822,6 +857,16 @@ class Miner(BaseMinerNeuron):
                     "filtering. No validator-private labels, wallets, hotkeys, IP "
                     "addresses, or deployment logs were used for training."
                 )
+            elif family == "v200_stackseq_last3":
+                training_statement = (
+                    "Model trained only on public Poker44 benchmark releaseVersion v1.13 "
+                    "through sourceDate 2026-07-08 using miner-visible hand/action payload "
+                    "fields only. It is a stacked ensemble of tree learners and a CPU "
+                    "chunk-sequence learner trained on the latest public releases with "
+                    "2026-07-08 held out for reporting. No validator-private labels, "
+                    "wallets, hotkeys, IP addresses, deployment logs, or private player "
+                    "data were used for training."
+                )
             elif family == "v140_multi":
                 training_statement = (
                     "Model trained only on public Poker44 benchmark releaseVersion v1.13 "
@@ -850,7 +895,7 @@ class Miner(BaseMinerNeuron):
                     "Model trained on public Poker44 benchmark releases using "
                     "miner-visible payload views only."
                 )
-            framework = "python+scikit-learn"
+            framework = "python+scikit-learn+torch" if family == "v200_stackseq_last3" else "python+scikit-learn"
         else:
             training_statement = (
                 "Deterministic behavioral scorer using miner-visible hand-history fields only."
@@ -884,6 +929,7 @@ class Miner(BaseMinerNeuron):
                         "v184_v11lock2_v181rest",
                         "v193_v11lock1_v145rank_rest",
                         "v190_contract60_80_100_ks050_livesized",
+                        "v200_stackseq_last3",
                     }
                     else
                     [
@@ -955,7 +1001,50 @@ class Miner(BaseMinerNeuron):
             manifest["training_refresh"] = "v11_top1_lock_v145_human_rank_rest_candidate_2026-07-08"
         if family == "v190_contract60_80_100_ks050_livesized":
             manifest["training_refresh"] = "contract60_80_100_ks050_livesized_candidate_2026-07-08"
+        if family == "v200_stackseq_last3":
+            manifest["training_refresh"] = "stackseq_last3_public_benchmark_candidate_2026-07-08"
         return manifest
+
+    def _score_stackseq_model(self, chunks: list[list[dict[str, Any]]]) -> list[float]:
+        from poker44.score.rank_cap_remap import rank_cap_remap
+        from poker44_ml.inference import Poker44Model
+
+        model_file = os.getenv(
+            "POKER44_V200_MODEL_PATH",
+            str(REPO_ROOT / self.variant_cfg["model_file"]),
+        )
+        model_path = Path(model_file)
+        if not model_path.exists():
+            bt.logging.error(f"{self.variant_cfg['family']} model missing: {model_path}")
+            return [0.49 for _ in chunks]
+
+        cache = getattr(self, "_stackseq_model_cache", {})
+        mtime = model_path.stat().st_mtime
+        cached = cache.get(str(model_path))
+        if cached is None or cached[0] != mtime:
+            cache[str(model_path)] = (mtime, Poker44Model(model_path))
+            self._stackseq_model_cache = cache
+        model = cache[str(model_path)][1]
+
+        strategy = str(self.variant_cfg.get("strategy", "final")).strip().lower()
+        if strategy in {"raw", "precal"}:
+            raw_scores = model.debug_score_components(chunks).get("raw_scores", [])
+        elif strategy in {"cal", "calibrated"}:
+            raw_scores = model.debug_score_components(chunks).get("calibrated_scores", [])
+        else:
+            raw_scores = model.predict_chunk_scores(chunks)
+        self._last_raw_scores = [float(v) for v in raw_scores]
+        top_n = _env_int("POKER44_MAX_N", self.variant_cfg["default_top_n"])
+        scores = rank_cap_remap(raw_scores, top_n)
+        try:
+            bt.logging.info(
+                f"{self.variant_cfg['family']} top_n={top_n} "
+                f"raw_std={float(np.std(raw_scores)):.4f} "
+                f"positives={sum(1 for v in scores if v >= 0.5)}/{len(scores)}"
+            )
+        except Exception:
+            pass
+        return [round(float(v), 6) for v in scores]
 
     def _score_v5(self, chunks: list[list[dict[str, Any]]]) -> list[float]:
         from poker44.score.calibration import rank_based_calibrate
@@ -1051,6 +1140,8 @@ class Miner(BaseMinerNeuron):
             env_name = "POKER44_V193_MODEL_PATH"
         elif self.variant_cfg["family"] == "v190_contract60_80_100_ks050_livesized":
             env_name = "POKER44_V190_MODEL_PATH"
+        elif self.variant_cfg["family"] == "v200_stackseq_last3":
+            return self._score_stackseq_model(chunks)
         else:
             env_name = "POKER44_V112_SUPER_MODEL_PATH"
         model_file = os.getenv(env_name, str(REPO_ROOT / self.variant_cfg["model_file"]))
@@ -1115,6 +1206,7 @@ class Miner(BaseMinerNeuron):
                 "v184_v11lock2_v181rest",
                 "v193_v11lock1_v145rank_rest",
                 "v190_contract60_80_100_ks050_livesized",
+                "v200_stackseq_last3",
             }:
                 scores = self._score_schema_model(chunks)
             else:
