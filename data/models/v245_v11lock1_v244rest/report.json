@@ -1,0 +1,17 @@
+{
+  "created_at": "2026-07-09T17:19:49.550592+00:00",
+  "family": "v160_toplock",
+  "lock_n": 1,
+  "model_path": "data/models/v245_v11lock1_v244rest/model.pkl",
+  "model_sha256": "c2070ec44a9de82cfd07bdd6eb539419162e7d832099a8e39ca8212cec3da5fb",
+  "privacy_sanitized": true,
+  "public_staging_normalized": true,
+  "rest_child": {
+    "name": "v244_clean_restart_schema",
+    "sha256": "d2bdc5ef59044c33d01ef6b6edc55cab8cac55cc69d472ee41b953a76eed79ca",
+    "strategy": "rank_mean",
+    "weight": 1.0
+  },
+  "training_data_statement": "v11 deterministic public scorer plus v244_clean_restart_schema trained on Poker44 public benchmark releases through 2026-07-09; no validator-private labels, wallets, hotkeys, IP addresses, or deployment logs were used for training.",
+  "version": "v245_v11lock1_v244rest_20260709_171947"
+}
