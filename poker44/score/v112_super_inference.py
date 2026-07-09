@@ -64,6 +64,18 @@ def _cap_actions_per_hand(
     return capped_chunks
 
 
+def _v11_feature_dict(chunk: list[dict[str, Any]]) -> dict[str, float]:
+    from poker44.score.ensemble_v11 import score_chunk_v11
+
+    score, telemetry, chunk_type = score_chunk_v11(chunk)
+    out = {"v11__score": float(score)}
+    for key, value in telemetry.items():
+        out[f"v11__{key}"] = float(value)
+    for name in ("short", "mixed", "long"):
+        out[f"v11__type_{name}"] = 1.0 if str(chunk_type) == name else 0.0
+    return out
+
+
 def _feature_dict(chunk: list[dict[str, Any]], feature_set: str) -> dict[str, float]:
     if feature_set == "v25":
         return {f"v25__{k}": float(v) for k, v in v25_features(chunk).items()}
@@ -80,7 +92,16 @@ def _feature_dict(chunk: list[dict[str, Any]], feature_set: str) -> dict[str, fl
         out.update({f"v25__{k}": float(v) for k, v in v25_features(chunk).items()})
         out.update({f"seq__{k}": float(v) for k, v in sequence_features(chunk).items()})
         return out
-    if feature_set in {"behav_mix", "v131", "behav_ngram", "v132", "behav_ngram_response", "v157"}:
+    if feature_set in {
+        "behav_mix",
+        "v131",
+        "behav_ngram",
+        "v132",
+        "behav_ngram_response",
+        "v157",
+        "behav_mix_v11",
+        "v234",
+    }:
         from poker44.score.enterprise_features import compute_enterprise_features
         from poker44.score.extended_features import compute_extended_features
         from poker44.score.features_pot_geometry import extract_pot_geometry_features
@@ -100,6 +121,8 @@ def _feature_dict(chunk: list[dict[str, Any]], feature_set: str) -> dict[str, fl
             out.update(
                 {f"resp__{k}": float(v) for k, v in extract_response_curve_features(chunk).items()}
             )
+        if feature_set in {"behav_mix_v11", "v234"}:
+            out.update(_v11_feature_dict(chunk))
         return out
     raise ValueError(f"unknown feature_set={feature_set}")
 
@@ -182,6 +205,34 @@ def _rank01(values: Sequence[float]) -> np.ndarray:
     if arr.size == 0:
         return arr
     return rankdata(arr, method="average") / max(len(arr), 1)
+
+
+def _shape_scores(values: Sequence[float], config: dict[str, Any]) -> np.ndarray:
+    """Monotone score head that moves the fixed 0.5 cutoff."""
+    arr = np.asarray(values, dtype=float)
+    if arr.size == 0:
+        return arr
+    threshold = float(config.get("threshold", config.get("t_star", 0.5)))
+    threshold = float(np.clip(threshold, 1e-6, 1.0 - 1e-6))
+    sharpness = float(config.get("sharpness", 14.0))
+    clipped = np.clip(arr, 0.0, 1.0)
+    core = 1.0 / (1.0 + np.exp(-np.clip(sharpness * (clipped - threshold), -60.0, 60.0)))
+    shaped = 0.998 * core + 0.002 * clipped
+    return np.clip(shaped, 0.0, 1.0)
+
+
+def _rank_ladder_scores(values: Sequence[float]) -> list[float]:
+    arr = np.asarray(values, dtype=float)
+    if arr.size == 0:
+        return []
+    order = np.argsort(-arr, kind="mergesort")
+    out = np.zeros(arr.size, dtype=float)
+    if arr.size == 1:
+        out[int(order[0])] = 0.75
+        return [float(v) for v in out]
+    for rank, idx in enumerate(order):
+        out[int(idx)] = 0.95 - (rank / (arr.size - 1)) * 0.90
+    return [float(np.clip(v, 0.0, 1.0)) for v in out]
 
 
 def _score_child(
@@ -371,6 +422,10 @@ def score_chunks(
     if not chunks:
         return []
     strategy = (strategy or "rank_mean").lower()
+    if strategy.startswith("ladder_"):
+        base_strategy = strategy.removeprefix("ladder_") or "rank_mean"
+        raw = score_chunks(chunks, bundle, strategy=base_strategy)
+        return _rank_ladder_scores(raw)
     segment = _parse_segment_strategy(strategy)
     if segment is not None:
         segment_size, aggregate_mode, inner_strategy = segment
@@ -412,6 +467,15 @@ def score_chunks(
         return _score_toplock_children(original_chunks, bundle)
     if bundle.get("blend_children"):
         return _score_blend_children(original_chunks, bundle)
+    score_shapes = bundle.get("score_shapes_by_strategy") or {}
+    if strategy in score_shapes:
+        config = dict(score_shapes[strategy] or {})
+        base_strategy = str(config.get("base_strategy") or "").lower()
+        if not base_strategy or base_strategy == strategy:
+            raise ValueError(f"invalid shaped strategy base for {strategy}")
+        raw = score_chunks(original_chunks, bundle, strategy=base_strategy)
+        shaped = _shape_scores(raw, config)
+        return [float(v) for v in shaped]
 
     X = _build_x(original_chunks, bundle)
     models = bundle["models"]

@@ -31,6 +31,10 @@ This file intentionally supports only the active public model families:
 - v218_<strategy>_top<N>
 - v219_rebuilt_superv2_top<N>
 - v220_v11lock2_v219rest_top<N>
+- v223_<strategy>_top<N>
+- v228_<strategy>_top<N>
+- v234_<strategy>_top<N>
+- v237_<strategy>_top<N>
 - v200_<strategy>_top<N>
 
 Deployment secrets, wallet names, host details, audit logs, and private run
@@ -272,6 +276,11 @@ def _variant_config(name: str) -> dict[str, Any]:
     v218_withinbatch_behav = False
     v219_rebuilt_superv2 = False
     v220_v11lock2_v219rest = False
+    v221_v11lock2_nightlyrest = False
+    v223_withinbatch_behav_refresh = False
+    v228_shaped_v223 = False
+    v234_behav_mix_v11 = False
+    v237_v11lock1_v234rest = False
     v200_stackseq_last3 = False
     v201_stackseq_wide8 = False
     prefix = "v112_super_"
@@ -376,6 +385,26 @@ def _variant_config(name: str) -> dict[str, Any]:
         prefix = "v220_"
         live_sized = True
         v220_v11lock2_v219rest = True
+    elif name.startswith("v221_"):
+        prefix = "v221_"
+        live_sized = True
+        v221_v11lock2_nightlyrest = True
+    elif name.startswith("v223_"):
+        prefix = "v223_"
+        live_sized = True
+        v223_withinbatch_behav_refresh = True
+    elif name.startswith("v228_"):
+        prefix = "v228_"
+        live_sized = True
+        v228_shaped_v223 = True
+    elif name.startswith("v234_"):
+        prefix = "v234_"
+        live_sized = True
+        v234_behav_mix_v11 = True
+    elif name.startswith("v237_"):
+        prefix = "v237_"
+        live_sized = True
+        v237_v11lock1_v234rest = True
     elif name.startswith("v200_"):
         prefix = "v200_"
         live_sized = True
@@ -402,6 +431,10 @@ def _variant_config(name: str) -> dict[str, Any]:
             "linear": "linear",
             "xgb": "xgb",
             "stack": "stack",
+            "cat_shape": "cat_shape",
+            "lgb_shape": "lgb_shape",
+            "xgb_shape": "xgb_shape",
+            "et_shape": "et_shape",
             "avg": "avg",
             "raw": "raw",
             "precal": "raw",
@@ -409,7 +442,7 @@ def _variant_config(name: str) -> dict[str, Any]:
             "calibrated": "calibrated",
             "final": "final",
         }
-        if strategy_part.startswith(("avg_no_", "avg_w", "blend_", "seg")) or strategy_part in {
+        if strategy_part.startswith(("avg_no_", "avg_w", "blend_", "seg", "ladder_")) or strategy_part in {
             "v125_weighted",
         }:
             strategy = strategy_part
@@ -434,6 +467,16 @@ def _variant_config(name: str) -> dict[str, Any]:
             if v219_rebuilt_superv2
             else "v220_v11lock2_v219rest"
             if v220_v11lock2_v219rest
+            else "v221_v11lock2_nightlyrest"
+            if v221_v11lock2_nightlyrest
+            else "v223_withinbatch_behav_refresh"
+            if v223_withinbatch_behav_refresh
+            else "v228_shaped_v223"
+            if v228_shaped_v223
+            else "v234_behav_mix_v11"
+            if v234_behav_mix_v11
+            else "v237_v11lock1_v234rest"
+            if v237_v11lock1_v234rest
             else "v200_stackseq_last3"
             if v200_stackseq_last3
             else "v201_stackseq_wide8"
@@ -500,6 +543,16 @@ def _variant_config(name: str) -> dict[str, Any]:
                     if v219_rebuilt_superv2
                     else "v11 top-2 locked behavioural anchor with rebuilt super-v2 ranking the remaining chunks."
                     if v220_v11lock2_v219rest
+                    else "v11 top-2 locked behavioural anchor with the 2026-07-09 super-sequence stack ranking the remaining chunks."
+                    if v221_v11lock2_nightlyrest
+                    else "Daily refreshed within-batch behavioural ranker trained on public benchmark v1.13 live-sized units through 2026-07-09 and selected by served rank-cap reward."
+                    if v223_withinbatch_behav_refresh
+                    else "Daily refreshed within-batch behavioural ranker with a monotone shaped score head for the validator's fixed 0.5 cutoff."
+                    if v228_shaped_v223
+                    else "Daily refreshed within-batch behavioural ranker augmented with deterministic v11 telemetry features and served through a rank-ladder strategy selected by live-sized stress robustness."
+                    if v234_behav_mix_v11
+                    else "v11 top-1 locked behavioural anchor with v234 behavioural telemetry rank-ladder ordering the remaining chunks."
+                    if v237_v11lock1_v234rest
                     else "Wider stacked tree and chunk-sequence model trained on latest public benchmark releases with miner-visible payload fields only."
                     if v201_stackseq_wide8
                     else "Stacked tree and chunk-sequence model trained on latest public benchmark releases with miner-visible payload fields only."
@@ -570,6 +623,16 @@ def _variant_config(name: str) -> dict[str, Any]:
                 if v219_rebuilt_superv2
                 else "data/models/v219_rebuilt_superv2/model.joblib"
                 if v220_v11lock2_v219rest
+                else "data/models/v221_v11lock2_nightlyrest/model.pkl"
+                if v221_v11lock2_nightlyrest
+                else "data/models/v223_withinbatch_behav_refresh/model.pkl"
+                if v223_withinbatch_behav_refresh
+                else "data/models/v228_shaped_v223/model.pkl"
+                if v228_shaped_v223
+                else "data/models/v234_behav_mix_v11_shaped/model.pkl"
+                if v234_behav_mix_v11
+                else "data/models/v237_v11lock1_v234rest/model.pkl"
+                if v237_v11lock1_v234rest
                 else "data/models/v200_stackseq_last3/model.pkl"
                 if v200_stackseq_last3
                 else "data/models/v201_stackseq_wide8/model.pkl"
@@ -725,6 +788,11 @@ class Miner(BaseMinerNeuron):
             "v218_withinbatch_behav",
             "v219_rebuilt_superv2",
             "v220_v11lock2_v219rest",
+            "v221_v11lock2_nightlyrest",
+            "v223_withinbatch_behav_refresh",
+            "v228_shaped_v223",
+            "v234_behav_mix_v11",
+            "v237_v11lock1_v234rest",
             "v200_stackseq_last3",
             "v201_stackseq_wide8",
         }:
@@ -884,6 +952,69 @@ class Miner(BaseMinerNeuron):
                         REPO_ROOT / "data" / "models" / "v219_rebuilt_superv2" / "report.json",
                     ]
                 )
+            if family == "v221_v11lock2_nightlyrest":
+                files.extend(
+                    [
+                        REPO_ROOT / "poker44" / "score" / "ensemble_v11.py",
+                        REPO_ROOT / "poker44" / "score" / "statistical_v5.py",
+                        REPO_ROOT / "poker44" / "score" / "statistical_v6.py",
+                        REPO_ROOT / "poker44" / "score" / "statistical_v9.py",
+                        REPO_ROOT / "poker44" / "score" / "sequence_v8.py",
+                        REPO_ROOT / "poker44" / "score" / "sequence_v8_markov.py",
+                        REPO_ROOT / "poker44" / "score" / "features_response_curves.py",
+                        REPO_ROOT / "data" / "models" / "v221_v11lock2_nightlyrest" / "report.json",
+                    ]
+                )
+            if family == "v223_withinbatch_behav_refresh":
+                files.append(
+                    REPO_ROOT
+                    / "data"
+                    / "models"
+                    / "v223_withinbatch_behav_refresh"
+                    / "report.json"
+                )
+            if family == "v228_shaped_v223":
+                files.append(
+                    REPO_ROOT
+                    / "data"
+                    / "models"
+                    / "v228_shaped_v223"
+                    / "report.json"
+                )
+            if family == "v234_behav_mix_v11":
+                files.extend(
+                    [
+                        REPO_ROOT / "poker44" / "score" / "ensemble_v11.py",
+                        REPO_ROOT / "poker44" / "score" / "statistical_v5.py",
+                        REPO_ROOT / "poker44" / "score" / "statistical_v6.py",
+                        REPO_ROOT / "poker44" / "score" / "statistical_v9.py",
+                        REPO_ROOT / "poker44" / "score" / "sequence_v8.py",
+                        REPO_ROOT / "poker44" / "score" / "sequence_v8_markov.py",
+                        REPO_ROOT / "poker44" / "score" / "features_response_curves.py",
+                        REPO_ROOT
+                        / "data"
+                        / "models"
+                        / "v234_behav_mix_v11_shaped"
+                        / "report.json",
+                    ]
+                )
+            if family == "v237_v11lock1_v234rest":
+                files.extend(
+                    [
+                        REPO_ROOT / "poker44" / "score" / "ensemble_v11.py",
+                        REPO_ROOT / "poker44" / "score" / "statistical_v5.py",
+                        REPO_ROOT / "poker44" / "score" / "statistical_v6.py",
+                        REPO_ROOT / "poker44" / "score" / "statistical_v9.py",
+                        REPO_ROOT / "poker44" / "score" / "sequence_v8.py",
+                        REPO_ROOT / "poker44" / "score" / "sequence_v8_markov.py",
+                        REPO_ROOT / "poker44" / "score" / "features_response_curves.py",
+                        REPO_ROOT
+                        / "data"
+                        / "models"
+                        / "v237_v11lock1_v234rest"
+                        / "report.json",
+                    ]
+                )
             if family in {"v200_stackseq_last3", "v201_stackseq_wide8"}:
                 files.extend(
                     [
@@ -932,6 +1063,7 @@ class Miner(BaseMinerNeuron):
             "v218_withinbatch_behav",
             "v219_rebuilt_superv2",
             "v220_v11lock2_v219rest",
+            "v223_withinbatch_behav_refresh",
             "v200_stackseq_last3",
             "v201_stackseq_wide8",
         }:
@@ -1082,6 +1214,63 @@ class Miner(BaseMinerNeuron):
                     "labels, wallets, hotkeys, IP addresses, deployment logs, or private "
                     "player data were used for training."
                 )
+            elif family == "v221_v11lock2_nightlyrest":
+                training_statement = (
+                    "Model combines the deterministic public v11 behavioural scorer with "
+                    "a supervised super-sequence stack. The served ranker locks the v11 "
+                    "top-2 picks and orders the remaining chunks with the super-sequence "
+                    "stack trained only on Poker44 public benchmark releaseVersion v1.13 "
+                    "through sourceDate 2026-07-09 using miner-visible hand/action payload "
+                    "fields. Unlabeled miner-received forward-audit payloads were used only "
+                    "for train/serve shape and topology checks. No validator-private labels, "
+                    "wallets, hotkeys, IP addresses, deployment logs, or private player data "
+                    "were used for training."
+                )
+            elif family == "v223_withinbatch_behav_refresh":
+                training_statement = (
+                    "Model trained only on public Poker44 benchmark releaseVersion v1.13 "
+                    "through sourceDate 2026-07-09 using miner-visible hand/action payload "
+                    "fields only. Training builds live-sized 70-110 hand same-date/same-label "
+                    "units across multiple merge seeds, uses within-batch behavioural "
+                    "features, selects by served rank-cap official reward on batch100 LODO, "
+                    "and uses unlabeled miner-received forward-audit payloads only for "
+                    "train-live shape and drift checks. No validator-private labels, "
+                    "wallets, hotkeys, IP addresses, deployment logs, or private player data "
+                    "were used for training."
+                )
+            elif family == "v228_shaped_v223":
+                training_statement = (
+                    "Model trained only on public Poker44 benchmark releaseVersion v1.13 "
+                    "through sourceDate 2026-07-09 using miner-visible hand/action payload "
+                    "fields only. It reuses the within-batch behavioural ranker family and "
+                    "adds a monotone score-shaping head selected on public benchmark replay "
+                    "to preserve ordering while exposing more chunks above the validator's "
+                    "fixed 0.5 threshold. Unlabeled miner-received forward-audit payloads "
+                    "were used only for score-shape and train-live topology checks. No "
+                    "validator-private labels, wallets, hotkeys, IP addresses, deployment "
+                    "logs, or private player data were used for training."
+                )
+            elif family == "v234_behav_mix_v11":
+                training_statement = (
+                    "Model trained only on public Poker44 benchmark releaseVersion v1.13 "
+                    "through sourceDate 2026-07-09 using miner-visible hand/action payload "
+                    "fields only. It augments the within-batch behavioural ranker with "
+                    "deterministic v11 behavioural telemetry features, then serves a "
+                    "rank-ladder over the rank_mean head through rank-cap top5. Unlabeled miner-received forward-audit "
+                    "payloads were used only for train-live topology and shape checks. No "
+                    "validator-private labels, wallets, hotkeys, IP addresses, deployment "
+                    "logs, or private player data were used for training."
+                )
+            elif family == "v237_v11lock1_v234rest":
+                training_statement = (
+                    "Model combines deterministic public v11 top-1 locking with a v234 "
+                    "rest-ranking child trained only on public Poker44 benchmark releaseVersion "
+                    "v1.13 through sourceDate 2026-07-09 using miner-visible hand/action payload "
+                    "fields only. Unlabeled miner-received forward-audit payloads were used only "
+                    "for train-live topology and shape checks. No validator-private labels, "
+                    "wallets, hotkeys, IP addresses, deployment logs, or private player data were "
+                    "used for training."
+                )
             elif family == "v200_stackseq_last3":
                 training_statement = (
                     "Model trained only on public Poker44 benchmark releaseVersion v1.13 "
@@ -1179,6 +1368,15 @@ class Miner(BaseMinerNeuron):
                     else
                     [
                         "https://api.poker44.net/api/v1/benchmark",
+                        "https://api.poker44.net/api/v1/benchmark/chunks?sourceDate=2026-07-09",
+                    ]
+                    if family in {"v221_v11lock2_nightlyrest", "v223_withinbatch_behav_refresh"}
+                    or family == "v228_shaped_v223"
+                    or family == "v234_behav_mix_v11"
+                    or family == "v237_v11lock1_v234rest"
+                    else
+                    [
+                        "https://api.poker44.net/api/v1/benchmark",
                         "https://api.poker44.net/api/v1/benchmark/chunks?sourceDate=2026-07-07",
                     ]
                     if family in {"v136_live", "v140_multi", "v142_rankblend"}
@@ -1258,6 +1456,16 @@ class Miner(BaseMinerNeuron):
             manifest["training_refresh"] = "rebuilt_superv2_public_v113_candidate_2026-07-08"
         if family == "v220_v11lock2_v219rest":
             manifest["training_refresh"] = "v11_top2_lock_rebuilt_superv2_rest_candidate_2026-07-08"
+        if family == "v221_v11lock2_nightlyrest":
+            manifest["training_refresh"] = "v11_top2_lock_superseq_rest_candidate_2026-07-09"
+        if family == "v223_withinbatch_behav_refresh":
+            manifest["training_refresh"] = "withinbatch_behav_refresh_batch100_candidate_2026-07-09"
+        if family == "v228_shaped_v223":
+            manifest["training_refresh"] = "withinbatch_behav_shaped_cutoff_candidate_2026-07-09"
+        if family == "v234_behav_mix_v11":
+            manifest["training_refresh"] = "behav_mix_v11_live_sized_candidate_2026-07-09"
+        if family == "v237_v11lock1_v234rest":
+            manifest["training_refresh"] = "v11lock1_v234rest_candidate_2026-07-09"
         if family == "v200_stackseq_last3":
             manifest["training_refresh"] = "stackseq_last3_public_benchmark_candidate_2026-07-08"
         if family == "v201_stackseq_wide8":
@@ -1479,6 +1687,14 @@ class Miner(BaseMinerNeuron):
             env_name = "POKER44_V217_MODEL_PATH"
         elif self.variant_cfg["family"] == "v218_withinbatch_behav":
             env_name = "POKER44_V218_MODEL_PATH"
+        elif self.variant_cfg["family"] == "v223_withinbatch_behav_refresh":
+            env_name = "POKER44_V223_MODEL_PATH"
+        elif self.variant_cfg["family"] == "v228_shaped_v223":
+            env_name = "POKER44_V228_MODEL_PATH"
+        elif self.variant_cfg["family"] == "v234_behav_mix_v11":
+            env_name = "POKER44_V234_MODEL_PATH"
+        elif self.variant_cfg["family"] == "v237_v11lock1_v234rest":
+            env_name = "POKER44_V237_MODEL_PATH"
         elif self.variant_cfg["family"] in {"v200_stackseq_last3", "v201_stackseq_wide8"}:
             return self._score_stackseq_model(chunks)
         else:
@@ -1493,7 +1709,10 @@ class Miner(BaseMinerNeuron):
         raw_scores = score_from_file(chunks, model_path, strategy=strategy)
         self._last_raw_scores = [float(v) for v in raw_scores]
         top_n = _env_int("POKER44_MAX_N", self.variant_cfg["default_top_n"])
-        scores = rank_cap_remap(raw_scores, top_n)
+        if self.variant_cfg["family"] == "v228_shaped_v223":
+            scores = [float(np.clip(v, 0.0, 1.0)) for v in raw_scores]
+        else:
+            scores = rank_cap_remap(raw_scores, top_n)
         try:
             bt.logging.info(
                 f"{self.variant_cfg['family']} strategy={strategy} top_n={top_n} "
@@ -1551,6 +1770,11 @@ class Miner(BaseMinerNeuron):
                 "v218_withinbatch_behav",
                 "v219_rebuilt_superv2",
                 "v220_v11lock2_v219rest",
+                "v221_v11lock2_nightlyrest",
+                "v223_withinbatch_behav_refresh",
+                "v228_shaped_v223",
+                "v234_behav_mix_v11",
+                "v237_v11lock1_v234rest",
                 "v200_stackseq_last3",
                 "v201_stackseq_wide8",
             }:

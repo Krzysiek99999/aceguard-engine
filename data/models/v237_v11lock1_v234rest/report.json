@@ -1,0 +1,15 @@
+{
+  "created_at": "2026-07-09T14:23:55.506060+00:00",
+  "family": "v160_toplock",
+  "lock_n": 1,
+  "model_path": "data/models/v237_v11lock1_v234rest/model.pkl",
+  "model_sha256": "d3cce107c8d07cdf2d6f371e8633cedadd08e55969980b9077ca171c044676f3",
+  "rest_child": {
+    "name": "v234_behav_mix_v11",
+    "sha256": "64b184e35c3c09db0b4d95fd152460acb5794a3b3f0f6fcee73f4f16522bc45c",
+    "strategy": "ladder_rank_mean",
+    "weight": 1.0
+  },
+  "training_data_statement": "v11 deterministic public scorer plus v234_behav_mix_v11 trained on Poker44 public benchmark releases through 2026-07-09; no validator-private labels, wallets, hotkeys, IP addresses, or deployment logs were used for training.",
+  "version": "v237_v11lock1_v234rest_20260709_142353"
+}
