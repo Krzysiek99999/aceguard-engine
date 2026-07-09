@@ -36,6 +36,7 @@ This file intentionally supports only the active public model families:
 - v234_<strategy>_top<N>
 - v237_<strategy>_top<N>
 - v241_<strategy>_top<N>
+- v248_<strategy>_top<N>
 - v200_<strategy>_top<N>
 
 Deployment secrets, wallet names, host details, audit logs, and private run
@@ -284,6 +285,8 @@ def _variant_config(name: str) -> dict[str, Any]:
     v237_v11lock1_v234rest = False
     v241_v11lock1_v118rest = False
     v245_v11lock1_v244rest = False
+    v248_batchrank_schema = False
+    v249_batchrank_behavmix_v11 = False
     v200_stackseq_last3 = False
     v201_stackseq_wide8 = False
     prefix = "v112_super_"
@@ -416,6 +419,14 @@ def _variant_config(name: str) -> dict[str, Any]:
         prefix = "v245_"
         live_sized = True
         v245_v11lock1_v244rest = True
+    elif name.startswith("v248_"):
+        prefix = "v248_"
+        live_sized = True
+        v248_batchrank_schema = True
+    elif name.startswith("v249_"):
+        prefix = "v249_"
+        live_sized = True
+        v249_batchrank_behavmix_v11 = True
     elif name.startswith("v200_"):
         prefix = "v200_"
         live_sized = True
@@ -492,6 +503,10 @@ def _variant_config(name: str) -> dict[str, Any]:
             if v241_v11lock1_v118rest
             else "v245_v11lock1_v244rest"
             if v245_v11lock1_v244rest
+            else "v248_batchrank_schema"
+            if v248_batchrank_schema
+            else "v249_batchrank_behavmix_v11"
+            if v249_batchrank_behavmix_v11
             else "v200_stackseq_last3"
             if v200_stackseq_last3
             else "v201_stackseq_wide8"
@@ -572,6 +587,10 @@ def _variant_config(name: str) -> dict[str, Any]:
                     if v241_v11lock1_v118rest
                     else "v11 top-1 locked behavioural anchor with the v244 clean-restart schema ranker ordering the remaining chunks."
                     if v245_v11lock1_v244rest
+                    else "Within-batch feature-rank schema ensemble trained on public v1.13 benchmark chunks with the same 100-chunk batch-rank transform at serve time."
+                    if v248_batchrank_schema
+                    else "Batch-rank behav-mix-v11 schema ensemble trained on public benchmark chunks with the same 100-chunk batch-rank transform at serve time."
+                    if v249_batchrank_behavmix_v11
                     else "Wider stacked tree and chunk-sequence model trained on latest public benchmark releases with miner-visible payload fields only."
                     if v201_stackseq_wide8
                     else "Stacked tree and chunk-sequence model trained on latest public benchmark releases with miner-visible payload fields only."
@@ -656,6 +675,10 @@ def _variant_config(name: str) -> dict[str, Any]:
                 if v241_v11lock1_v118rest
                 else "data/models/v245_v11lock1_v244rest/model.pkl"
                 if v245_v11lock1_v244rest
+                else "data/models/v248_batchrank_schema/model.pkl"
+                if v248_batchrank_schema
+                else "data/models/v249_batchrank_behavmix_v11/model.pkl"
+                if v249_batchrank_behavmix_v11
                 else "data/models/v200_stackseq_last3/model.pkl"
                 if v200_stackseq_last3
                 else "data/models/v201_stackseq_wide8/model.pkl"
@@ -818,6 +841,8 @@ class Miner(BaseMinerNeuron):
             "v237_v11lock1_v234rest",
             "v241_v11lock1_v118rest",
             "v245_v11lock1_v244rest",
+            "v248_batchrank_schema",
+            "v249_batchrank_behavmix_v11",
             "v200_stackseq_last3",
             "v201_stackseq_wide8",
         }:
@@ -1073,6 +1098,22 @@ class Miner(BaseMinerNeuron):
                         / "v245_v11lock1_v244rest"
                         / "report.json",
                     ]
+                )
+            if family == "v248_batchrank_schema":
+                files.append(
+                    REPO_ROOT
+                    / "data"
+                    / "models"
+                    / "v248_batchrank_schema"
+                    / "report.json"
+                )
+            if family == "v249_batchrank_behavmix_v11":
+                files.append(
+                    REPO_ROOT
+                    / "data"
+                    / "models"
+                    / "v249_batchrank_behavmix_v11"
+                    / "report.json"
                 )
             if family in {"v200_stackseq_last3", "v201_stackseq_wide8"}:
                 files.extend(
@@ -1350,6 +1391,30 @@ class Miner(BaseMinerNeuron):
                     "checks. No validator-private labels, wallets, hotkeys, IP addresses, "
                     "deployment logs, or private player data were used for training."
                 )
+            elif family == "v248_batchrank_schema":
+                training_statement = (
+                    "Model trained only on public Poker44 benchmark releaseVersion v1.13 "
+                    "through sourceDate 2026-07-09 using miner-visible hand/action payload "
+                    "fields only. It transforms robust schema features into within-batch "
+                    "feature ranks over 100-chunk public benchmark pseudo-batches during "
+                    "training and applies the same batch-rank-only transform at serve time. "
+                    "Unlabeled miner-received forward-audit payloads were used only for "
+                    "shape and topology checks. No validator-private labels, wallets, "
+                    "hotkeys, IP addresses, deployment logs, or private player data were "
+                    "used for training."
+                )
+            elif family == "v249_batchrank_behavmix_v11":
+                training_statement = (
+                    "Model trained only on public Poker44 benchmark releaseVersion v1.13 "
+                    "through sourceDate 2026-07-09 using miner-visible hand/action payload "
+                    "fields only. It uses behavioural/v11 telemetry schema features transformed "
+                    "into within-batch feature ranks over 100-chunk public benchmark "
+                    "pseudo-batches during training and applies the same batch-rank-only "
+                    "transform at serve time. Unlabeled miner-received forward-audit payloads "
+                    "were used only for shape and topology checks. No validator-private labels, "
+                    "wallets, hotkeys, IP addresses, deployment logs, or private player data "
+                    "were used for training."
+                )
             elif family == "v200_stackseq_last3":
                 training_statement = (
                     "Model trained only on public Poker44 benchmark releaseVersion v1.13 "
@@ -1455,6 +1520,8 @@ class Miner(BaseMinerNeuron):
                     or family == "v237_v11lock1_v234rest"
                     or family == "v241_v11lock1_v118rest"
                     or family == "v245_v11lock1_v244rest"
+                    or family == "v248_batchrank_schema"
+                    or family == "v249_batchrank_behavmix_v11"
                     else
                     [
                         "https://api.poker44.net/api/v1/benchmark",
@@ -1551,6 +1618,10 @@ class Miner(BaseMinerNeuron):
             manifest["training_refresh"] = "v11lock1_v118rest_candidate_2026-07-09"
         if family == "v245_v11lock1_v244rest":
             manifest["training_refresh"] = "v11lock1_v244rest_candidate_2026-07-09"
+        if family == "v248_batchrank_schema":
+            manifest["training_refresh"] = "batchrank_schema_public_benchmark_candidate_2026-07-09"
+        if family == "v249_batchrank_behavmix_v11":
+            manifest["training_refresh"] = "batchrank_behavmix_v11_candidate_2026-07-09"
         if family == "v200_stackseq_last3":
             manifest["training_refresh"] = "stackseq_last3_public_benchmark_candidate_2026-07-08"
         if family == "v201_stackseq_wide8":
@@ -1784,6 +1855,10 @@ class Miner(BaseMinerNeuron):
             env_name = "POKER44_V241_MODEL_PATH"
         elif self.variant_cfg["family"] == "v245_v11lock1_v244rest":
             env_name = "POKER44_V245_MODEL_PATH"
+        elif self.variant_cfg["family"] == "v248_batchrank_schema":
+            env_name = "POKER44_V248_MODEL_PATH"
+        elif self.variant_cfg["family"] == "v249_batchrank_behavmix_v11":
+            env_name = "POKER44_V249_MODEL_PATH"
         elif self.variant_cfg["family"] in {"v200_stackseq_last3", "v201_stackseq_wide8"}:
             return self._score_stackseq_model(chunks)
         else:
@@ -1866,6 +1941,8 @@ class Miner(BaseMinerNeuron):
                 "v237_v11lock1_v234rest",
                 "v241_v11lock1_v118rest",
                 "v245_v11lock1_v244rest",
+                "v248_batchrank_schema",
+                "v249_batchrank_behavmix_v11",
                 "v200_stackseq_last3",
                 "v201_stackseq_wide8",
             }:

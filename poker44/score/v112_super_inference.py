@@ -147,6 +147,22 @@ def _batch_z(arr: np.ndarray) -> np.ndarray:
     return (arr - mu) / sd
 
 
+def _batch_rank(arr: np.ndarray) -> np.ndarray:
+    """Rank-transform every feature column inside the served batch.
+
+    Several live-leading public miners use a batch-relative feature transform
+    before model inference. It removes absolute level shift between the public
+    benchmark and validator payloads while preserving within-request ordering.
+    """
+    if arr.size == 0:
+        return arr
+    out = np.zeros_like(arr, dtype=float)
+    denom = max(arr.shape[0], 1)
+    for col in range(arr.shape[1]):
+        out[:, col] = rankdata(arr[:, col], method="average") / denom
+    return out
+
+
 def _build_x(chunks: Sequence[Any], bundle: dict[str, Any]) -> np.ndarray:
     feature_set = str(bundle.get("feature_set") or "super")
     feature_mode = str(bundle.get("feature_mode") or "abs_batch")
@@ -162,10 +178,12 @@ def _build_x(chunks: Sequence[Any], bundle: dict[str, Any]) -> np.ndarray:
             feat.update({str(key): float(value) for key, value in hand_feat.items()})
     arr = _mat(feats, keys)
     pieces: list[np.ndarray] = []
-    if feature_mode in {"abs_batch", "abs_only"}:
+    if feature_mode in {"abs_batch", "abs_only", "abs_batch_rank"}:
         pieces.append(arr[:, mask])
     if feature_mode in {"abs_batch", "batch_only"}:
         pieces.append(_batch_z(arr))
+    if feature_mode in {"batch_rank", "batch_rank_only", "abs_batch_rank"}:
+        pieces.append(_batch_rank(arr))
     if not pieces:
         X = np.hstack([arr[:, mask], _batch_z(arr)])
     else:
@@ -208,7 +226,11 @@ def _rank01(values: Sequence[float]) -> np.ndarray:
 
 
 def _shape_scores(values: Sequence[float], config: dict[str, Any]) -> np.ndarray:
-    """Monotone score head that moves the fixed 0.5 cutoff."""
+    """Monotone score head that moves the fixed 0.5 cutoff.
+
+    This preserves rank order for AP/recall-at-FPR while changing how many
+    chunks cross the validator's hard threshold.
+    """
     arr = np.asarray(values, dtype=float)
     if arr.size == 0:
         return arr
