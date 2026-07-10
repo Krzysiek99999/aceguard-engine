@@ -1,0 +1,49 @@
+{
+  "blend_mode": "rank_mean",
+  "candidate_strategy": "ladder_rank_mean",
+  "candidate_top_n": 20,
+  "candidate_variant": "v292_ladder_rank_mean_top20",
+  "children": [
+    {
+      "callable": null,
+      "name": "v260",
+      "normalized_weight": 0.9,
+      "role": "blend_child",
+      "sha256": "555443ece38eceeb5f13036ec513158c13c6138829b33f9fd79d88dfaf2a1626",
+      "strategy": "et",
+      "weight": 0.9
+    },
+    {
+      "callable": null,
+      "name": "v261",
+      "normalized_weight": 0.05,
+      "role": "blend_child",
+      "sha256": "5a891945ff19d41433197f38a41779b72f46afbb7a03572d8a4bea2f723f43d9",
+      "strategy": "et",
+      "weight": 0.05
+    },
+    {
+      "callable": "v11",
+      "name": "v11",
+      "normalized_weight": 0.05,
+      "role": "blend_child",
+      "sha256": null,
+      "strategy": "raw",
+      "weight": 0.05
+    }
+  ],
+  "created_at": "2026-07-10T13:04:27.085733+00:00",
+  "evidence": [
+    "data/observations/live_forward/replay_uid99_v11_v260_v263_v270_20260710T130000Z.json"
+  ],
+  "family": "v292_v26090_v26105_v11_rankblend",
+  "model_path": "data/models/v292_v26090_v26105_v11_rankblend/model.pkl",
+  "model_sha256": "cf0a72415bb327088adeae394a6ee7fe25e4d4a52a8cab07e9b98614d0e6bf94",
+  "normalization_note": "Family normalized from generic v186_rank_blend to v292_v26090_v26105_v11_rankblend for manifest/deploy tooling.",
+  "note": "Selected from live-payload topology replay: 0.90 v260_et + 0.05 v261_et + 0.05 v11; target is UID99-like ranking with independent seed and v11 stabilizer.",
+  "privacy_sanitized": true,
+  "public_model_rel": "data/models/v292_v26090_v26105_v11_rankblend/model.pkl",
+  "public_staging_normalized": true,
+  "training_data_statement": "This bundle blends child model rankings. Child models were trained only on public Poker44 benchmark releases through 2026-07-10 using miner-visible payload fields. No validator-private labels, wallets, hotkeys, IP addresses, or deployment logs are used for training.",
+  "version": "v292_v26090_v26105_v11_rankblend_20260710_130425"
+}
