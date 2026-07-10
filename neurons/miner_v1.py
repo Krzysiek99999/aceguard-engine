@@ -368,6 +368,7 @@ def _variant_config(name: str) -> dict[str, Any]:
     v287_shape_adaptive_v11_v270 = False
     v297_shape_adaptive_v296_v11_v270 = False
     v298_lambdamart_wide_ranker = False
+    v306_lambdamart_temporal_seed_ensemble = False
     v271_v11lock1_v268rest = False
     v274_v11lock1_v273rest = False
     v276_livesized6080100_v273 = False
@@ -578,6 +579,10 @@ def _variant_config(name: str) -> dict[str, Any]:
         prefix = "v298_"
         live_sized = True
         v298_lambdamart_wide_ranker = True
+    elif name.startswith("v306_"):
+        prefix = "v306_"
+        live_sized = True
+        v306_lambdamart_temporal_seed_ensemble = True
     elif name.startswith("v271_"):
         prefix = "v271_"
         live_sized = True
@@ -716,6 +721,8 @@ def _variant_config(name: str) -> dict[str, Any]:
             if v297_shape_adaptive_v296_v11_v270
             else "v298_lambdamart_wide_ranker"
             if v298_lambdamart_wide_ranker
+            else "v306_lambdamart_temporal_seed_ensemble"
+            if v306_lambdamart_temporal_seed_ensemble
             else "v271_v11lock1_v268rest"
             if v271_v11lock1_v268rest
             else "v274_v11lock1_v273rest"
@@ -842,6 +849,8 @@ def _variant_config(name: str) -> dict[str, Any]:
                     if v297_shape_adaptive_v296_v11_v270
                     else "LightGBM LambdaMART wide-feature ranker trained on current public v1.13 benchmark sourceDates through 2026-07-10 with miner-visible HG2 wide features and served through a narrow top-k threshold-safe ranking head."
                     if v298_lambdamart_wide_ranker
+                    else "Temporal seed ensemble of two independently trained LambdaMART wide-feature rankers; weights selected on July 6-7 and verified on untouched July 8-10 batches."
+                    if v306_lambdamart_temporal_seed_ensemble
                     else "v11 top-1 locked behavioural anchor with the fresh 2026-07-10 v268 robust-schema ranker ordering the remaining chunks."
                     if v271_v11lock1_v268rest
                     else "v11 top-1 locked behavioural anchor with a v273 live-sized 60/80/100 public-benchmark ranker ordering the remaining chunks."
@@ -980,6 +989,8 @@ def _variant_config(name: str) -> dict[str, Any]:
                 if v297_shape_adaptive_v296_v11_v270
                 else "data/models/v298_lambdamart_wide_ranker/model.pkl"
                 if v298_lambdamart_wide_ranker
+                else "data/models/v306_lambdamart_temporal_seed_ensemble/model.pkl"
+                if v306_lambdamart_temporal_seed_ensemble
                 else "data/models/v271_v11lock1_v268rest/model.pkl"
                 if v271_v11lock1_v268rest
                 else "data/models/v274_v11lock1_v273rest/model.pkl"
@@ -1163,14 +1174,22 @@ class Miner(BaseMinerNeuron):
                     REPO_ROOT / "data" / "models" / "v270_v260w98_v263w01_v265w01_rankblend" / "report.json",
                 ]
             )
-        elif family == "v298_lambdamart_wide_ranker":
+        elif family in {
+            "v298_lambdamart_wide_ranker",
+            "v306_lambdamart_temporal_seed_ensemble",
+        }:
             files.extend(
                 [
+                    REPO_ROOT / "poker44" / "score" / "lambdamart_wide_inference.py",
                     REPO_ROOT / "poker44" / "score" / "hg2_runtime" / "hg_features.py",
                     REPO_ROOT / "poker44" / "score" / "hg2_runtime" / "features_v2.py",
                     REPO_ROOT / "poker44" / "score" / "hg2_runtime" / "hg2_features_base.py",
                     REPO_ROOT / self.variant_cfg["model_file"],
-                    REPO_ROOT / "data" / "models" / "v298_lambdamart_wide_ranker" / "report.json",
+                    REPO_ROOT
+                    / "data"
+                    / "models"
+                    / family
+                    / "report.json",
                 ]
             )
         elif family in {
@@ -1760,6 +1779,7 @@ class Miner(BaseMinerNeuron):
             "v290_v289w90_v11w10_runtime",
             "v287_shape_adaptive_v11_v270",
             "v298_lambdamart_wide_ranker",
+            "v306_lambdamart_temporal_seed_ensemble",
             "v271_v11lock1_v268rest",
             "v274_v11lock1_v273rest",
             "v276_livesized6080100_v273",
@@ -2264,6 +2284,17 @@ class Miner(BaseMinerNeuron):
                     "weights, forward labels, wallets, hotkeys, IP addresses, "
                     "deployment logs, or private player data were used for training."
                 )
+            elif family == "v306_lambdamart_temporal_seed_ensemble":
+                training_statement = (
+                    "Two independently seeded LightGBM LambdaMART rankers trained "
+                    "only on public Poker44 benchmark releases through sourceDate "
+                    "2026-06-30 using miner-visible sanitized fields and 611 "
+                    "deterministic wide features. Rank-space weights were selected "
+                    "on July 6-7 and evaluated once on untouched July 8-10 batches. "
+                    "No validator labels, forward-audit labels, competitor weights, "
+                    "wallets, hotkeys, IP addresses, deployment logs, or private "
+                    "player data were used for training."
+                )
             elif family == "v200_stackseq_last3":
                 training_statement = (
                     "Model trained only on public Poker44 benchmark releaseVersion v1.13 "
@@ -2330,7 +2361,12 @@ class Miner(BaseMinerNeuron):
             implementation_files=self._implementation_files(),
             defaults={
                 "model_name": os.getenv("POKER44_MODEL_NAME", f"aceguard-{self.variant}"),
-                "model_version": os.getenv("POKER44_MODEL_VERSION", "2026.06.17"),
+                "model_version": os.getenv(
+                    "POKER44_MODEL_VERSION",
+                    "2026.07.10-v306"
+                    if family == "v306_lambdamart_temporal_seed_ensemble"
+                    else "2026.06.17",
+                ),
                 "framework": framework,
                 "license": "MIT",
                 "repo_url": os.getenv("POKER44_MODEL_REPO_URL", ""),
@@ -2439,6 +2475,12 @@ class Miner(BaseMinerNeuron):
                 "https://api.poker44.net/api/v1/benchmark/chunks?sourceDate=2026-07-10",
             ]
             manifest["training_refresh"] = "v298_lambdamart_wide_ranker_candidate_2026-07-10"
+        if family == "v306_lambdamart_temporal_seed_ensemble":
+            manifest["training_data_sources"] = [
+                "https://api.poker44.net/api/v1/benchmark",
+                "https://api.poker44.net/api/v1/benchmark/chunks?sourceDate=2026-07-10",
+            ]
+            manifest["training_refresh"] = "v306_temporal_seed_ensemble_candidate_2026-07-10"
         if family == "v113_daily":
             manifest["training_refresh"] = "daily_candidate_2026-06-18"
         if family == "v115_short":
@@ -2972,21 +3014,12 @@ class Miner(BaseMinerNeuron):
         return [round(float(v), 6) for v in scores]
 
     def _score_v298_lambdamart_wide_model(self, chunks: list[list[dict[str, Any]]]) -> list[float]:
-        import pickle
-        import sys
+        from poker44.score.lambdamart_wide_inference import load_bundle, score_chunks
 
-        runtime_dir = REPO_ROOT / "poker44" / "score" / "hg2_runtime"
-        runtime_s = str(runtime_dir)
-        if runtime_s not in sys.path:
-            sys.path.insert(0, runtime_s)
-        module = sys.modules.get("hg_features")
-        loaded_from = str(getattr(module, "__file__", "")) if module is not None else ""
-        if module is not None and loaded_from and runtime_s not in loaded_from:
-            sys.modules.pop("hg_features", None)
-        from hg_features import wide_view
-
+        is_v306 = self.variant_cfg["family"] == "v306_lambdamart_temporal_seed_ensemble"
+        env_prefix = "POKER44_V306" if is_v306 else "POKER44_V298"
         model_file = os.getenv(
-            "POKER44_V298_MODEL_PATH",
+            f"{env_prefix}_MODEL_PATH",
             str(REPO_ROOT / self.variant_cfg["model_file"]),
         )
         model_path = Path(model_file)
@@ -2997,22 +3030,20 @@ class Miner(BaseMinerNeuron):
         runtime = getattr(self, "_v298_runtime", None)
         runtime_path = getattr(self, "_v298_runtime_path", None)
         if runtime is None or runtime_path != str(model_path):
-            with model_path.open("rb") as handle:
-                runtime = pickle.load(handle)
+            runtime = load_bundle(model_path)
             self._v298_runtime = runtime
             self._v298_runtime_path = str(model_path)
 
-        keys = list(runtime["keys"])
-        rows = [wide_view(chunk or []) for chunk in chunks]
-        x = np.asarray([[float(row.get(key, 0.0)) for key in keys] for row in rows], dtype=float)
-        x = np.nan_to_num(x, nan=0.0, posinf=0.0, neginf=0.0)
-        raw_scores = np.asarray(runtime["model"].predict(x), dtype=float)
-        top_n = _env_int("POKER44_V298_TOP_N", int(self.variant_cfg.get("default_top_n", runtime.get("top_n", 2))))
+        raw_scores = np.asarray(score_chunks(chunks, runtime), dtype=float)
+        top_n = _env_int(
+            f"{env_prefix}_TOP_N",
+            int(self.variant_cfg.get("default_top_n", runtime.get("top_n", 2))),
+        )
         scores = np.asarray(_banded_rank_remap(raw_scores, top_n), dtype=float)
 
         self._last_raw_scores = [float(v) for v in raw_scores]
         self._last_score_extra = {
-            "branch": "v298_lambdamart_wide_ranker",
+            "branch": self.variant_cfg["family"],
             "top_n": int(top_n),
             "raw_std": round(float(np.std(raw_scores)), 8) if raw_scores.size else 0.0,
             "positive_count": int(np.sum(scores >= 0.5)),
@@ -3252,7 +3283,10 @@ class Miner(BaseMinerNeuron):
                 scores = self._score_v287_shape_adaptive_model(chunks)
             elif family == "v297_shape_adaptive_v296_v11_v270":
                 scores = self._score_v297_shape_adaptive_model(chunks)
-            elif family == "v298_lambdamart_wide_ranker":
+            elif family in {
+                "v298_lambdamart_wide_ranker",
+                "v306_lambdamart_temporal_seed_ensemble",
+            }:
                 scores = self._score_v298_lambdamart_wide_model(chunks)
             elif family == "v294_hg2_rebuild":
                 scores = self._score_v294_hg2_model(chunks)
