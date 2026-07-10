@@ -56,6 +56,7 @@ This file intentionally supports only the active public model families:
 - v276_<strategy>_top<N>
 - v277_<strategy>_top<N>
 - v280_<strategy>_top<N>
+- v294_<strategy>_top<N>
 - v200_<strategy>_top<N>
 
 Deployment secrets, wallet names, host details, audit logs, and private run
@@ -368,6 +369,7 @@ def _variant_config(name: str) -> dict[str, Any]:
     v276_livesized6080100_v273 = False
     v277_livesized6080100_temporal = False
     v280_livesized6080100_temporal_consistency = False
+    v294_hg2_rebuild = False
     v200_stackseq_last3 = False
     v201_stackseq_wide8 = False
     prefix = "v112_super_"
@@ -584,6 +586,10 @@ def _variant_config(name: str) -> dict[str, Any]:
         prefix = "v280_"
         live_sized = True
         v280_livesized6080100_temporal_consistency = True
+    elif name.startswith("v294_"):
+        prefix = "v294_"
+        live_sized = True
+        v294_hg2_rebuild = True
     elif name.startswith("v200_"):
         prefix = "v200_"
         live_sized = True
@@ -620,6 +626,7 @@ def _variant_config(name: str) -> dict[str, Any]:
             "cal": "calibrated",
             "calibrated": "calibrated",
             "final": "final",
+            "hg2": "hg2_rank_budget",
             "runtime": "v290_runtime",
         }
         if strategy_part.startswith(("avg_no_", "avg_w", "blend_", "seg", "ladder_", "banded_")) or strategy_part in {
@@ -703,6 +710,8 @@ def _variant_config(name: str) -> dict[str, Any]:
             if v277_livesized6080100_temporal
             else "v280_livesized6080100_temporal_consistency"
             if v280_livesized6080100_temporal_consistency
+            else "v294_hg2_rebuild"
+            if v294_hg2_rebuild
             else "v200_stackseq_last3"
             if v200_stackseq_last3
             else "v201_stackseq_wide8"
@@ -823,6 +832,8 @@ def _variant_config(name: str) -> dict[str, Any]:
                     if v277_livesized6080100_temporal
                     else "Live-sized 60/80/100 public-benchmark super_seq_temporal ranker with temporal consistency, quartile drift, action-bigram, street-share, and bet/pot clustering features."
                     if v280_livesized6080100_temporal_consistency
+                    else "HG2 weighted-rank blend trained on public v1.13 benchmark releases through 2026-07-10 with live-size pooled augmentation, monotone GBM, stacked tree ensemble, PCA-MLP member, and rank-preserving safety budget."
+                    if v294_hg2_rebuild
                     else "Wider stacked tree and chunk-sequence model trained on latest public benchmark releases with miner-visible payload fields only."
                     if v201_stackseq_wide8
                     else "Stacked tree and chunk-sequence model trained on latest public benchmark releases with miner-visible payload fields only."
@@ -949,6 +960,8 @@ def _variant_config(name: str) -> dict[str, Any]:
                 if v277_livesized6080100_temporal
                 else "data/models/v280_livesized6080100_temporal_consistency/model.pkl"
                 if v280_livesized6080100_temporal_consistency
+                else "data/models/v294_hg2_rebuild/model.pkl"
+                if v294_hg2_rebuild
                 else "data/models/v200_stackseq_last3/model.pkl"
                 if v200_stackseq_last3
                 else "data/models/v201_stackseq_wide8/model.pkl"
@@ -1077,6 +1090,18 @@ class Miner(BaseMinerNeuron):
                     REPO_ROOT / "poker44" / "score" / "features_response_curves.py",
                 ]
             )
+        elif family == "v294_hg2_rebuild":
+            files.extend(
+                [
+                    REPO_ROOT / "poker44" / "score" / "hg2_runtime" / "infer.py",
+                    REPO_ROOT / "poker44" / "score" / "hg2_runtime" / "hg_model.py",
+                    REPO_ROOT / "poker44" / "score" / "hg2_runtime" / "hg_features.py",
+                    REPO_ROOT / "poker44" / "score" / "hg2_runtime" / "features_v2.py",
+                    REPO_ROOT / "poker44" / "score" / "hg2_runtime" / "hg2_features_base.py",
+                    REPO_ROOT / self.variant_cfg["model_file"],
+                    REPO_ROOT / "data" / "models" / "v294_hg2_rebuild" / "meta.json",
+                ]
+            )
         elif family in {
             "v112_super",
             "v113_daily",
@@ -1132,6 +1157,7 @@ class Miner(BaseMinerNeuron):
             "v276_livesized6080100_v273",
             "v277_livesized6080100_temporal",
             "v280_livesized6080100_temporal_consistency",
+            "v294_hg2_rebuild",
             "v200_stackseq_last3",
             "v201_stackseq_wide8",
         }:
@@ -2141,6 +2167,19 @@ class Miner(BaseMinerNeuron):
                     "IP addresses, deployment logs, or private player data were used "
                     "for training."
                 )
+            elif family == "v294_hg2_rebuild":
+                training_statement = (
+                    "HG2 weighted-rank blend trained only on public Poker44 benchmark "
+                    "releaseVersion v1.13 through sourceDate 2026-07-10 using "
+                    "miner-visible sanitized payload fields. Training used "
+                    "prepare_hand_for_miner parity plus same-date/same-label public "
+                    "benchmark live-size pooled augmentation, a stacked tree ensemble, "
+                    "a monotone constrained tree member, and a PCA-MLP member. "
+                    "Unlabeled miner-received forward-audit payloads were used only "
+                    "for topology, shape, and train/serve checks. No validator-private "
+                    "labels, wallets, hotkeys, IP addresses, deployment logs, or "
+                    "private player data were used for training."
+                )
             elif family == "v200_stackseq_last3":
                 training_statement = (
                     "Model trained only on public Poker44 benchmark releaseVersion v1.13 "
@@ -2192,6 +2231,8 @@ class Miner(BaseMinerNeuron):
             framework = (
                 "python+scikit-learn+torch"
                 if family in {"v200_stackseq_last3", "v201_stackseq_wide8"}
+                else "python+scikit-learn"
+                if family == "v294_hg2_rebuild"
                 else "python+scikit-learn"
             )
         else:
@@ -2297,6 +2338,11 @@ class Miner(BaseMinerNeuron):
         manifest["model_family"] = family
         manifest["selection_strategy"] = str(self.variant_cfg.get("strategy", family))
         manifest["selection_top_n"] = int(self.variant_cfg.get("default_top_n", 0))
+        if family == "v294_hg2_rebuild":
+            manifest["training_data_sources"] = [
+                "https://api.poker44.net/api/v1/benchmark",
+                "https://api.poker44.net/api/v1/benchmark/chunks?sourceDate=2026-07-10",
+            ]
         if family == "v113_daily":
             manifest["training_refresh"] = "daily_candidate_2026-06-18"
         if family == "v115_short":
@@ -2405,6 +2451,8 @@ class Miner(BaseMinerNeuron):
             manifest["training_refresh"] = "v277_livesized6080100_temporal_candidate_2026-07-10"
         if family == "v280_livesized6080100_temporal_consistency":
             manifest["training_refresh"] = "v280_livesized6080100_temporal_consistency_candidate_2026-07-10"
+        if family == "v294_hg2_rebuild":
+            manifest["training_refresh"] = "hg2_rebuild_public_benchmark_candidate_2026-07-10"
         if family == "v200_stackseq_last3":
             manifest["training_refresh"] = "stackseq_last3_public_benchmark_candidate_2026-07-08"
         if family == "v201_stackseq_wide8":
@@ -2698,6 +2746,69 @@ class Miner(BaseMinerNeuron):
         }
         return [round(float(v), 6) for v in scores]
 
+    def _score_v294_hg2_model(self, chunks: list[list[dict[str, Any]]]) -> list[float]:
+        import importlib
+        import sys
+
+        runtime_dir = REPO_ROOT / "poker44" / "score" / "hg2_runtime"
+        model_path = Path(
+            os.getenv(
+                "POKER44_V294_MODEL_PATH",
+                str(REPO_ROOT / self.variant_cfg["model_file"]),
+            )
+        )
+        if not model_path.exists():
+            bt.logging.error(f"{self.variant_cfg['family']} model missing: {model_path}")
+            return [0.49 for _ in chunks]
+        if not (model_path.parent / "meta.json").exists():
+            bt.logging.error(f"{self.variant_cfg['family']} meta missing: {model_path.parent / 'meta.json'}")
+            return [0.49 for _ in chunks]
+
+        runtime_s = str(runtime_dir)
+        if runtime_s not in sys.path:
+            sys.path.insert(0, runtime_s)
+        for module_name in ("infer", "hg_features", "features_v2", "hg2_features_base", "hg_model"):
+            module = sys.modules.get(module_name)
+            loaded_from = str(getattr(module, "__file__", "")) if module is not None else ""
+            if module is not None and loaded_from and runtime_s not in loaded_from:
+                sys.modules.pop(module_name, None)
+
+        top_n = _env_int("POKER44_V294_TOP_N", self.variant_cfg["default_top_n"])
+        max_frac_default = min(max(float(top_n) / max(len(chunks), 1), 0.01), 0.30)
+        max_pos_frac = float(os.getenv("POKER44_V294_MAX_POS_FRAC", f"{max_frac_default:.8f}"))
+        os.environ["POKER44_ARTIFACT"] = model_path.name
+        os.environ["POKER44_MAX_POS_FRAC"] = f"{max_pos_frac:.8f}"
+
+        infer = importlib.import_module("infer")
+        setattr(infer, "_ARTIFACT", model_path.name)
+        setattr(infer, "_MAX_POS_FRAC", max_pos_frac)
+        runtime = getattr(self, "_v294_runtime", None)
+        runtime_path = getattr(self, "_v294_runtime_path", None)
+        if runtime is None or runtime_path != str(model_path):
+            runtime = infer.ServingModel(art_dir=str(model_path.parent))
+            self._v294_runtime = runtime
+            self._v294_runtime_path = str(model_path)
+
+        scores = [float(v) for v in runtime.score_chunks(chunks)]
+        self._last_raw_scores = list(scores)
+        positives = sum(1 for v in scores if v >= 0.5)
+        self._last_score_extra = {
+            "branch": "v294_hg2_rebuild",
+            "top_n": int(top_n),
+            "max_pos_frac": round(float(max_pos_frac), 8),
+            "artifact": model_path.name,
+        }
+        try:
+            bt.logging.info(
+                f"{self.variant_cfg['family']} top_n={top_n} "
+                f"max_pos_frac={max_pos_frac:.4f} "
+                f"raw_std={float(np.std(scores)):.4f} "
+                f"positives={positives}/{len(scores)}"
+            )
+        except Exception:
+            pass
+        return [round(float(v), 6) for v in scores]
+
     def _score_schema_model(self, chunks: list[list[dict[str, Any]]]) -> list[float]:
         from poker44.score.rank_cap_remap import rank_cap_remap
         from poker44.score.v112_super_inference import score_from_file
@@ -2858,6 +2969,8 @@ class Miner(BaseMinerNeuron):
                 scores = self._score_v290_runtime_model(chunks)
             elif family == "v287_shape_adaptive_v11_v270":
                 scores = self._score_v287_shape_adaptive_model(chunks)
+            elif family == "v294_hg2_rebuild":
+                scores = self._score_v294_hg2_model(chunks)
             elif family in {
                 "v112_super",
                 "v113_daily",
