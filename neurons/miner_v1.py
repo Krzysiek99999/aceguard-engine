@@ -46,6 +46,11 @@ This file intentionally supports only the active public model families:
 - v260_<strategy>_top<N>
 - v262_w95_<strategy>_top<N>
 - v264_<strategy>_top<N>
+- v270_<strategy>_top<N>
+- v274_<strategy>_top<N>
+- v276_<strategy>_top<N>
+- v277_<strategy>_top<N>
+- v280_<strategy>_top<N>
 - v200_<strategy>_top<N>
 
 Deployment secrets, wallet names, host details, audit logs, and private run
@@ -303,6 +308,12 @@ def _variant_config(name: str) -> dict[str, Any]:
     v260_fit80_sanitized_top1schema = False
     v262_v260w95_v11w5_rankblend = False
     v264_v260w80_v263w20_rankblend = False
+    v270_v260w98_v263w01_v265w01_rankblend = False
+    v271_v11lock1_v268rest = False
+    v274_v11lock1_v273rest = False
+    v276_livesized6080100_v273 = False
+    v277_livesized6080100_temporal = False
+    v280_livesized6080100_temporal_consistency = False
     v200_stackseq_last3 = False
     v201_stackseq_wide8 = False
     prefix = "v112_super_"
@@ -471,6 +482,30 @@ def _variant_config(name: str) -> dict[str, Any]:
         prefix = "v264_"
         live_sized = True
         v264_v260w80_v263w20_rankblend = True
+    elif name.startswith("v270_"):
+        prefix = "v270_"
+        live_sized = True
+        v270_v260w98_v263w01_v265w01_rankblend = True
+    elif name.startswith("v271_"):
+        prefix = "v271_"
+        live_sized = True
+        v271_v11lock1_v268rest = True
+    elif name.startswith("v274_"):
+        prefix = "v274_"
+        live_sized = True
+        v274_v11lock1_v273rest = True
+    elif name.startswith("v276_"):
+        prefix = "v276_"
+        live_sized = True
+        v276_livesized6080100_v273 = True
+    elif name.startswith("v277_"):
+        prefix = "v277_"
+        live_sized = True
+        v277_livesized6080100_temporal = True
+    elif name.startswith("v280_"):
+        prefix = "v280_"
+        live_sized = True
+        v280_livesized6080100_temporal_consistency = True
     elif name.startswith("v200_"):
         prefix = "v200_"
         live_sized = True
@@ -565,6 +600,18 @@ def _variant_config(name: str) -> dict[str, Any]:
             if v262_v260w95_v11w5_rankblend
             else "v264_v260w80_v263w20_rankblend"
             if v264_v260w80_v263w20_rankblend
+            else "v270_v260w98_v263w01_v265w01_rankblend"
+            if v270_v260w98_v263w01_v265w01_rankblend
+            else "v271_v11lock1_v268rest"
+            if v271_v11lock1_v268rest
+            else "v274_v11lock1_v273rest"
+            if v274_v11lock1_v273rest
+            else "v276_livesized6080100_v273"
+            if v276_livesized6080100_v273
+            else "v277_livesized6080100_temporal"
+            if v277_livesized6080100_temporal
+            else "v280_livesized6080100_temporal_consistency"
+            if v280_livesized6080100_temporal_consistency
             else "v200_stackseq_last3"
             if v200_stackseq_last3
             else "v201_stackseq_wide8"
@@ -663,6 +710,18 @@ def _variant_config(name: str) -> dict[str, Any]:
                     if v262_v260w95_v11w5_rankblend
                     else "Rank-space blend of v260 ET and the latest-public-benchmark v263 schema ranker, served through a rank-ladder strategy over validator payloads."
                     if v264_v260w80_v263w20_rankblend
+                    else "Rank-space blend of v260 ET with small v263 and v265 schema-anomaly components, selected by live-topology replay against current public leaders."
+                    if v270_v260w98_v263w01_v265w01_rankblend
+                    else "v11 top-1 locked behavioural anchor with the fresh 2026-07-10 v268 robust-schema ranker ordering the remaining chunks."
+                    if v271_v11lock1_v268rest
+                    else "v11 top-1 locked behavioural anchor with a v273 live-sized 60/80/100 public-benchmark ranker ordering the remaining chunks."
+                    if v274_v11lock1_v273rest
+                    else "Live-sized 60/80/100 public-benchmark super_seq ranker served as a narrow top1 candidate."
+                    if v276_livesized6080100_v273
+                    else "Live-sized 60/80/100 public-benchmark super_seq ranker with temporal lag, trend, action-bigram, and street-share schema features."
+                    if v277_livesized6080100_temporal
+                    else "Live-sized 60/80/100 public-benchmark super_seq_temporal ranker with temporal consistency, quartile drift, action-bigram, street-share, and bet/pot clustering features."
+                    if v280_livesized6080100_temporal_consistency
                     else "Wider stacked tree and chunk-sequence model trained on latest public benchmark releases with miner-visible payload fields only."
                     if v201_stackseq_wide8
                     else "Stacked tree and chunk-sequence model trained on latest public benchmark releases with miner-visible payload fields only."
@@ -765,6 +824,18 @@ def _variant_config(name: str) -> dict[str, Any]:
                 if v262_v260w95_v11w5_rankblend
                 else "data/models/v264_v260w80_v263w20_rankblend/model.pkl"
                 if v264_v260w80_v263w20_rankblend
+                else "data/models/v270_v260w98_v263w01_v265w01_rankblend/model.pkl"
+                if v270_v260w98_v263w01_v265w01_rankblend
+                else "data/models/v271_v11lock1_v268rest/model.pkl"
+                if v271_v11lock1_v268rest
+                else "data/models/v274_v11lock1_v273rest/model.pkl"
+                if v274_v11lock1_v273rest
+                else "data/models/v276_livesized6080100_v273/model.pkl"
+                if v276_livesized6080100_v273
+                else "data/models/v277_livesized6080100_temporal_probe/model.pkl"
+                if v277_livesized6080100_temporal
+                else "data/models/v280_livesized6080100_temporal_consistency/model.pkl"
+                if v280_livesized6080100_temporal_consistency
                 else "data/models/v200_stackseq_last3/model.pkl"
                 if v200_stackseq_last3
                 else "data/models/v201_stackseq_wide8/model.pkl"
@@ -936,6 +1007,12 @@ class Miner(BaseMinerNeuron):
             "v260_fit80_sanitized_top1schema",
             "v262_v260w95_v11w5_rankblend",
             "v264_v260w80_v263w20_rankblend",
+            "v270_v260w98_v263w01_v265w01_rankblend",
+            "v271_v11lock1_v268rest",
+            "v274_v11lock1_v273rest",
+            "v276_livesized6080100_v273",
+            "v277_livesized6080100_temporal",
+            "v280_livesized6080100_temporal_consistency",
             "v200_stackseq_last3",
             "v201_stackseq_wide8",
         }:
@@ -946,6 +1023,8 @@ class Miner(BaseMinerNeuron):
                     REPO_ROOT / "poker44" / "score" / "robust_schema" / "__init__.py",
                     REPO_ROOT / "poker44" / "score" / "robust_schema" / "features.py",
                     REPO_ROOT / "poker44" / "score" / "sequence_schema.py",
+                    REPO_ROOT / "poker44" / "score" / "temporal_consistency_features.py",
+                    REPO_ROOT / "poker44" / "score" / "action_anomaly_features.py",
                     REPO_ROOT / "poker44" / "score" / "statistical_v25.py",
                     REPO_ROOT / "poker44" / "score" / "features_pot_geometry.py",
                     REPO_ROOT / "poker44" / "score" / "features_v13_safe.py",
@@ -1264,6 +1343,72 @@ class Miner(BaseMinerNeuron):
                     / "v264_v260w80_v263w20_rankblend"
                     / "report.json"
                 )
+            if family == "v270_v260w98_v263w01_v265w01_rankblend":
+                files.append(
+                    REPO_ROOT
+                    / "data"
+                    / "models"
+                    / "v270_v260w98_v263w01_v265w01_rankblend"
+                    / "report.json"
+                )
+            if family == "v271_v11lock1_v268rest":
+                files.extend(
+                    [
+                        REPO_ROOT / "poker44" / "score" / "ensemble_v11.py",
+                        REPO_ROOT / "poker44" / "score" / "statistical_v5.py",
+                        REPO_ROOT / "poker44" / "score" / "statistical_v6.py",
+                        REPO_ROOT / "poker44" / "score" / "statistical_v9.py",
+                        REPO_ROOT / "poker44" / "score" / "sequence_v8.py",
+                        REPO_ROOT / "poker44" / "score" / "sequence_v8_markov.py",
+                        REPO_ROOT / "poker44" / "score" / "features_response_curves.py",
+                        REPO_ROOT
+                        / "data"
+                        / "models"
+                        / "v271_v11lock1_v268rest"
+                        / "report.json",
+                    ]
+                )
+            if family == "v274_v11lock1_v273rest":
+                files.extend(
+                    [
+                        REPO_ROOT / "poker44" / "score" / "ensemble_v11.py",
+                        REPO_ROOT / "poker44" / "score" / "statistical_v5.py",
+                        REPO_ROOT / "poker44" / "score" / "statistical_v6.py",
+                        REPO_ROOT / "poker44" / "score" / "statistical_v9.py",
+                        REPO_ROOT / "poker44" / "score" / "sequence_v8.py",
+                        REPO_ROOT / "poker44" / "score" / "sequence_v8_markov.py",
+                        REPO_ROOT / "poker44" / "score" / "features_response_curves.py",
+                        REPO_ROOT
+                        / "data"
+                        / "models"
+                        / "v274_v11lock1_v273rest"
+                        / "report.json",
+                    ]
+                )
+            if family == "v276_livesized6080100_v273":
+                files.append(
+                    REPO_ROOT
+                    / "data"
+                    / "models"
+                    / "v276_livesized6080100_v273"
+                    / "report.json"
+                )
+            if family == "v277_livesized6080100_temporal":
+                files.append(
+                    REPO_ROOT
+                    / "data"
+                    / "models"
+                    / "v277_livesized6080100_temporal_probe"
+                    / "report.json"
+                )
+            if family == "v280_livesized6080100_temporal_consistency":
+                files.append(
+                    REPO_ROOT
+                    / "data"
+                    / "models"
+                    / "v280_livesized6080100_temporal_consistency"
+                    / "report.json"
+                )
             if family in {"v200_stackseq_last3", "v201_stackseq_wide8"}:
                 files.extend(
                     [
@@ -1316,6 +1461,12 @@ class Miner(BaseMinerNeuron):
             "v260_fit80_sanitized_top1schema",
             "v262_v260w95_v11w5_rankblend",
             "v264_v260w80_v263w20_rankblend",
+            "v270_v260w98_v263w01_v265w01_rankblend",
+            "v271_v11lock1_v268rest",
+            "v274_v11lock1_v273rest",
+            "v276_livesized6080100_v273",
+            "v277_livesized6080100_temporal",
+            "v280_livesized6080100_temporal_consistency",
             "v200_stackseq_last3",
             "v201_stackseq_wide8",
         }:
@@ -1653,6 +1804,72 @@ class Miner(BaseMinerNeuron):
                     "hotkeys, IP addresses, deployment logs, or private player data were "
                     "used for training."
                 )
+            elif family == "v270_v260w98_v263w01_v265w01_rankblend":
+                training_statement = (
+                    "Rank-space blend of disclosed AceGuard schema components selected by "
+                    "live-topology replay against current public leaders: 0.98 v260 ET, "
+                    "0.01 v263 rank_mean, and 0.01 v265 schema-anomaly rank_mean. Child "
+                    "models were trained only on public Poker44 benchmark data with "
+                    "miner-visible sanitization. Unlabeled miner-received forward-audit "
+                    "payloads were used only for topology, shape, and train/serve checks. "
+                    "No validator-private labels, wallets, hotkeys, IP addresses, "
+                    "deployment logs, or private player data were used for training."
+                )
+            elif family == "v271_v11lock1_v268rest":
+                training_statement = (
+                    "v11 top-1 locked behavioural anchor plus v268, a fresh robust-schema "
+                    "ranker trained only on public Poker44 benchmark releaseVersion v1.13 "
+                    "through sourceDate 2026-07-10 using miner-visible hand/action payload "
+                    "fields. Unlabeled miner-received forward-audit payloads were used only "
+                    "for topology, shape, and train/serve checks. No validator-private labels, "
+                    "wallets, hotkeys, IP addresses, deployment logs, or private player data "
+                    "were used for training."
+                )
+            elif family == "v274_v11lock1_v273rest":
+                training_statement = (
+                    "v11 top-1 locked behavioural anchor plus v273, a live-sized "
+                    "60/80/100 hand contract ranker trained only on public Poker44 "
+                    "benchmark releaseVersion v1.13 through sourceDate 2026-07-10 "
+                    "using miner-visible hand/action payload fields. Unlabeled "
+                    "miner-received forward-audit payloads were used only for topology, "
+                    "shape, and train/serve checks. No validator-private labels, wallets, "
+                    "hotkeys, IP addresses, deployment logs, or private player data were "
+                    "used for training."
+                )
+            elif family == "v276_livesized6080100_v273":
+                training_statement = (
+                    "Live-sized 60/80/100 hand-contract super_seq ranker trained only "
+                    "on public Poker44 benchmark releaseVersion v1.13 through sourceDate "
+                    "2026-07-10 using miner-visible hand/action payload fields. Unlabeled "
+                    "miner-received forward-audit payloads were used only for topology, "
+                    "shape, and train/serve checks. No validator-private labels, wallets, "
+                    "hotkeys, IP addresses, deployment logs, or private player data were "
+                    "used for training."
+                )
+            elif family == "v277_livesized6080100_temporal":
+                training_statement = (
+                    "Live-sized 60/80/100 hand-contract super_seq ranker trained only "
+                    "on public Poker44 benchmark releaseVersion v1.13 through sourceDate "
+                    "2026-07-10 using miner-visible hand/action payload fields, including "
+                    "temporal lag, trend, action-bigram, and street-share schema features. "
+                    "Unlabeled miner-received forward-audit payloads were used only for "
+                    "topology, shape, and train/serve checks. No validator-private labels, "
+                    "wallets, hotkeys, IP addresses, deployment logs, or private player "
+                    "data were used for training."
+                )
+            elif family == "v280_livesized6080100_temporal_consistency":
+                training_statement = (
+                    "Live-sized 60/80/100 hand-contract super_seq_temporal ranker "
+                    "trained only on public Poker44 benchmark releaseVersion v1.13 "
+                    "through sourceDate 2026-07-10 using miner-visible hand/action "
+                    "payload fields, including schema, hashed sequence, temporal "
+                    "consistency, quartile drift, action-bigram, street-share, and "
+                    "bet/pot clustering features. Unlabeled miner-received "
+                    "forward-audit payloads were used only for topology, shape, and "
+                    "train/serve checks. No validator-private labels, wallets, hotkeys, "
+                    "IP addresses, deployment logs, or private player data were used "
+                    "for training."
+                )
             elif family == "v200_stackseq_last3":
                 training_statement = (
                     "Model trained only on public Poker44 benchmark releaseVersion v1.13 "
@@ -1767,6 +1984,12 @@ class Miner(BaseMinerNeuron):
                     or family == "v260_fit80_sanitized_top1schema"
                     or family == "v262_v260w95_v11w5_rankblend"
                     or family == "v264_v260w80_v263w20_rankblend"
+                    or family == "v270_v260w98_v263w01_v265w01_rankblend"
+                    or family == "v271_v11lock1_v268rest"
+                    or family == "v274_v11lock1_v273rest"
+                    or family == "v276_livesized6080100_v273"
+                    or family == "v277_livesized6080100_temporal"
+                    or family == "v280_livesized6080100_temporal_consistency"
                     else
                     [
                         "https://api.poker44.net/api/v1/benchmark",
@@ -1881,6 +2104,18 @@ class Miner(BaseMinerNeuron):
             manifest["training_refresh"] = "v260w95_v11w5_rankblend_candidate_2026-07-09"
         if family == "v264_v260w80_v263w20_rankblend":
             manifest["training_refresh"] = "v260w80_v263w20_rankblend_candidate_2026-07-10"
+        if family == "v270_v260w98_v263w01_v265w01_rankblend":
+            manifest["training_refresh"] = "v260w98_v263w01_v265w01_rankblend_candidate_2026-07-10"
+        if family == "v271_v11lock1_v268rest":
+            manifest["training_refresh"] = "v11lock1_v268rest_candidate_2026-07-10"
+        if family == "v274_v11lock1_v273rest":
+            manifest["training_refresh"] = "v11lock1_v273_livesized6080100_candidate_2026-07-10"
+        if family == "v276_livesized6080100_v273":
+            manifest["training_refresh"] = "v273_livesized6080100_candidate_2026-07-10"
+        if family == "v277_livesized6080100_temporal":
+            manifest["training_refresh"] = "v277_livesized6080100_temporal_candidate_2026-07-10"
+        if family == "v280_livesized6080100_temporal_consistency":
+            manifest["training_refresh"] = "v280_livesized6080100_temporal_consistency_candidate_2026-07-10"
         if family == "v200_stackseq_last3":
             manifest["training_refresh"] = "stackseq_last3_public_benchmark_candidate_2026-07-08"
         if family == "v201_stackseq_wide8":
@@ -2132,6 +2367,18 @@ class Miner(BaseMinerNeuron):
             env_name = "POKER44_V262_MODEL_PATH"
         elif self.variant_cfg["family"] == "v264_v260w80_v263w20_rankblend":
             env_name = "POKER44_V264_MODEL_PATH"
+        elif self.variant_cfg["family"] == "v270_v260w98_v263w01_v265w01_rankblend":
+            env_name = "POKER44_V270_MODEL_PATH"
+        elif self.variant_cfg["family"] == "v271_v11lock1_v268rest":
+            env_name = "POKER44_V271_MODEL_PATH"
+        elif self.variant_cfg["family"] == "v274_v11lock1_v273rest":
+            env_name = "POKER44_V274_MODEL_PATH"
+        elif self.variant_cfg["family"] == "v276_livesized6080100_v273":
+            env_name = "POKER44_V276_MODEL_PATH"
+        elif self.variant_cfg["family"] == "v277_livesized6080100_temporal":
+            env_name = "POKER44_V277_MODEL_PATH"
+        elif self.variant_cfg["family"] == "v280_livesized6080100_temporal_consistency":
+            env_name = "POKER44_V280_MODEL_PATH"
         elif self.variant_cfg["family"] in {"v200_stackseq_last3", "v201_stackseq_wide8"}:
             return self._score_stackseq_model(chunks)
         else:
@@ -2223,6 +2470,12 @@ class Miner(BaseMinerNeuron):
                 "v260_fit80_sanitized_top1schema",
                 "v262_v260w95_v11w5_rankblend",
                 "v264_v260w80_v263w20_rankblend",
+                "v270_v260w98_v263w01_v265w01_rankblend",
+                "v271_v11lock1_v268rest",
+                "v274_v11lock1_v273rest",
+                "v276_livesized6080100_v273",
+                "v277_livesized6080100_temporal",
+                "v280_livesized6080100_temporal_consistency",
                 "v200_stackseq_last3",
                 "v201_stackseq_wide8",
             }:

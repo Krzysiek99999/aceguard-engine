@@ -142,6 +142,45 @@ def _conditional_entropy(tokens: list[str]) -> float:
     return value
 
 
+def _lag_autocorr(values: list[float], lag: int) -> float:
+    if len(values) < lag + 3:
+        return 0.0
+    left = [float(v) for v in values[:-lag]]
+    right = [float(v) for v in values[lag:]]
+    mean_left = _mean(left)
+    mean_right = _mean(right)
+    num = sum((a - mean_left) * (b - mean_right) for a, b in zip(left, right))
+    den_left = math.sqrt(sum((a - mean_left) ** 2 for a in left))
+    den_right = math.sqrt(sum((b - mean_right) ** 2 for b in right))
+    return max(-1.0, min(1.0, _safe_div(num, den_left * den_right)))
+
+
+def _half_delta(values: list[float]) -> float:
+    if len(values) < 4:
+        return 0.0
+    mid = len(values) // 2
+    return abs(_mean(values[:mid]) - _mean(values[mid:]))
+
+
+def _trend_slope(values: list[float]) -> float:
+    n = len(values)
+    if n < 4:
+        return 0.0
+    mean_x = (n - 1) / 2.0
+    mean_y = _mean(values)
+    numerator = sum((idx - mean_x) * (float(value) - mean_y) for idx, value in enumerate(values))
+    denominator = sum((idx - mean_x) ** 2 for idx in range(n))
+    return _safe_div(numerator, denominator * (abs(mean_y) + 1e-9))
+
+
+def _temporal_series_features(prefix: str, values: list[float], out: dict[str, float]) -> None:
+    out[f"{prefix}_lag1_autocorr"] = _lag_autocorr(values, 1)
+    out[f"{prefix}_lag2_autocorr"] = _lag_autocorr(values, 2)
+    out[f"{prefix}_lag3_autocorr"] = _lag_autocorr(values, 3)
+    out[f"{prefix}_half_delta"] = _half_delta(values)
+    out[f"{prefix}_trend_slope"] = _trend_slope(values)
+
+
 def _repeat_pattern_features(
     action_signatures: list[tuple[str, ...]],
     amount_bucket_signatures: list[tuple[str, ...]],
@@ -337,7 +376,9 @@ def _aggregate_feature(prefix: str, values: list[float], out: dict[str, float]) 
     out[f"{prefix}_min"] = min(values) if values else 0.0
     out[f"{prefix}_max"] = max(values) if values else 0.0
     out[f"{prefix}_q10"] = _quantile(values, 0.1)
+    out[f"{prefix}_q25"] = _quantile(values, 0.25)
     out[f"{prefix}_q50"] = _quantile(values, 0.5)
+    out[f"{prefix}_q75"] = _quantile(values, 0.75)
     out[f"{prefix}_q90"] = _quantile(values, 0.9)
 
 
@@ -357,6 +398,9 @@ def chunk_features(chunk: list[dict[str, Any]]) -> dict[str, float]:
     actor_signatures: list[tuple[int, ...]] = []
     street_signatures: list[tuple[str, ...]] = []
     amount_bucket_signatures: list[tuple[str, ...]] = []
+    street_action_counts: Counter[str] = Counter()
+    street_aggressive_counts: Counter[str] = Counter()
+    action_bigram_counts: Counter[tuple[str, str]] = Counter()
 
     high_aggressive = 0
     low_action_entropy = 0
@@ -380,6 +424,12 @@ def chunk_features(chunk: list[dict[str, Any]]) -> dict[str, float]:
         actor_signatures.append(actor_seq)
         street_signatures.append(street_seq)
         amount_bucket_signatures.append(amount_buckets)
+        action_bigram_counts.update(zip(action_types[:-1], action_types[1:]))
+        for action_type, street in zip(action_types, street_seq):
+            if street:
+                street_action_counts[street] += 1
+                if action_type in {"bet", "raise"}:
+                    street_aggressive_counts[street] += 1
 
         high_aggressive += int(feats["schema_aggression_share"] >= 0.35)
         low_action_entropy += int(feats["schema_action_entropy"] <= 0.35)
@@ -403,6 +453,33 @@ def chunk_features(chunk: list[dict[str, Any]]) -> dict[str, float]:
     out["schema_low_action_entropy_hand_rate"] = _safe_div(low_action_entropy, n)
     out["schema_high_actor_entropy_hand_rate"] = _safe_div(high_actor_entropy, n)
     out["schema_long_action_hand_rate"] = _safe_div(long_action_hand, n)
+    total_street_actions = max(1, sum(street_action_counts.values()))
+    total_street_aggressive = max(1, sum(street_aggressive_counts.values()))
+    for street in ("preflop", "flop", "turn", "river"):
+        out[f"schema_{street}_action_share"] = _safe_div(
+            street_action_counts.get(street, 0),
+            total_street_actions,
+        )
+        out[f"schema_{street}_aggression_share"] = _safe_div(
+            street_aggressive_counts.get(street, 0),
+            total_street_aggressive,
+        )
+    _temporal_series_features(
+        "schema_aggression_share_temporal",
+        [float(features["schema_aggression_share"]) for features in per_hand],
+        out,
+    )
+    _temporal_series_features(
+        "schema_fold_share_temporal",
+        [float(features["schema_fold_share"]) for features in per_hand],
+        out,
+    )
+    _temporal_series_features(
+        "schema_amount_std_temporal",
+        [float(features["schema_amount_std_bb"]) for features in per_hand],
+        out,
+    )
+    out["schema_action_bigram_entropy"] = _entropy(list(action_bigram_counts.elements()))
     out.update(
         _repeat_pattern_features(
             action_signatures,

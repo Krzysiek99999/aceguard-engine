@@ -1,0 +1,32 @@
+{
+  "blend_mode": "rank_mean",
+  "children": [
+    {
+      "name": "v260_et",
+      "sha256": "555443ece38eceeb5f13036ec513158c13c6138829b33f9fd79d88dfaf2a1626",
+      "strategy": "et",
+      "weight": 0.98
+    },
+    {
+      "name": "v263_rank_mean",
+      "sha256": "3ba003927d5654cac460e7f0b05eb65e1c4a5c9ef763dd5ee7d07c6756943d7d",
+      "strategy": "rank_mean",
+      "weight": 0.01
+    },
+    {
+      "name": "v265_schema_anomaly",
+      "sha256": "5635598b1f3f6ad54cd3c68c1339363ee834ee4de77a6e90407b5db57eed5e0b",
+      "strategy": "rank_mean",
+      "weight": 0.01
+    }
+  ],
+  "created_at": "2026-07-10T03:34:38.302344+00:00",
+  "family": "v270_v260w98_v263w01_v265w01_rankblend",
+  "model_path": "data/models/v270_v260w98_v263w01_v265w01_rankblend/model.pkl",
+  "model_sha256": "98425ed2bb379feec65c1c10718ff12f278a5127984c47abd3df14de42cc2af1",
+  "privacy_sanitized": true,
+  "public_staging_normalized": true,
+  "training_data_sources": "https://api.poker44.net/api/v1/benchmark,https://api.poker44.net/api/v1/benchmark/releases",
+  "training_data_statement": "Rank-space blend of disclosed AceGuard child bundles selected by live-topology fine-grid: 0.98 v260 ET, 0.01 v263 rank_mean, 0.01 v265 schema-anomaly rank_mean. Children were trained only on public Poker44 benchmark data with miner-visible sanitization; unlabeled forward-audit payloads were used only for topology, shape, and train/serve checks; no validator-private labels.",
+  "version": "v270_rankblend_20260710_033436"
+}
