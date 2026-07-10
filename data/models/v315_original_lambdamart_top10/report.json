@@ -1,0 +1,32 @@
+{
+  "created_at_utc": "2026-07-10T21:36:08Z",
+  "family": "v315_original_lambdamart_top10",
+  "feature_count": 64,
+  "model_path": "data/models/v315_original_lambdamart_top10/20260710_213608/model.pkl",
+  "model_sha256": "0af07b1da02165b62a817a642d4de51998af275d58551a0f038f6b227c792a7a",
+  "prevalence_stress_report": "data/observations/live_forward/v311_operating_point_prevalence_latest.json",
+  "source_model": "data/models/v311_original_nontemporal_pretestks_lambdamart/20260710_212257/model.pkl",
+  "source_model_sha256": "2689896b7f7514eb24f1f020e95cc94cc1e6b11fd4da797cdfb4e1c22e23d46c",
+  "source_test": {
+    "balanced_ap_mean": 0.7978189466568784,
+    "balanced_reward_mean": 0.7560740729418247,
+    "balanced_reward_p10": 0.7144784320349602,
+    "hard_zero_rate": 0.0
+  },
+  "temporal_protocol": {
+    "live_ks_through_utc": "2026-07-05T23:59:59Z",
+    "selection_dates": [
+      "2026-07-06",
+      "2026-07-07"
+    ],
+    "train_through": "2026-06-30",
+    "untouched_test_dates": [
+      "2026-07-08",
+      "2026-07-09",
+      "2026-07-10"
+    ]
+  },
+  "top_n": 10,
+  "training_data_statement": "AceGuard LightGBM LambdaMART ranker trained only on miner-visible public Poker44 benchmark data through sourceDate 2026-06-30. The 64 selected features are an independent implementation of within-hand action transitions, hero responses, pot geometry, position, stack context, and order-invariant chunk distributions; identities, cards, outcomes, dates, and merge-boundary temporal features are excluded. Unlabeled miner payloads received no later than 2026-07-05T23:59:59Z were used only for train/live KS filtering. Hyperparameters and the top-10 threshold head were selected on July 6-7 and evaluated once on untouched July 8-10 data under 2%, 5%, 10%, 20%, and 50% bot prevalence. No competitor implementation or weights, validator labels, forward labels, wallets, hotkeys, IP addresses, or private data were used.",
+  "version": "v315_original_lambdamart_top10_20260710_213608"
+}

@@ -369,6 +369,7 @@ def _variant_config(name: str) -> dict[str, Any]:
     v297_shape_adaptive_v296_v11_v270 = False
     v298_lambdamart_wide_ranker = False
     v306_lambdamart_temporal_seed_ensemble = False
+    v315_original_lambdamart_top10 = False
     v271_v11lock1_v268rest = False
     v274_v11lock1_v273rest = False
     v276_livesized6080100_v273 = False
@@ -583,6 +584,10 @@ def _variant_config(name: str) -> dict[str, Any]:
         prefix = "v306_"
         live_sized = True
         v306_lambdamart_temporal_seed_ensemble = True
+    elif name.startswith("v315_"):
+        prefix = "v315_"
+        live_sized = True
+        v315_original_lambdamart_top10 = True
     elif name.startswith("v271_"):
         prefix = "v271_"
         live_sized = True
@@ -723,6 +728,8 @@ def _variant_config(name: str) -> dict[str, Any]:
             if v298_lambdamart_wide_ranker
             else "v306_lambdamart_temporal_seed_ensemble"
             if v306_lambdamart_temporal_seed_ensemble
+            else "v315_original_lambdamart_top10"
+            if v315_original_lambdamart_top10
             else "v271_v11lock1_v268rest"
             if v271_v11lock1_v268rest
             else "v274_v11lock1_v273rest"
@@ -851,6 +858,8 @@ def _variant_config(name: str) -> dict[str, Any]:
                     if v298_lambdamart_wide_ranker
                     else "Temporal seed ensemble of two independently trained LambdaMART wide-feature rankers; weights selected on July 6-7 and verified on untouched July 8-10 batches."
                     if v306_lambdamart_temporal_seed_ensemble
+                    else "Independent AceGuard LambdaMART ranker using original identity-free action, response, pot, position, stack, and order-invariant distribution features with a low-prevalence-selected top-10 head."
+                    if v315_original_lambdamart_top10
                     else "v11 top-1 locked behavioural anchor with the fresh 2026-07-10 v268 robust-schema ranker ordering the remaining chunks."
                     if v271_v11lock1_v268rest
                     else "v11 top-1 locked behavioural anchor with a v273 live-sized 60/80/100 public-benchmark ranker ordering the remaining chunks."
@@ -991,6 +1000,8 @@ def _variant_config(name: str) -> dict[str, Any]:
                 if v298_lambdamart_wide_ranker
                 else "data/models/v306_lambdamart_temporal_seed_ensemble/model.pkl"
                 if v306_lambdamart_temporal_seed_ensemble
+                else "data/models/v315_original_lambdamart_top10/model.pkl"
+                if v315_original_lambdamart_top10
                 else "data/models/v271_v11lock1_v268rest/model.pkl"
                 if v271_v11lock1_v268rest
                 else "data/models/v274_v11lock1_v273rest/model.pkl"
@@ -1190,6 +1201,15 @@ class Miner(BaseMinerNeuron):
                     / "models"
                     / family
                     / "report.json",
+                ]
+            )
+        elif family == "v315_original_lambdamart_top10":
+            files.extend(
+                [
+                    REPO_ROOT / "poker44" / "score" / "original_behavior_features.py",
+                    REPO_ROOT / "poker44" / "score" / "original_lambdamart_inference.py",
+                    REPO_ROOT / self.variant_cfg["model_file"],
+                    REPO_ROOT / "data" / "models" / family / "report.json",
                 ]
             )
         elif family in {
@@ -1780,6 +1800,7 @@ class Miner(BaseMinerNeuron):
             "v287_shape_adaptive_v11_v270",
             "v298_lambdamart_wide_ranker",
             "v306_lambdamart_temporal_seed_ensemble",
+            "v315_original_lambdamart_top10",
             "v271_v11lock1_v268rest",
             "v274_v11lock1_v273rest",
             "v276_livesized6080100_v273",
@@ -2295,6 +2316,21 @@ class Miner(BaseMinerNeuron):
                     "wallets, hotkeys, IP addresses, deployment logs, or private "
                     "player data were used for training."
                 )
+            elif family == "v315_original_lambdamart_top10":
+                training_statement = (
+                    "AceGuard LightGBM LambdaMART ranker trained only on miner-visible "
+                    "public Poker44 benchmark data through sourceDate 2026-06-30. The "
+                    "64 selected features are an independent implementation of within-hand "
+                    "action transitions, hero responses, pot geometry, position, stack "
+                    "context, and order-invariant chunk distributions; identities, cards, "
+                    "outcomes, dates, and merge-boundary temporal features are excluded. "
+                    "Unlabeled miner payloads received no later than 2026-07-05T23:59:59Z "
+                    "were used only for train/live KS filtering. Hyperparameters and the "
+                    "top-10 threshold head were selected on July 6-7 and evaluated once on "
+                    "untouched July 8-10 data under several bot-prevalence levels. No "
+                    "competitor implementation or weights, validator labels, forward labels, "
+                    "wallets, hotkeys, IP addresses, or private data were used."
+                )
             elif family == "v200_stackseq_last3":
                 training_statement = (
                     "Model trained only on public Poker44 benchmark releaseVersion v1.13 "
@@ -2363,7 +2399,9 @@ class Miner(BaseMinerNeuron):
                 "model_name": os.getenv("POKER44_MODEL_NAME", f"aceguard-{self.variant}"),
                 "model_version": os.getenv(
                     "POKER44_MODEL_VERSION",
-                    "2026.07.10-v306"
+                    "2026.07.10-v315"
+                    if family == "v315_original_lambdamart_top10"
+                    else "2026.07.10-v306"
                     if family == "v306_lambdamart_temporal_seed_ensemble"
                     else "2026.06.17",
                 ),
@@ -2481,6 +2519,12 @@ class Miner(BaseMinerNeuron):
                 "https://api.poker44.net/api/v1/benchmark/chunks?sourceDate=2026-07-10",
             ]
             manifest["training_refresh"] = "v306_temporal_seed_ensemble_candidate_2026-07-10"
+        if family == "v315_original_lambdamart_top10":
+            manifest["training_data_sources"] = [
+                "https://api.poker44.net/api/v1/benchmark",
+                "https://api.poker44.net/api/v1/benchmark/chunks?sourceDate=2026-06-30",
+            ]
+            manifest["training_refresh"] = "v315_original_temporal_holdout_candidate_2026-07-10"
         if family == "v113_daily":
             manifest["training_refresh"] = "daily_candidate_2026-06-18"
         if family == "v115_short":
@@ -3014,10 +3058,15 @@ class Miner(BaseMinerNeuron):
         return [round(float(v), 6) for v in scores]
 
     def _score_v298_lambdamart_wide_model(self, chunks: list[list[dict[str, Any]]]) -> list[float]:
-        from poker44.score.lambdamart_wide_inference import load_bundle, score_chunks
+        family = self.variant_cfg["family"]
+        is_v306 = family == "v306_lambdamart_temporal_seed_ensemble"
+        is_v315 = family == "v315_original_lambdamart_top10"
+        if is_v315:
+            from poker44.score.original_lambdamart_inference import load_bundle, score_chunks
+        else:
+            from poker44.score.lambdamart_wide_inference import load_bundle, score_chunks
 
-        is_v306 = self.variant_cfg["family"] == "v306_lambdamart_temporal_seed_ensemble"
-        env_prefix = "POKER44_V306" if is_v306 else "POKER44_V298"
+        env_prefix = "POKER44_V315" if is_v315 else "POKER44_V306" if is_v306 else "POKER44_V298"
         model_file = os.getenv(
             f"{env_prefix}_MODEL_PATH",
             str(REPO_ROOT / self.variant_cfg["model_file"]),
@@ -3286,6 +3335,7 @@ class Miner(BaseMinerNeuron):
             elif family in {
                 "v298_lambdamart_wide_ranker",
                 "v306_lambdamart_temporal_seed_ensemble",
+                "v315_original_lambdamart_top10",
             }:
                 scores = self._score_v298_lambdamart_wide_model(chunks)
             elif family == "v294_hg2_rebuild":
