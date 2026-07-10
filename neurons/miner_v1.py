@@ -52,6 +52,7 @@ This file intentionally supports only the active public model families:
 - v289_<strategy>_top<N>
 - v290_runtime_top<N>
 - v287_<strategy>_top<N>
+- v297_<strategy>_top<N>
 - v274_<strategy>_top<N>
 - v276_<strategy>_top<N>
 - v277_<strategy>_top<N>
@@ -364,6 +365,7 @@ def _variant_config(name: str) -> dict[str, Any]:
     v289_v270w90_v288397avgw10_rankblend = False
     v290_v289w90_v11w10_runtime = False
     v287_shape_adaptive_v11_v270 = False
+    v297_shape_adaptive_v296_v11_v270 = False
     v271_v11lock1_v268rest = False
     v274_v11lock1_v273rest = False
     v276_livesized6080100_v273 = False
@@ -566,6 +568,10 @@ def _variant_config(name: str) -> dict[str, Any]:
         prefix = "v287_"
         live_sized = True
         v287_shape_adaptive_v11_v270 = True
+    elif name.startswith("v297_"):
+        prefix = "v297_"
+        live_sized = True
+        v297_shape_adaptive_v296_v11_v270 = True
     elif name.startswith("v271_"):
         prefix = "v271_"
         live_sized = True
@@ -700,6 +706,8 @@ def _variant_config(name: str) -> dict[str, Any]:
             if v290_v289w90_v11w10_runtime
             else "v287_shape_adaptive_v11_v270"
             if v287_shape_adaptive_v11_v270
+            else "v297_shape_adaptive_v296_v11_v270"
+            if v297_shape_adaptive_v296_v11_v270
             else "v271_v11lock1_v268rest"
             if v271_v11lock1_v268rest
             else "v274_v11lock1_v273rest"
@@ -822,6 +830,8 @@ def _variant_config(name: str) -> dict[str, Any]:
                     if v290_v289w90_v11w10_runtime
                     else "Shape-adaptive scorer that routes lower-preflop validator batches to the deterministic v11 behavioural top-2 anchor and high-preflop batches to the v270 rank-ladder top-20 schema blend."
                     if v287_shape_adaptive_v11_v270
+                    else "Three-branch shape-adaptive scorer selected by live topology replay: v296 wide per-batch-rank PCA/MLP for D8-like batches, v11 behavioural anchor for middle-low-preflop batches, and v270 UID99-like schema rank-ladder for high-preflop batches."
+                    if v297_shape_adaptive_v296_v11_v270
                     else "v11 top-1 locked behavioural anchor with the fresh 2026-07-10 v268 robust-schema ranker ordering the remaining chunks."
                     if v271_v11lock1_v268rest
                     else "v11 top-1 locked behavioural anchor with a v273 live-sized 60/80/100 public-benchmark ranker ordering the remaining chunks."
@@ -881,7 +891,13 @@ def _variant_config(name: str) -> dict[str, Any]:
                     )
                 )
             ),
-            "strategy": "ladder_rank_mean" if v287_shape_adaptive_v11_v270 else strategy,
+            "strategy": (
+                "shape_adaptive"
+                if v297_shape_adaptive_v296_v11_v270
+                else "ladder_rank_mean"
+                if v287_shape_adaptive_v11_v270
+                else strategy
+            ),
             "default_top_n": max(1, top_n),
             "model_file": (
                 "data/models/v142_rankblend/model.pkl"
@@ -950,6 +966,8 @@ def _variant_config(name: str) -> dict[str, Any]:
                 if v290_v289w90_v11w10_runtime
                 else "data/models/v270_v260w98_v263w01_v265w01_rankblend/model.pkl"
                 if v287_shape_adaptive_v11_v270
+                else "data/models/v296_rankmlp_wide/model.pkl"
+                if v297_shape_adaptive_v296_v11_v270
                 else "data/models/v271_v11lock1_v268rest/model.pkl"
                 if v271_v11lock1_v268rest
                 else "data/models/v274_v11lock1_v273rest/model.pkl"
@@ -1102,6 +1120,37 @@ class Miner(BaseMinerNeuron):
                     REPO_ROOT / "data" / "models" / "v294_hg2_rebuild" / "meta.json",
                 ]
             )
+        elif family == "v297_shape_adaptive_v296_v11_v270":
+            files.extend(
+                [
+                    REPO_ROOT / "poker44" / "score" / "ensemble_v11.py",
+                    REPO_ROOT / "poker44" / "score" / "statistical_v5.py",
+                    REPO_ROOT / "poker44" / "score" / "statistical_v6.py",
+                    REPO_ROOT / "poker44" / "score" / "statistical_v9.py",
+                    REPO_ROOT / "poker44" / "score" / "sequence_v8.py",
+                    REPO_ROOT / "poker44" / "score" / "sequence_v8_markov.py",
+                    REPO_ROOT / "poker44" / "score" / "features_pot_geometry.py",
+                    REPO_ROOT / "poker44" / "score" / "features_response_curves.py",
+                    REPO_ROOT / "poker44" / "score" / "v112_super_inference.py",
+                    REPO_ROOT / "poker44" / "score" / "ngram_ranker.py",
+                    REPO_ROOT / "poker44" / "score" / "robust_schema" / "__init__.py",
+                    REPO_ROOT / "poker44" / "score" / "robust_schema" / "features.py",
+                    REPO_ROOT / "poker44" / "score" / "sequence_schema.py",
+                    REPO_ROOT / "poker44" / "score" / "temporal_consistency_features.py",
+                    REPO_ROOT / "poker44" / "score" / "action_anomaly_features.py",
+                    REPO_ROOT / "poker44" / "score" / "statistical_v25.py",
+                    REPO_ROOT / "poker44" / "score" / "features_v13_safe.py",
+                    REPO_ROOT / "poker44" / "score" / "extended_features.py",
+                    REPO_ROOT / "poker44" / "score" / "enterprise_features.py",
+                    REPO_ROOT / "poker44" / "score" / "hg2_runtime" / "hg_features.py",
+                    REPO_ROOT / "poker44" / "score" / "hg2_runtime" / "features_v2.py",
+                    REPO_ROOT / "poker44" / "score" / "hg2_runtime" / "hg2_features_base.py",
+                    REPO_ROOT / self.variant_cfg["model_file"],
+                    REPO_ROOT / "data" / "models" / "v296_rankmlp_wide" / "report.json",
+                    REPO_ROOT / "data" / "models" / "v270_v260w98_v263w01_v265w01_rankblend" / "model.pkl",
+                    REPO_ROOT / "data" / "models" / "v270_v260w98_v263w01_v265w01_rankblend" / "report.json",
+                ]
+            )
         elif family in {
             "v112_super",
             "v113_daily",
@@ -1152,6 +1201,7 @@ class Miner(BaseMinerNeuron):
             "v289_v270w90_v288397avgw10_rankblend",
             "v290_v289w90_v11w10_runtime",
             "v287_shape_adaptive_v11_v270",
+            "v297_shape_adaptive_v296_v11_v270",
             "v271_v11lock1_v268rest",
             "v274_v11lock1_v273rest",
             "v276_livesized6080100_v273",
@@ -2343,6 +2393,12 @@ class Miner(BaseMinerNeuron):
                 "https://api.poker44.net/api/v1/benchmark",
                 "https://api.poker44.net/api/v1/benchmark/chunks?sourceDate=2026-07-10",
             ]
+        if family == "v297_shape_adaptive_v296_v11_v270":
+            manifest["training_data_sources"] = [
+                "https://api.poker44.net/api/v1/benchmark",
+                "https://api.poker44.net/api/v1/benchmark/chunks?sourceDate=2026-07-10",
+            ]
+            manifest["training_refresh"] = "v296_rankmlp_wide_v297_shape_router_candidate_2026-07-10"
         if family == "v113_daily":
             manifest["training_refresh"] = "daily_candidate_2026-06-18"
         if family == "v115_short":
@@ -2746,6 +2802,135 @@ class Miner(BaseMinerNeuron):
         }
         return [round(float(v), 6) for v in scores]
 
+    def _score_v296_rankmlp_branch(
+        self,
+        chunks: list[list[dict[str, Any]]],
+        model_path: Path,
+    ) -> tuple[np.ndarray, np.ndarray]:
+        import pickle
+        import sys
+        from scipy.stats import rankdata
+
+        runtime_dir = REPO_ROOT / "poker44" / "score" / "hg2_runtime"
+        runtime_s = str(runtime_dir)
+        if runtime_s not in sys.path:
+            sys.path.insert(0, runtime_s)
+        module = sys.modules.get("hg_features")
+        loaded_from = str(getattr(module, "__file__", "")) if module is not None else ""
+        if module is not None and loaded_from and runtime_s not in loaded_from:
+            sys.modules.pop("hg_features", None)
+        from hg_features import wide_view
+
+        runtime = getattr(self, "_v296_runtime", None)
+        runtime_path = getattr(self, "_v296_runtime_path", None)
+        if runtime is None or runtime_path != str(model_path):
+            with model_path.open("rb") as handle:
+                runtime = pickle.load(handle)
+            self._v296_runtime = runtime
+            self._v296_runtime_path = str(model_path)
+
+        keys = list(runtime["keys"])
+        rows = [wide_view(chunk or []) for chunk in chunks]
+        x = np.asarray([[float(row.get(key, 0.0)) for key in keys] for row in rows], dtype=float)
+        x = np.nan_to_num(x, nan=0.0, posinf=0.0, neginf=0.0)
+        ranked = np.zeros_like(x, dtype=float)
+        denom = max(x.shape[0], 1)
+        for col in range(x.shape[1]):
+            ranked[:, col] = rankdata(x[:, col], method="average") / denom
+
+        proba = runtime["model"].predict_proba(ranked)
+        raw = np.asarray(proba[:, 1] if proba.ndim == 2 else proba, dtype=float)
+        threshold = min(max(float(runtime.get("deploy_threshold", 0.5)), 1e-6), 1.0 - 1e-6)
+        scores = np.where(
+            raw >= threshold,
+            0.5 + 0.5 * (raw - threshold) / (1.0 - threshold),
+            0.5 * raw / threshold,
+        )
+        scores = np.clip(scores, 0.0, 1.0)
+        max_frac = float(
+            os.getenv(
+                "POKER44_V297_MAX_POS_FRAC",
+                str(runtime.get("max_positive_fraction", 0.15)),
+            )
+        )
+        if scores.size and max_frac < 1.0:
+            k = max(1, int(np.floor(scores.size * max_frac)))
+            positive = np.flatnonzero(scores >= 0.5)
+            if positive.size > k:
+                order = positive[np.argsort(-scores[positive], kind="stable")]
+                squeeze = order[k:]
+                below = scores[scores < 0.5]
+                lo = min(float(below.max()) if below.size else 0.45, 0.499)
+                span = 0.5 - lo
+                m = len(squeeze)
+                for rank, idx in enumerate(squeeze):
+                    scores[idx] = lo + span * (m - rank) / (m + 1.0)
+        return raw, np.clip(scores, 0.0, 1.0)
+
+    def _score_v297_shape_adaptive_model(self, chunks: list[list[dict[str, Any]]]) -> list[float]:
+        from poker44.score.calibration import rank_based_calibrate
+        from poker44.score.ensemble_v11 import score_chunks_v11
+        from poker44.score.rank_cap_remap import rank_cap_remap
+        from poker44.score.v112_super_inference import score_from_file
+
+        shape = self._batch_action_shape(chunks)
+        preflop_share = float(shape["preflop_share"])
+        if preflop_share >= 0.735:
+            branch = "v270_ladder_rank_mean"
+            model_file = os.getenv(
+                "POKER44_V297_V270_MODEL_PATH",
+                os.getenv(
+                    "POKER44_V270_MODEL_PATH",
+                    str(REPO_ROOT / "data" / "models" / "v270_v260w98_v263w01_v265w01_rankblend" / "model.pkl"),
+                ),
+            )
+            model_path = Path(model_file)
+            if not model_path.exists():
+                bt.logging.error(f"{self.variant_cfg['family']} v270 model missing: {model_path}")
+                return [0.49 for _ in chunks]
+            raw_scores = np.asarray(score_from_file(chunks, model_path, strategy="ladder_rank_mean"), dtype=float)
+            top_n = _env_int("POKER44_V297_SCHEMA_TOP_N", 20)
+            scores = np.asarray(rank_cap_remap(raw_scores, top_n), dtype=float)
+        elif preflop_share <= 0.705 or 0.713 <= preflop_share <= 0.723:
+            branch = "v296_rankmlp_wide"
+            model_file = os.getenv(
+                "POKER44_V297_MODEL_PATH",
+                os.getenv("POKER44_V296_MODEL_PATH", str(REPO_ROOT / self.variant_cfg["model_file"])),
+            )
+            model_path = Path(model_file)
+            if not model_path.exists():
+                bt.logging.error(f"{self.variant_cfg['family']} v296 model missing: {model_path}")
+                return [0.49 for _ in chunks]
+            raw_scores, scores = self._score_v296_rankmlp_branch(chunks, model_path)
+            top_n = int(sum(1 for value in scores if float(value) >= 0.5))
+        else:
+            branch = "v11"
+            raw_scores, _telemetry, _types = score_chunks_v11(chunks)
+            raw_scores = np.asarray(raw_scores, dtype=float)
+            top_n = _env_int("POKER44_V297_V11_TOP_N", 2)
+            bot_ratio = min(max(top_n / max(len(raw_scores), 1), 0.0), 0.1)
+            scores = np.asarray(rank_based_calibrate(raw_scores, bot_ratio=bot_ratio), dtype=float)
+
+        self._last_raw_scores = [float(v) for v in raw_scores]
+        self._last_score_extra = {
+            "branch": branch,
+            "preflop_share": round(float(preflop_share), 8),
+            "fold_share": round(float(shape["fold_share"]), 8),
+            "actions_total": int(shape["actions_total"]),
+            "top_n": int(top_n),
+        }
+        try:
+            bt.logging.info(
+                f"{self.variant_cfg['family']} branch={branch} top_n={top_n} "
+                f"preflop_share={shape['preflop_share']:.4f} "
+                f"fold_share={shape['fold_share']:.4f} "
+                f"raw_std={float(np.std(raw_scores)):.4f} "
+                f"positives={sum(1 for v in scores if float(v) >= 0.5)}/{len(scores)}"
+            )
+        except Exception:
+            pass
+        return [round(float(v), 6) for v in scores]
+
     def _score_v294_hg2_model(self, chunks: list[list[dict[str, Any]]]) -> list[float]:
         import importlib
         import sys
@@ -2969,6 +3154,8 @@ class Miner(BaseMinerNeuron):
                 scores = self._score_v290_runtime_model(chunks)
             elif family == "v287_shape_adaptive_v11_v270":
                 scores = self._score_v287_shape_adaptive_model(chunks)
+            elif family == "v297_shape_adaptive_v296_v11_v270":
+                scores = self._score_v297_shape_adaptive_model(chunks)
             elif family == "v294_hg2_rebuild":
                 scores = self._score_v294_hg2_model(chunks)
             elif family in {
