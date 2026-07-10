@@ -1,0 +1,36 @@
+{
+  "blend_mode": "rank_mean",
+  "children": [
+    {
+      "callable": null,
+      "name": "v260",
+      "normalized_weight": 0.8,
+      "role": "blend_child",
+      "sha256": "555443ece38eceeb5f13036ec513158c13c6138829b33f9fd79d88dfaf2a1626",
+      "strategy": "et",
+      "weight": 0.8
+    },
+    {
+      "callable": null,
+      "name": "v263",
+      "normalized_weight": 0.2,
+      "role": "blend_child",
+      "sha256": "3ba003927d5654cac460e7f0b05eb65e1c4a5c9ef763dd5ee7d07c6756943d7d",
+      "strategy": "rank_mean",
+      "weight": 0.2
+    }
+  ],
+  "created_at": "2026-07-10T00:28:01.941494+00:00",
+  "evidence": [
+    "data/observations/live_forward/top_competitor_consensus_with_v263_grid_20260710T0035Z.json",
+    "data/observations/live_forward/v260_operating_point_sweep_20260710_only_20260710T0018Z.json"
+  ],
+  "family": "v186_rank_blend",
+  "model_path": "data/models/v264_v260w80_v263w20_rankblend/model.pkl",
+  "model_sha256": "6ba8c378268476658c5e1370d9372ac4daea6895bb7de9d9694e9dcdd9d734cb",
+  "note": "top1-path blend: preserve UID99-like v260 ET topology while adding latest-benchmark v263 rank_mean signal",
+  "privacy_sanitized": true,
+  "public_staging_normalized": true,
+  "training_data_statement": "This bundle blends child model rankings. Child models were trained only on public Poker44 benchmark releases through 2026-07-10 using miner-visible payload fields. No validator-private labels, wallets, hotkeys, IP addresses, or deployment logs are used for training.",
+  "version": "v264_v260w80_v263w20_rankblend_20260710_002800"
+}

@@ -36,7 +36,16 @@ This file intentionally supports only the active public model families:
 - v234_<strategy>_top<N>
 - v237_<strategy>_top<N>
 - v241_<strategy>_top<N>
+- v245_<strategy>_top<N>
 - v248_<strategy>_top<N>
+- v249_<strategy>_top<N>
+- v252_<strategy>_top<N>
+- v253_<strategy>_top<N>
+- v255_<strategy>_top<N>
+- v257_<strategy>_top<N>
+- v260_<strategy>_top<N>
+- v262_w95_<strategy>_top<N>
+- v264_<strategy>_top<N>
 - v200_<strategy>_top<N>
 
 Deployment secrets, wallet names, host details, audit logs, and private run
@@ -287,6 +296,13 @@ def _variant_config(name: str) -> dict[str, Any]:
     v245_v11lock1_v244rest = False
     v248_batchrank_schema = False
     v249_batchrank_behavmix_v11 = False
+    v252_clean_top1recipe_schema = False
+    v253_oldwindow_schema = False
+    v255_oldwindow_top1schema = False
+    v257_trainonly_top1schema = False
+    v260_fit80_sanitized_top1schema = False
+    v262_v260w95_v11w5_rankblend = False
+    v264_v260w80_v263w20_rankblend = False
     v200_stackseq_last3 = False
     v201_stackseq_wide8 = False
     prefix = "v112_super_"
@@ -427,6 +443,34 @@ def _variant_config(name: str) -> dict[str, Any]:
         prefix = "v249_"
         live_sized = True
         v249_batchrank_behavmix_v11 = True
+    elif name.startswith("v252_"):
+        prefix = "v252_"
+        live_sized = True
+        v252_clean_top1recipe_schema = True
+    elif name.startswith("v253_"):
+        prefix = "v253_"
+        live_sized = True
+        v253_oldwindow_schema = True
+    elif name.startswith("v255_"):
+        prefix = "v255_"
+        live_sized = True
+        v255_oldwindow_top1schema = True
+    elif name.startswith("v257_"):
+        prefix = "v257_"
+        live_sized = True
+        v257_trainonly_top1schema = True
+    elif name.startswith("v260_"):
+        prefix = "v260_"
+        live_sized = True
+        v260_fit80_sanitized_top1schema = True
+    elif name.startswith("v262_w95_"):
+        prefix = "v262_w95_"
+        live_sized = True
+        v262_v260w95_v11w5_rankblend = True
+    elif name.startswith("v264_"):
+        prefix = "v264_"
+        live_sized = True
+        v264_v260w80_v263w20_rankblend = True
     elif name.startswith("v200_"):
         prefix = "v200_"
         live_sized = True
@@ -507,6 +551,20 @@ def _variant_config(name: str) -> dict[str, Any]:
             if v248_batchrank_schema
             else "v249_batchrank_behavmix_v11"
             if v249_batchrank_behavmix_v11
+            else "v252_clean_top1recipe_schema"
+            if v252_clean_top1recipe_schema
+            else "v253_oldwindow_schema"
+            if v253_oldwindow_schema
+            else "v255_oldwindow_top1schema"
+            if v255_oldwindow_top1schema
+            else "v257_trainonly_top1schema"
+            if v257_trainonly_top1schema
+            else "v260_fit80_sanitized_top1schema"
+            if v260_fit80_sanitized_top1schema
+            else "v262_v260w95_v11w5_rankblend"
+            if v262_v260w95_v11w5_rankblend
+            else "v264_v260w80_v263w20_rankblend"
+            if v264_v260w80_v263w20_rankblend
             else "v200_stackseq_last3"
             if v200_stackseq_last3
             else "v201_stackseq_wide8"
@@ -591,6 +649,20 @@ def _variant_config(name: str) -> dict[str, Any]:
                     if v248_batchrank_schema
                     else "Batch-rank behav-mix-v11 schema ensemble trained on public benchmark chunks with the same 100-chunk batch-rank transform at serve time."
                     if v249_batchrank_behavmix_v11
+                    else "Clean-restart robust schema ranker trained on latest public benchmark chunks and served with rank-space ordering over 100-chunk validator payloads."
+                    if v252_clean_top1recipe_schema
+                    else "Old-window robust schema ranker trained on the stable 2026-06-03..2026-07-02 public benchmark window and served with rank-space ordering over validator payloads."
+                    if v253_oldwindow_schema
+                    else "Old-window 293-feature schema ranker trained with top1-style tree hyperparameters on the stable 2026-06-03..2026-07-02 public benchmark window and served with rank-space ordering over validator payloads."
+                    if v255_oldwindow_top1schema
+                    else "Train-split-only 293-feature schema ranker trained with top1-style tree hyperparameters on 2026-06-03..2026-06-30, holding 2026-07-01..2026-07-02 out, and served with a rank-ladder strategy over validator payloads."
+                    if v257_trainonly_top1schema
+                    else "Fit-split 293-feature schema ranker trained on miner-visible public benchmark data with 2026-07-01..2026-07-02 held out and served through a rank-ladder strategy over validator payloads."
+                    if v260_fit80_sanitized_top1schema
+                    else "Rank-space blend of the fit-split 293-feature schema ranker and the independent v11 behavioural scorer, served through a rank-ladder strategy over validator payloads."
+                    if v262_v260w95_v11w5_rankblend
+                    else "Rank-space blend of v260 ET and the latest-public-benchmark v263 schema ranker, served through a rank-ladder strategy over validator payloads."
+                    if v264_v260w80_v263w20_rankblend
                     else "Wider stacked tree and chunk-sequence model trained on latest public benchmark releases with miner-visible payload fields only."
                     if v201_stackseq_wide8
                     else "Stacked tree and chunk-sequence model trained on latest public benchmark releases with miner-visible payload fields only."
@@ -679,6 +751,20 @@ def _variant_config(name: str) -> dict[str, Any]:
                 if v248_batchrank_schema
                 else "data/models/v249_batchrank_behavmix_v11/model.pkl"
                 if v249_batchrank_behavmix_v11
+                else "data/models/v252_clean_top1recipe_schema/model.pkl"
+                if v252_clean_top1recipe_schema
+                else "data/models/v253_oldwindow_schema/model.pkl"
+                if v253_oldwindow_schema
+                else "data/models/v255_oldwindow_top1schema/model.pkl"
+                if v255_oldwindow_top1schema
+                else "data/models/v257_trainonly_top1schema/model.pkl"
+                if v257_trainonly_top1schema
+                else "data/models/v260_fit80_sanitized_top1schema/model.pkl"
+                if v260_fit80_sanitized_top1schema
+                else "data/models/v262_v260w95_v11w5_rankblend/model.pkl"
+                if v262_v260w95_v11w5_rankblend
+                else "data/models/v264_v260w80_v263w20_rankblend/model.pkl"
+                if v264_v260w80_v263w20_rankblend
                 else "data/models/v200_stackseq_last3/model.pkl"
                 if v200_stackseq_last3
                 else "data/models/v201_stackseq_wide8/model.pkl"
@@ -843,6 +929,13 @@ class Miner(BaseMinerNeuron):
             "v245_v11lock1_v244rest",
             "v248_batchrank_schema",
             "v249_batchrank_behavmix_v11",
+            "v252_clean_top1recipe_schema",
+            "v253_oldwindow_schema",
+            "v255_oldwindow_top1schema",
+            "v257_trainonly_top1schema",
+            "v260_fit80_sanitized_top1schema",
+            "v262_v260w95_v11w5_rankblend",
+            "v264_v260w80_v263w20_rankblend",
             "v200_stackseq_last3",
             "v201_stackseq_wide8",
         }:
@@ -1115,6 +1208,62 @@ class Miner(BaseMinerNeuron):
                     / "v249_batchrank_behavmix_v11"
                     / "report.json"
                 )
+            if family == "v252_clean_top1recipe_schema":
+                files.append(
+                    REPO_ROOT
+                    / "data"
+                    / "models"
+                    / "v252_clean_top1recipe_schema"
+                    / "report.json"
+                )
+            if family == "v253_oldwindow_schema":
+                files.append(
+                    REPO_ROOT
+                    / "data"
+                    / "models"
+                    / "v253_oldwindow_schema"
+                    / "report.json"
+                )
+            if family == "v255_oldwindow_top1schema":
+                files.append(
+                    REPO_ROOT
+                    / "data"
+                    / "models"
+                    / "v255_oldwindow_top1schema"
+                    / "report.json"
+                )
+            if family == "v257_trainonly_top1schema":
+                files.append(
+                    REPO_ROOT
+                    / "data"
+                    / "models"
+                    / "v257_trainonly_top1schema"
+                    / "report.json"
+                )
+            if family == "v260_fit80_sanitized_top1schema":
+                files.append(
+                    REPO_ROOT
+                    / "data"
+                    / "models"
+                    / "v260_fit80_sanitized_top1schema"
+                    / "report.json"
+                )
+            if family == "v262_v260w95_v11w5_rankblend":
+                files.append(
+                    REPO_ROOT
+                    / "data"
+                    / "models"
+                    / "v262_v260w95_v11w5_rankblend"
+                    / "report.json"
+                )
+            if family == "v264_v260w80_v263w20_rankblend":
+                files.append(
+                    REPO_ROOT
+                    / "data"
+                    / "models"
+                    / "v264_v260w80_v263w20_rankblend"
+                    / "report.json"
+                )
             if family in {"v200_stackseq_last3", "v201_stackseq_wide8"}:
                 files.extend(
                     [
@@ -1164,6 +1313,9 @@ class Miner(BaseMinerNeuron):
             "v219_rebuilt_superv2",
             "v220_v11lock2_v219rest",
             "v223_withinbatch_behav_refresh",
+            "v260_fit80_sanitized_top1schema",
+            "v262_v260w95_v11w5_rankblend",
+            "v264_v260w80_v263w20_rankblend",
             "v200_stackseq_last3",
             "v201_stackseq_wide8",
         }:
@@ -1415,6 +1567,92 @@ class Miner(BaseMinerNeuron):
                     "wallets, hotkeys, IP addresses, deployment logs, or private player data "
                     "were used for training."
                 )
+            elif family == "v252_clean_top1recipe_schema":
+                training_statement = (
+                    "Model trained only on public Poker44 benchmark releaseVersion v1.13 "
+                    "through sourceDate 2026-07-09 using miner-visible hand/action payload "
+                    "fields only. It uses robust schema features filtered to stable absolute "
+                    "features and serves a rank-space strategy over 100-chunk validator "
+                    "payloads. Unlabeled miner-received forward-audit payloads were used only "
+                    "for topology, shape, and train/serve checks. No validator-private labels, "
+                    "wallets, hotkeys, IP addresses, deployment logs, or private player data "
+                    "were used for training."
+                )
+            elif family == "v253_oldwindow_schema":
+                training_statement = (
+                    "Model trained only on public Poker44 benchmark releaseVersion v1.13 "
+                    "sourceDates 2026-06-03 through 2026-07-02 using miner-visible "
+                    "hand/action payload fields only. It uses a deliberately old-window "
+                    "robust schema tree ensemble to reduce benchmark-overfit to the latest "
+                    "sanitized release and serves a rank-space strategy over validator "
+                    "payloads. Unlabeled miner-received forward-audit payloads were used only "
+                    "for topology, shape, and train/serve checks. No validator-private labels, "
+                    "wallets, hotkeys, IP addresses, deployment logs, or private player data "
+                    "were used for training."
+                )
+            elif family == "v255_oldwindow_top1schema":
+                training_statement = (
+                    "Model trained only on public Poker44 benchmark releaseVersion v1.13 "
+                    "sourceDates 2026-06-03 through 2026-07-02 using miner-visible "
+                    "hand/action payload fields only. It uses the old-window robust schema "
+                    "with repeat-compression features removed to match the 293-feature "
+                    "top1 public model shape, top1-style tree hyperparameters, and a "
+                    "rank-space strategy over validator payloads. Unlabeled miner-received "
+                    "forward-audit payloads were used only for topology, shape, and "
+                    "train/serve checks. No validator-private labels, wallets, hotkeys, "
+                    "IP addresses, deployment logs, or private player data were used for training."
+                )
+            elif family == "v257_trainonly_top1schema":
+                training_statement = (
+                    "Model trained only on public Poker44 benchmark releaseVersion v1.13 "
+                    "sourceDates 2026-06-03 through 2026-06-30 using miner-visible "
+                    "hand/action payload fields only, with 2026-07-01 through 2026-07-02 "
+                    "held out for reporting. It uses the 293-feature robust schema with "
+                    "repeat-compression features removed, top1-style tree hyperparameters, "
+                    "and a monotone rank-ladder serve strategy over validator payloads. "
+                    "Unlabeled miner-received forward-audit payloads were used only for "
+                    "topology, shape, and train/serve checks. No validator-private labels, "
+                    "wallets, hotkeys, IP addresses, deployment logs, or private player "
+                    "data were used for training."
+                )
+            elif family == "v260_fit80_sanitized_top1schema":
+                training_statement = (
+                    "Model trained only on public Poker44 benchmark releaseVersion v1.13 "
+                    "sourceDates 2026-06-03 through 2026-06-30 using miner-visible "
+                    "hand/action payload fields only, with 2026-07-01 through 2026-07-02 "
+                    "held out for reporting. Validator miner-visible sanitization was "
+                    "applied before feature extraction, repeat-compression features were "
+                    "removed from the robust schema, and a stratified fit split was used "
+                    "to train the tree heads. Scores are served through a monotone "
+                    "rank-ladder strategy over validator payloads. Unlabeled miner-received "
+                    "forward-audit payloads were used only for topology, shape, and "
+                    "train/serve checks. No validator-private labels, wallets, hotkeys, "
+                    "IP addresses, deployment logs, or private player data were used for training."
+                )
+            elif family == "v262_v260w95_v11w5_rankblend":
+                training_statement = (
+                    "Rank-space blend of two disclosed AceGuard components: a fit-split "
+                    "293-feature schema tree ranker trained only on public Poker44 benchmark "
+                    "sourceDates 2026-06-03 through 2026-06-30 with miner-visible sanitization "
+                    "and 2026-07-01 through 2026-07-02 held out for reporting, plus the "
+                    "independent deterministic v11 behavioural scorer. Unlabeled miner-received "
+                    "forward-audit payloads were used only for topology, shape, and train/serve "
+                    "checks. No validator-private labels, wallets, hotkeys, IP addresses, "
+                    "deployment logs, or private player data were used for training."
+                )
+            elif family == "v264_v260w80_v263w20_rankblend":
+                training_statement = (
+                    "Rank-space blend of two disclosed AceGuard schema components: v260 ET, "
+                    "a fit-split 293-feature schema ranker trained only on public Poker44 "
+                    "benchmark sourceDates through 2026-07-02 with miner-visible "
+                    "sanitization, and v263 rank_mean, the same schema family refreshed "
+                    "against public benchmark sourceDates through 2026-07-10 with "
+                    "2026-07-09 and 2026-07-10 held out for reporting. Unlabeled "
+                    "miner-received forward-audit payloads were used only for topology, "
+                    "shape, and train/serve checks. No validator-private labels, wallets, "
+                    "hotkeys, IP addresses, deployment logs, or private player data were "
+                    "used for training."
+                )
             elif family == "v200_stackseq_last3":
                 training_statement = (
                     "Model trained only on public Poker44 benchmark releaseVersion v1.13 "
@@ -1522,6 +1760,13 @@ class Miner(BaseMinerNeuron):
                     or family == "v245_v11lock1_v244rest"
                     or family == "v248_batchrank_schema"
                     or family == "v249_batchrank_behavmix_v11"
+                    or family == "v252_clean_top1recipe_schema"
+                    or family == "v253_oldwindow_schema"
+                    or family == "v255_oldwindow_top1schema"
+                    or family == "v257_trainonly_top1schema"
+                    or family == "v260_fit80_sanitized_top1schema"
+                    or family == "v262_v260w95_v11w5_rankblend"
+                    or family == "v264_v260w80_v263w20_rankblend"
                     else
                     [
                         "https://api.poker44.net/api/v1/benchmark",
@@ -1622,6 +1867,20 @@ class Miner(BaseMinerNeuron):
             manifest["training_refresh"] = "batchrank_schema_public_benchmark_candidate_2026-07-09"
         if family == "v249_batchrank_behavmix_v11":
             manifest["training_refresh"] = "batchrank_behavmix_v11_candidate_2026-07-09"
+        if family == "v252_clean_top1recipe_schema":
+            manifest["training_refresh"] = "clean_top1recipe_schema_candidate_2026-07-09"
+        if family == "v253_oldwindow_schema":
+            manifest["training_refresh"] = "oldwindow_schema_candidate_2026-07-09"
+        if family == "v255_oldwindow_top1schema":
+            manifest["training_refresh"] = "oldwindow_top1schema_candidate_2026-07-09"
+        if family == "v257_trainonly_top1schema":
+            manifest["training_refresh"] = "trainonly_top1schema_candidate_2026-07-09"
+        if family == "v260_fit80_sanitized_top1schema":
+            manifest["training_refresh"] = "fit80_sanitized_top1schema_candidate_2026-07-09"
+        if family == "v262_v260w95_v11w5_rankblend":
+            manifest["training_refresh"] = "v260w95_v11w5_rankblend_candidate_2026-07-09"
+        if family == "v264_v260w80_v263w20_rankblend":
+            manifest["training_refresh"] = "v260w80_v263w20_rankblend_candidate_2026-07-10"
         if family == "v200_stackseq_last3":
             manifest["training_refresh"] = "stackseq_last3_public_benchmark_candidate_2026-07-08"
         if family == "v201_stackseq_wide8":
@@ -1859,6 +2118,20 @@ class Miner(BaseMinerNeuron):
             env_name = "POKER44_V248_MODEL_PATH"
         elif self.variant_cfg["family"] == "v249_batchrank_behavmix_v11":
             env_name = "POKER44_V249_MODEL_PATH"
+        elif self.variant_cfg["family"] == "v252_clean_top1recipe_schema":
+            env_name = "POKER44_V252_MODEL_PATH"
+        elif self.variant_cfg["family"] == "v253_oldwindow_schema":
+            env_name = "POKER44_V253_MODEL_PATH"
+        elif self.variant_cfg["family"] == "v255_oldwindow_top1schema":
+            env_name = "POKER44_V255_MODEL_PATH"
+        elif self.variant_cfg["family"] == "v257_trainonly_top1schema":
+            env_name = "POKER44_V257_MODEL_PATH"
+        elif self.variant_cfg["family"] == "v260_fit80_sanitized_top1schema":
+            env_name = "POKER44_V260_MODEL_PATH"
+        elif self.variant_cfg["family"] == "v262_v260w95_v11w5_rankblend":
+            env_name = "POKER44_V262_MODEL_PATH"
+        elif self.variant_cfg["family"] == "v264_v260w80_v263w20_rankblend":
+            env_name = "POKER44_V264_MODEL_PATH"
         elif self.variant_cfg["family"] in {"v200_stackseq_last3", "v201_stackseq_wide8"}:
             return self._score_stackseq_model(chunks)
         else:
@@ -1943,6 +2216,13 @@ class Miner(BaseMinerNeuron):
                 "v245_v11lock1_v244rest",
                 "v248_batchrank_schema",
                 "v249_batchrank_behavmix_v11",
+                "v252_clean_top1recipe_schema",
+                "v253_oldwindow_schema",
+                "v255_oldwindow_top1schema",
+                "v257_trainonly_top1schema",
+                "v260_fit80_sanitized_top1schema",
+                "v262_v260w95_v11w5_rankblend",
+                "v264_v260w80_v263w20_rankblend",
                 "v200_stackseq_last3",
                 "v201_stackseq_wide8",
             }:
