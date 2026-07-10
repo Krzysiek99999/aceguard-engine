@@ -47,6 +47,9 @@ This file intentionally supports only the active public model families:
 - v262_w95_<strategy>_top<N>
 - v264_<strategy>_top<N>
 - v270_<strategy>_top<N>
+- v289_<strategy>_top<N>
+- v290_runtime_top<N>
+- v287_<strategy>_top<N>
 - v274_<strategy>_top<N>
 - v276_<strategy>_top<N>
 - v277_<strategy>_top<N>
@@ -161,6 +164,7 @@ def _write_forward_audit(
     raw_scores: list[float],
     final_scores: list[float],
     predictions: list[bool],
+    score_extra: dict[str, Any] | None = None,
 ) -> None:
     if not _audit_enabled():
         return
@@ -181,6 +185,8 @@ def _write_forward_audit(
             "predictions": [bool(v) for v in predictions],
             "positive_count": int(sum(bool(v) for v in predictions)),
         }
+        if score_extra:
+            record["score_extra"] = score_extra
         if _audit_full_chunks_enabled():
             if not _audit_dedupe_full_chunks_enabled() or fingerprint not in _audit_seen_full_chunks(out_dir):
                 record["chunks"] = chunks
@@ -309,6 +315,10 @@ def _variant_config(name: str) -> dict[str, Any]:
     v262_v260w95_v11w5_rankblend = False
     v264_v260w80_v263w20_rankblend = False
     v270_v260w98_v263w01_v265w01_rankblend = False
+    v291_v263_rankmean_latest = False
+    v289_v270w90_v288397avgw10_rankblend = False
+    v290_v289w90_v11w10_runtime = False
+    v287_shape_adaptive_v11_v270 = False
     v271_v11lock1_v268rest = False
     v274_v11lock1_v273rest = False
     v276_livesized6080100_v273 = False
@@ -486,6 +496,22 @@ def _variant_config(name: str) -> dict[str, Any]:
         prefix = "v270_"
         live_sized = True
         v270_v260w98_v263w01_v265w01_rankblend = True
+    elif name.startswith("v291_"):
+        prefix = "v291_"
+        live_sized = True
+        v291_v263_rankmean_latest = True
+    elif name.startswith("v289_"):
+        prefix = "v289_"
+        live_sized = True
+        v289_v270w90_v288397avgw10_rankblend = True
+    elif name.startswith("v290_"):
+        prefix = "v290_"
+        live_sized = True
+        v290_v289w90_v11w10_runtime = True
+    elif name.startswith("v287_"):
+        prefix = "v287_"
+        live_sized = True
+        v287_shape_adaptive_v11_v270 = True
     elif name.startswith("v271_"):
         prefix = "v271_"
         live_sized = True
@@ -542,6 +568,7 @@ def _variant_config(name: str) -> dict[str, Any]:
             "cal": "calibrated",
             "calibrated": "calibrated",
             "final": "final",
+            "runtime": "v290_runtime",
         }
         if strategy_part.startswith(("avg_no_", "avg_w", "blend_", "seg", "ladder_")) or strategy_part in {
             "v125_weighted",
@@ -602,6 +629,14 @@ def _variant_config(name: str) -> dict[str, Any]:
             if v264_v260w80_v263w20_rankblend
             else "v270_v260w98_v263w01_v265w01_rankblend"
             if v270_v260w98_v263w01_v265w01_rankblend
+            else "v291_v263_rankmean_latest"
+            if v291_v263_rankmean_latest
+            else "v289_v270w90_v288397avgw10_rankblend"
+            if v289_v270w90_v288397avgw10_rankblend
+            else "v290_v289w90_v11w10_runtime"
+            if v290_v289w90_v11w10_runtime
+            else "v287_shape_adaptive_v11_v270"
+            if v287_shape_adaptive_v11_v270
             else "v271_v11lock1_v268rest"
             if v271_v11lock1_v268rest
             else "v274_v11lock1_v273rest"
@@ -712,6 +747,12 @@ def _variant_config(name: str) -> dict[str, Any]:
                     if v264_v260w80_v263w20_rankblend
                     else "Rank-space blend of v260 ET with small v263 and v265 schema-anomaly components, selected by live-topology replay against current public leaders."
                     if v270_v260w98_v263w01_v265w01_rankblend
+                    else "Rank-space blend of the v270 UID99-like schema blend and a small v288 top1-style robust-schema branch, selected by live-payload topology replay."
+                    if v289_v270w90_v288397avgw10_rankblend
+                    else "Runtime rank-space blend of v289 UID99-like schema scoring and the independent v11 behavioural scorer, selected by held-out stress replay."
+                    if v290_v289w90_v11w10_runtime
+                    else "Shape-adaptive scorer that routes lower-preflop validator batches to the deterministic v11 behavioural top-2 anchor and high-preflop batches to the v270 rank-ladder top-20 schema blend."
+                    if v287_shape_adaptive_v11_v270
                     else "v11 top-1 locked behavioural anchor with the fresh 2026-07-10 v268 robust-schema ranker ordering the remaining chunks."
                     if v271_v11lock1_v268rest
                     else "v11 top-1 locked behavioural anchor with a v273 live-sized 60/80/100 public-benchmark ranker ordering the remaining chunks."
@@ -769,7 +810,7 @@ def _variant_config(name: str) -> dict[str, Any]:
                     )
                 )
             ),
-            "strategy": strategy,
+            "strategy": "ladder_rank_mean" if v287_shape_adaptive_v11_v270 else strategy,
             "default_top_n": max(1, top_n),
             "model_file": (
                 "data/models/v142_rankblend/model.pkl"
@@ -826,6 +867,14 @@ def _variant_config(name: str) -> dict[str, Any]:
                 if v264_v260w80_v263w20_rankblend
                 else "data/models/v270_v260w98_v263w01_v265w01_rankblend/model.pkl"
                 if v270_v260w98_v263w01_v265w01_rankblend
+                else "data/models/v291_v263_rankmean_latest/model.pkl"
+                if v291_v263_rankmean_latest
+                else "data/models/v289_v270w90_v288397avgw10_rankblend/model.pkl"
+                if v289_v270w90_v288397avgw10_rankblend
+                else "data/models/v290_v289w90_v11w10_runtime/model.pkl"
+                if v290_v289w90_v11w10_runtime
+                else "data/models/v270_v260w98_v263w01_v265w01_rankblend/model.pkl"
+                if v287_shape_adaptive_v11_v270
                 else "data/models/v271_v11lock1_v268rest/model.pkl"
                 if v271_v11lock1_v268rest
                 else "data/models/v274_v11lock1_v273rest/model.pkl"
@@ -904,6 +953,7 @@ class Miner(BaseMinerNeuron):
         self.variant = os.getenv("POKER44_V1_VARIANT", "v5_statistical").strip()
         self.variant_cfg = _variant_config(self.variant)
         self._last_raw_scores: list[float] = []
+        self._last_score_extra: dict[str, Any] = {}
         self.model_manifest = self._build_manifest()
         self.manifest_compliance = evaluate_manifest_compliance(self.model_manifest)
         self.manifest_digest = manifest_digest(self.model_manifest)
@@ -1008,6 +1058,9 @@ class Miner(BaseMinerNeuron):
             "v262_v260w95_v11w5_rankblend",
             "v264_v260w80_v263w20_rankblend",
             "v270_v260w98_v263w01_v265w01_rankblend",
+            "v289_v270w90_v288397avgw10_rankblend",
+            "v290_v289w90_v11w10_runtime",
+            "v287_shape_adaptive_v11_v270",
             "v271_v11lock1_v268rest",
             "v274_v11lock1_v273rest",
             "v276_livesized6080100_v273",
@@ -1349,7 +1402,57 @@ class Miner(BaseMinerNeuron):
                     / "data"
                     / "models"
                     / "v270_v260w98_v263w01_v265w01_rankblend"
+                        / "report.json"
+                )
+            if family == "v291_v263_rankmean_latest":
+                files.append(
+                    REPO_ROOT
+                    / "data"
+                    / "models"
+                    / "v291_v263_rankmean_latest"
                     / "report.json"
+                )
+            if family == "v289_v270w90_v288397avgw10_rankblend":
+                files.append(
+                    REPO_ROOT
+                    / "data"
+                    / "models"
+                    / "v289_v270w90_v288397avgw10_rankblend"
+                    / "report.json"
+                )
+            if family == "v290_v289w90_v11w10_runtime":
+                files.extend(
+                    [
+                        REPO_ROOT / "poker44" / "score" / "ensemble_v11.py",
+                        REPO_ROOT / "poker44" / "score" / "statistical_v5.py",
+                        REPO_ROOT / "poker44" / "score" / "statistical_v6.py",
+                        REPO_ROOT / "poker44" / "score" / "statistical_v9.py",
+                        REPO_ROOT / "poker44" / "score" / "sequence_v8.py",
+                        REPO_ROOT / "poker44" / "score" / "sequence_v8_markov.py",
+                        REPO_ROOT / "poker44" / "score" / "features_response_curves.py",
+                        REPO_ROOT
+                        / "data"
+                        / "models"
+                        / "v290_v289w90_v11w10_runtime"
+                        / "report.json",
+                    ]
+                )
+            if family == "v287_shape_adaptive_v11_v270":
+                files.extend(
+                    [
+                        REPO_ROOT / "poker44" / "score" / "ensemble_v11.py",
+                        REPO_ROOT / "poker44" / "score" / "statistical_v5.py",
+                        REPO_ROOT / "poker44" / "score" / "statistical_v6.py",
+                        REPO_ROOT / "poker44" / "score" / "statistical_v9.py",
+                        REPO_ROOT / "poker44" / "score" / "sequence_v8.py",
+                        REPO_ROOT / "poker44" / "score" / "sequence_v8_markov.py",
+                        REPO_ROOT / "poker44" / "score" / "features_response_curves.py",
+                        REPO_ROOT
+                        / "data"
+                        / "models"
+                        / "v270_v260w98_v263w01_v265w01_rankblend"
+                        / "report.json",
+                    ]
                 )
             if family == "v271_v11lock1_v268rest":
                 files.extend(
@@ -1462,6 +1565,9 @@ class Miner(BaseMinerNeuron):
             "v262_v260w95_v11w5_rankblend",
             "v264_v260w80_v263w20_rankblend",
             "v270_v260w98_v263w01_v265w01_rankblend",
+            "v289_v270w90_v288397avgw10_rankblend",
+            "v290_v289w90_v11w10_runtime",
+            "v287_shape_adaptive_v11_v270",
             "v271_v11lock1_v268rest",
             "v274_v11lock1_v273rest",
             "v276_livesized6080100_v273",
@@ -1815,6 +1921,55 @@ class Miner(BaseMinerNeuron):
                     "No validator-private labels, wallets, hotkeys, IP addresses, "
                     "deployment logs, or private player data were used for training."
                 )
+            elif family == "v291_v263_rankmean_latest":
+                training_statement = (
+                    "Pure v263 rank_mean AceGuard schema scorer trained only on public Poker44 "
+                    "benchmark data through 2026-07-10 with miner-visible sanitization. "
+                    "The candidate is selected from the latest labeled benchmark check where "
+                    "it outperformed the public UID99 reference under the official reward. "
+                    "Unlabeled miner-received forward-audit payloads were used only for "
+                    "topology, shape, and train/serve checks. No validator-private labels, "
+                    "wallets, hotkeys, IP addresses, deployment logs, or private player data "
+                    "were used for training."
+                )
+            elif family == "v289_v270w90_v288397avgw10_rankblend":
+                training_statement = (
+                    "Rank-space blend of disclosed AceGuard components selected by "
+                    "live-payload topology replay: 0.90 v270 UID99-like schema rank blend "
+                    "and 0.10 v288 397-feature top1-style robust-schema branch. Child "
+                    "models were trained only on public Poker44 benchmark data with "
+                    "miner-visible sanitization. Unlabeled miner-received forward-audit "
+                    "payloads were used only for topology, shape, and train/serve checks. "
+                    "No validator-private labels, wallets, hotkeys, IP addresses, "
+                    "deployment logs, or private player data were used for training."
+                )
+            elif family == "v290_v289w90_v11w10_runtime":
+                training_statement = (
+                    "Runtime rank-space blend of disclosed AceGuard components selected by "
+                    "held-out stress replay: 0.90 v289 UID99-like schema branch and 0.10 "
+                    "deterministic v11 behavioural branch. The v289 child model was trained "
+                    "only on public Poker44 benchmark data with miner-visible sanitization; "
+                    "v11 is a deterministic scorer over miner-visible hand-history fields. "
+                    "Unlabeled miner-received forward-audit payloads were used only for "
+                    "topology, shape, and train/serve checks. No validator-private labels, "
+                    "wallets, hotkeys, IP addresses, deployment logs, or private player "
+                    "data were used for training or routing."
+                )
+            elif family == "v287_shape_adaptive_v11_v270":
+                training_statement = (
+                    "Shape-adaptive scorer combining two disclosed AceGuard components: "
+                    "the deterministic public v11 behavioural top-2 scorer and the v270 "
+                    "rank-space schema blend. The v270 child models were trained only on "
+                    "public Poker44 benchmark data with miner-visible sanitization. The "
+                    "serve-time router uses only unlabeled current batch shape statistics "
+                    "(preflop and fold action shares) observed in the miner-visible payload "
+                    "to choose v11/top2 for lower-preflop/lower-fold batches and v270/top20 "
+                    "for high-preflop/high-fold batches. Unlabeled miner-received "
+                    "forward-audit payloads were used only for topology, shape, and "
+                    "train/serve checks. No validator-private labels, wallets, hotkeys, "
+                    "IP addresses, deployment logs, or private player data were used for "
+                    "training or routing."
+                )
             elif family == "v271_v11lock1_v268rest":
                 training_statement = (
                     "v11 top-1 locked behavioural anchor plus v268, a fresh robust-schema "
@@ -1985,6 +2140,10 @@ class Miner(BaseMinerNeuron):
                     or family == "v262_v260w95_v11w5_rankblend"
                     or family == "v264_v260w80_v263w20_rankblend"
                     or family == "v270_v260w98_v263w01_v265w01_rankblend"
+                    or family == "v291_v263_rankmean_latest"
+                    or family == "v289_v270w90_v288397avgw10_rankblend"
+                    or family == "v290_v289w90_v11w10_runtime"
+                    or family == "v287_shape_adaptive_v11_v270"
                     or family == "v271_v11lock1_v268rest"
                     or family == "v274_v11lock1_v273rest"
                     or family == "v276_livesized6080100_v273"
@@ -2106,6 +2265,14 @@ class Miner(BaseMinerNeuron):
             manifest["training_refresh"] = "v260w80_v263w20_rankblend_candidate_2026-07-10"
         if family == "v270_v260w98_v263w01_v265w01_rankblend":
             manifest["training_refresh"] = "v260w98_v263w01_v265w01_rankblend_candidate_2026-07-10"
+        if family == "v291_v263_rankmean_latest":
+            manifest["training_refresh"] = "v263_rankmean_latest_candidate_2026-07-10"
+        if family == "v289_v270w90_v288397avgw10_rankblend":
+            manifest["training_refresh"] = "v270w90_v288397avgw10_rankblend_candidate_2026-07-10"
+        if family == "v290_v289w90_v11w10_runtime":
+            manifest["training_refresh"] = "v289w90_v11w10_runtime_candidate_2026-07-10"
+        if family == "v287_shape_adaptive_v11_v270":
+            manifest["training_refresh"] = "shape_adaptive_v11_v270_candidate_2026-07-10"
         if family == "v271_v11lock1_v268rest":
             manifest["training_refresh"] = "v11lock1_v268rest_candidate_2026-07-10"
         if family == "v274_v11lock1_v273rest":
@@ -2285,6 +2452,130 @@ class Miner(BaseMinerNeuron):
         bot_ratio = min(max(top_n / max(len(raw_scores), 1), 0.0), 0.1)
         return [round(float(v), 6) for v in rank_based_calibrate(raw_scores, bot_ratio=bot_ratio)]
 
+    def _batch_action_shape(self, chunks: list[list[dict[str, Any]]]) -> dict[str, float]:
+        actions_total = 0
+        preflop_count = 0
+        fold_count = 0
+        for chunk in chunks:
+            for hand in chunk:
+                actions = hand.get("actions") if isinstance(hand, dict) else None
+                if not isinstance(actions, list):
+                    continue
+                for action in actions:
+                    if not isinstance(action, dict):
+                        continue
+                    actions_total += 1
+                    street = str(action.get("street", "")).lower()
+                    action_type = str(action.get("action_type", action.get("type", ""))).lower()
+                    if street == "preflop":
+                        preflop_count += 1
+                    if action_type == "fold":
+                        fold_count += 1
+        denom = max(actions_total, 1)
+        return {
+            "actions_total": float(actions_total),
+            "preflop_share": float(preflop_count / denom),
+            "fold_share": float(fold_count / denom),
+        }
+
+    def _rank01(self, values: list[float] | np.ndarray) -> np.ndarray:
+        arr = np.asarray(values, dtype=float)
+        if arr.size == 0:
+            return arr
+        order = np.argsort(arr, kind="mergesort")
+        ranks = np.empty(arr.size, dtype=float)
+        ranks[order] = (np.arange(arr.size, dtype=float) + 1.0) / max(arr.size, 1)
+        return ranks
+
+    def _score_v290_runtime_model(self, chunks: list[list[dict[str, Any]]]) -> list[float]:
+        from poker44.score.ensemble_v11 import score_chunks_v11
+        from poker44.score.rank_cap_remap import rank_cap_remap
+        from poker44.score.v112_super_inference import score_from_file
+
+        model_file = os.getenv(
+            "POKER44_V290_MODEL_PATH",
+            os.getenv("POKER44_V289_MODEL_PATH", str(REPO_ROOT / self.variant_cfg["model_file"])),
+        )
+        model_path = Path(model_file)
+        if not model_path.exists():
+            bt.logging.error(f"{self.variant_cfg['family']} model missing: {model_path}")
+            return [0.49 for _ in chunks]
+
+        v289_scores = np.asarray(score_from_file(chunks, model_path, strategy="ladder_rank_mean"), dtype=float)
+        v11_scores, _telemetry, _types = score_chunks_v11(chunks)
+        v11_scores = np.asarray(v11_scores, dtype=float)
+        blended = 0.90 * self._rank01(v289_scores) + 0.10 * self._rank01(v11_scores)
+        self._last_raw_scores = [float(v) for v in blended]
+        top_n = _env_int("POKER44_MAX_N", self.variant_cfg["default_top_n"])
+        scores = rank_cap_remap(blended, top_n)
+        self._last_score_extra = {
+            "branch": "v290_runtime",
+            "v289_weight": 0.90,
+            "v11_weight": 0.10,
+            "top_n": int(top_n),
+            "v289_std": round(float(np.std(v289_scores)), 8),
+            "v11_std": round(float(np.std(v11_scores)), 8),
+        }
+        try:
+            bt.logging.info(
+                f"{self.variant_cfg['family']} runtime top_n={top_n} "
+                f"v289_std={float(np.std(v289_scores)):.4f} "
+                f"v11_std={float(np.std(v11_scores)):.4f} "
+                f"positives={sum(1 for v in scores if v >= 0.5)}/{len(scores)}"
+            )
+        except Exception:
+            pass
+        return [round(float(v), 6) for v in scores]
+
+    def _score_v287_shape_adaptive_model(self, chunks: list[list[dict[str, Any]]]) -> list[float]:
+        from poker44.score.calibration import rank_based_calibrate
+        from poker44.score.ensemble_v11 import score_chunks_v11
+        from poker44.score.rank_cap_remap import rank_cap_remap
+        from poker44.score.v112_super_inference import score_from_file
+
+        shape = self._batch_action_shape(chunks)
+        use_schema_branch = shape["preflop_share"] >= 0.735
+        if use_schema_branch:
+            model_file = os.getenv(
+                "POKER44_V287_MODEL_PATH",
+                os.getenv("POKER44_V270_MODEL_PATH", str(REPO_ROOT / self.variant_cfg["model_file"])),
+            )
+            model_path = Path(model_file)
+            if not model_path.exists():
+                bt.logging.error(f"{self.variant_cfg['family']} model missing: {model_path}")
+                return [0.49 for _ in chunks]
+            raw_scores = score_from_file(chunks, model_path, strategy="ladder_rank_mean")
+            self._last_raw_scores = [float(v) for v in raw_scores]
+            top_n = _env_int("POKER44_V287_SCHEMA_TOP_N", 20)
+            scores = rank_cap_remap(raw_scores, top_n)
+            branch = "v270_ladder_rank_mean"
+        else:
+            raw_scores, _telemetry, _types = score_chunks_v11(chunks)
+            self._last_raw_scores = [float(v) for v in raw_scores]
+            top_n = _env_int("POKER44_V287_V11_TOP_N", 2)
+            bot_ratio = min(max(top_n / max(len(raw_scores), 1), 0.0), 0.1)
+            scores = rank_based_calibrate(raw_scores, bot_ratio=bot_ratio)
+            branch = "v11"
+
+        try:
+            bt.logging.info(
+                f"{self.variant_cfg['family']} branch={branch} top_n={top_n} "
+                f"preflop_share={shape['preflop_share']:.4f} "
+                f"fold_share={shape['fold_share']:.4f} "
+                f"raw_std={float(np.std(raw_scores)):.4f} "
+                f"positives={sum(1 for v in scores if v >= 0.5)}/{len(scores)}"
+            )
+        except Exception:
+            pass
+        self._last_score_extra = {
+            "branch": branch,
+            "preflop_share": round(float(shape["preflop_share"]), 8),
+            "fold_share": round(float(shape["fold_share"]), 8),
+            "actions_total": int(shape["actions_total"]),
+            "top_n": int(top_n),
+        }
+        return [round(float(v), 6) for v in scores]
+
     def _score_schema_model(self, chunks: list[list[dict[str, Any]]]) -> list[float]:
         from poker44.score.rank_cap_remap import rank_cap_remap
         from poker44.score.v112_super_inference import score_from_file
@@ -2369,6 +2660,10 @@ class Miner(BaseMinerNeuron):
             env_name = "POKER44_V264_MODEL_PATH"
         elif self.variant_cfg["family"] == "v270_v260w98_v263w01_v265w01_rankblend":
             env_name = "POKER44_V270_MODEL_PATH"
+        elif self.variant_cfg["family"] == "v291_v263_rankmean_latest":
+            env_name = "POKER44_V291_MODEL_PATH"
+        elif self.variant_cfg["family"] == "v289_v270w90_v288397avgw10_rankblend":
+            env_name = "POKER44_V289_MODEL_PATH"
         elif self.variant_cfg["family"] == "v271_v11lock1_v268rest":
             env_name = "POKER44_V271_MODEL_PATH"
         elif self.variant_cfg["family"] == "v274_v11lock1_v273rest":
@@ -2418,6 +2713,7 @@ class Miner(BaseMinerNeuron):
         family = self.variant_cfg["family"]
         try:
             self._last_raw_scores = []
+            self._last_score_extra = {}
             if family == "v5":
                 scores = self._score_v5(chunks)
             elif family == "v10":
@@ -2426,6 +2722,10 @@ class Miner(BaseMinerNeuron):
                 scores = self._score_v8_markov(chunks)
             elif family == "v11":
                 scores = self._score_v11(chunks)
+            elif family == "v290_v289w90_v11w10_runtime":
+                scores = self._score_v290_runtime_model(chunks)
+            elif family == "v287_shape_adaptive_v11_v270":
+                scores = self._score_v287_shape_adaptive_model(chunks)
             elif family in {
                 "v112_super",
                 "v113_daily",
@@ -2471,6 +2771,8 @@ class Miner(BaseMinerNeuron):
                 "v262_v260w95_v11w5_rankblend",
                 "v264_v260w80_v263w20_rankblend",
                 "v270_v260w98_v263w01_v265w01_rankblend",
+                "v291_v263_rankmean_latest",
+                "v289_v270w90_v288397avgw10_rankblend",
                 "v271_v11lock1_v268rest",
                 "v274_v11lock1_v273rest",
                 "v276_livesized6080100_v273",
@@ -2502,6 +2804,7 @@ class Miner(BaseMinerNeuron):
             raw_scores=self._last_raw_scores or scores,
             final_scores=scores,
             predictions=synapse.predictions,
+            score_extra=getattr(self, "_last_score_extra", {}),
         )
         bt.logging.info(
             f"Scored {len(chunks)} chunks variant={self.variant} "
