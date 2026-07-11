@@ -236,3 +236,35 @@ Supported runtime strategy:
 
 The deployment layer applies rank-cap calibration after scoring. This family is
 prepared as a candidate and should only be deployed after a live reflection gate.
+
+### `v334_v11_consensus_lock7_dual25_top8`
+
+Original single-replacement hybrid for 100-chunk evaluation batches. Five
+independently implemented behavioural scorers protect seven members selected
+from the v11 top eight. A five-network permutation-invariant hand-set rank
+ensemble orders the protected members and the rest of the batch, filling one
+threshold position. The deployment head emits exactly eight scores at or above
+`0.5` while preserving the complete continuous ranking.
+
+Three hand-set components were trained only on miner-visible public benchmark
+releases through source date 2026-06-30. Two refreshed components were trained
+through source date 2026-07-07. Their disclosed rank weights are
+`0.30/0.225/0.225/0.125/0.125`. The 75/25 generation blend and lock7/top8
+operating point were selected post-hoc on July 8-11 robustness checks and
+unlabeled public-model topology, so the model requires live canary validation
+before any expansion.
+
+Files:
+
+- `poker44/score/v334_v11_consensus_lock_inference.py`
+- `poker44/score/v323_v11_consensus_lock_inference.py`
+- `poker44/score/ensemble_v11.py`
+- `poker44/score/original_behavior_features.py`
+- `poker44/score/original_set_model.py`
+- `poker44/score/original_set_inference.py`
+- `poker44/score/original_set_ensemble_inference.py`
+- `data/models/v334_v11_consensus_lock7_dual25_top8/model.pkl`
+- `data/models/v334_v11_consensus_lock7_dual25_top8/report.json`
+
+No competitor implementation or weights, validator-private labels, identities,
+cards, outcomes, wallets, hotkeys, IP addresses, or private data were used.
