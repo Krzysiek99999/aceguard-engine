@@ -238,6 +238,22 @@ def _hand_metrics(hand: dict[str, Any]) -> tuple[dict[str, float], dict[str, tup
     return row, signatures
 
 
+def hand_feature_rows(chunk: list[dict[str, Any]]) -> list[dict[str, float]]:
+    """Return independent numeric features for each visible hand in a chunk."""
+    rows: list[dict[str, float]] = []
+    for hand in chunk or []:
+        if not isinstance(hand, dict):
+            continue
+        row, _signatures = _hand_metrics(hand)
+        rows.append(
+            {
+                key: float(value) if math.isfinite(float(value)) else 0.0
+                for key, value in row.items()
+            }
+        )
+    return rows
+
+
 def chunk_features(chunk: list[dict[str, Any]]) -> dict[str, float]:
     hands = [hand for hand in (chunk or []) if isinstance(hand, dict)]
     hand_rows: list[dict[str, float]] = []

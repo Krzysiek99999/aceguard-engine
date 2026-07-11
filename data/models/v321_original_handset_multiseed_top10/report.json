@@ -1,0 +1,36 @@
+{
+  "blind_evidence": {
+    "frozen_before_release": true,
+    "public_sampler_seed": 21911,
+    "samples_per_prevalence": 100,
+    "source_date": "2026-07-11",
+    "v321_five_percent_reward": 0.7642810977116195,
+    "v321_objective_5_10_20": 0.9035443693830703,
+    "best_public_five_percent_reward": 0.7320186848009677,
+    "uid99_public_five_percent_reward": 0.6244982407432722
+  },
+  "blind_status": "passed_frozen_2026-07-11",
+  "component_paths": [
+    "data/models/v316_original_handset/20260710_215900/model.pkl",
+    "data/models/v320_original_handset_seed417/20260710_231654/model.pkl",
+    "data/models/v320_original_handset_seed518/20260710_231711/model.pkl"
+  ],
+  "component_sha256": [
+    "c9e5b660e5c11b9ca432b5b93ab90b542217f00a25cbb3601869c6b095e2d2a4",
+    "ce54d725e0c48a2e8169d07907d5294c1849b62024136370a90a62cde9f4c4c0",
+    "06f43a5ae90573626e5c827a3f832509e4ca46b7cc620ed6f6b2b5d765feb7c2"
+  ],
+  "created_at_utc": "2026-07-10T23:28:59Z",
+  "family": "v321_original_handset_multiseed_top10",
+  "model_path": "data/models/v321_original_handset_multiseed_top10/model.pkl",
+  "model_sha256": "91d4de4987748e276ed4db7656ffa6f2112c02a44bdb9a7e94cce13facf911eb",
+  "selection_evidence": "weights and top10 selected on 2026-07-06..07, tested once on 2026-07-08..10, then frozen before the 2026-07-11 release",
+  "top_n": 10,
+  "training_data_statement": "Original AceGuard multiseed rank ensemble of three independently initialized permutation-invariant hand-set networks trained only on miner-visible public Poker44 benchmark releases through sourceDate 2026-06-30. Fixed weights 0.4/0.3/0.3 and top10 were selected on July 6-7 and confirmed once on July 8-10 before the July 11 release. Unlabeled miner payloads through 2026-07-05T23:59:59Z were used only for train/live KS feature filtering. No competitor implementation or weights, private labels, identities, cards, outcomes, wallets, hotkeys, IP addresses or private data were used.",
+  "version": "v321_original_handset_multiseed_top10_20260710_232859",
+  "weights": [
+    0.4,
+    0.3,
+    0.3
+  ]
+}
