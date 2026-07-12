@@ -59,6 +59,7 @@ This file intentionally supports only the active public model families:
 - v323_v11_consensus_lock8_v321_top<N>
 - v324_v11_consensus_lock7_v321_top<N>
 - v334_v11_consensus_lock7_dual25_top<N>
+- v373_original_hash_bag_top<N>
 - v274_<strategy>_top<N>
 - v276_<strategy>_top<N>
 - v277_<strategy>_top<N>
@@ -379,6 +380,7 @@ def _variant_config(name: str) -> dict[str, Any]:
     v323_v11_consensus_lock8_v321_top10 = False
     v324_v11_consensus_lock7_v321_top8 = False
     v334_v11_consensus_lock7_dual25_top8 = False
+    v373_original_hash_bag_top8 = False
     v271_v11lock1_v268rest = False
     v274_v11lock1_v273rest = False
     v276_livesized6080100_v273 = False
@@ -613,6 +615,10 @@ def _variant_config(name: str) -> dict[str, Any]:
         prefix = "v334_"
         live_sized = True
         v334_v11_consensus_lock7_dual25_top8 = True
+    elif name.startswith("v373_"):
+        prefix = "v373_"
+        live_sized = True
+        v373_original_hash_bag_top8 = True
     elif name.startswith("v271_"):
         prefix = "v271_"
         live_sized = True
@@ -763,6 +769,8 @@ def _variant_config(name: str) -> dict[str, Any]:
             if v324_v11_consensus_lock7_v321_top8
             else "v334_v11_consensus_lock7_dual25_top8"
             if v334_v11_consensus_lock7_dual25_top8
+            else "v373_original_hash_bag_top8"
+            if v373_original_hash_bag_top8
             else "v271_v11lock1_v268rest"
             if v271_v11lock1_v268rest
             else "v274_v11lock1_v273rest"
@@ -901,6 +909,8 @@ def _variant_config(name: str) -> dict[str, Any]:
                     if v324_v11_consensus_lock7_v321_top8
                     else "Five-signal v11 consensus protects seven members of the top-eight while a 75/25 dual-generation original hand-set ensemble orders the batch and fills one threshold position."
                     if v334_v11_consensus_lock7_dual25_top8
+                    else "Original canonical hand-bag ensemble of independently regularized ranking and classification trees, served with a threshold-safe top-eight head."
+                    if v373_original_hash_bag_top8
                     else "v11 top-1 locked behavioural anchor with the fresh 2026-07-10 v268 robust-schema ranker ordering the remaining chunks."
                     if v271_v11lock1_v268rest
                     else "v11 top-1 locked behavioural anchor with a v273 live-sized 60/80/100 public-benchmark ranker ordering the remaining chunks."
@@ -1051,6 +1061,8 @@ def _variant_config(name: str) -> dict[str, Any]:
                 if v324_v11_consensus_lock7_v321_top8
                 else "data/models/v334_v11_consensus_lock7_dual25_top8/model.pkl"
                 if v334_v11_consensus_lock7_dual25_top8
+                else "data/models/v373_original_hash_bag_top8/model.pkl"
+                if v373_original_hash_bag_top8
                 else "data/models/v271_v11lock1_v268rest/model.pkl"
                 if v271_v11lock1_v268rest
                 else "data/models/v274_v11lock1_v273rest/model.pkl"
@@ -1327,6 +1339,23 @@ class Miner(BaseMinerNeuron):
                     REPO_ROOT / "poker44" / "score" / "original_set_model.py",
                     REPO_ROOT / "poker44" / "score" / "original_set_inference.py",
                     REPO_ROOT / "poker44" / "score" / "original_set_ensemble_inference.py",
+                    REPO_ROOT / self.variant_cfg["model_file"],
+                    REPO_ROOT / "data" / "models" / family / "report.json",
+                ]
+            )
+        elif family == "v373_original_hash_bag_top8":
+            files.extend(
+                [
+                    REPO_ROOT / "poker44" / "score" / "model_view_hand_hash.py",
+                    REPO_ROOT / "poker44" / "score" / "original_schema_contract_features.py",
+                    REPO_ROOT / "poker44" / "score" / "sequence_schema.py",
+                    REPO_ROOT / "poker44" / "score" / "temporal_consistency_features.py",
+                    REPO_ROOT / "poker44" / "score" / "original_tree_surface_features.py",
+                    REPO_ROOT / "poker44" / "score" / "chunk_view_aggregation.py",
+                    REPO_ROOT / "poker44" / "score" / "original_tree_surface_inference.py",
+                    REPO_ROOT / "poker44" / "score" / "original_redundancy_features.py",
+                    REPO_ROOT / "poker44" / "score" / "original_hash_bag_features.py",
+                    REPO_ROOT / "poker44" / "score" / "original_hash_bag_inference.py",
                     REPO_ROOT / self.variant_cfg["model_file"],
                     REPO_ROOT / "data" / "models" / family / "report.json",
                 ]
@@ -1924,6 +1953,7 @@ class Miner(BaseMinerNeuron):
             "v323_v11_consensus_lock8_v321_top10",
             "v324_v11_consensus_lock7_v321_top8",
             "v334_v11_consensus_lock7_dual25_top8",
+            "v373_original_hash_bag_top8",
             "v271_v11lock1_v268rest",
             "v274_v11lock1_v273rest",
             "v276_livesized6080100_v273",
@@ -2511,6 +2541,20 @@ class Miner(BaseMinerNeuron):
                     "labels, identities, cards, outcomes, wallets, hotkeys, IP addresses, or "
                     "private data were used."
                 )
+            elif family == "v373_original_hash_bag_top8":
+                training_statement = (
+                    "Original AceGuard canonical hand-bag ensemble trained from scratch only on "
+                    "official split=train public Poker44 canonical miner-visible API SourceUnits "
+                    "through sourceDate 2026-07-11. One feature row is one natural SourceUnit; "
+                    "players, chunks, and source units are never concatenated, and the validator "
+                    "sanitizer is not reapplied. The fixed ensemble combines a LightGBM ranking "
+                    "surface, ExtraTrees motif/redundancy surface, and HistGradientBoosting surface "
+                    "using within-batch percentile ranks. Five rolling temporal folds fit feature "
+                    "selection and models only on earlier dates. Top-eight and all model bytes were "
+                    "frozen before the one-shot 2026-07-12 blind, which passed without retraining. "
+                    "No competitor code or weights, private labels, identities, cards, outcomes, "
+                    "wallets, hotkeys, IP addresses, or private live data were used."
+                )
             elif family == "v200_stackseq_last3":
                 training_statement = (
                     "Model trained only on public Poker44 benchmark releaseVersion v1.13 "
@@ -2594,6 +2638,8 @@ class Miner(BaseMinerNeuron):
                     if family == "v324_v11_consensus_lock7_v321_top8"
                     else "2026.07.11-v334-v11-consensus-lock7-dual25-top8"
                     if family == "v334_v11_consensus_lock7_dual25_top8"
+                    else "2026.07.12-v373-canonical-blind-pass-top8"
+                    if family == "v373_original_hash_bag_top8"
                     else "2026.07.10-v315"
                     if family == "v315_original_lambdamart_top10"
                     else "2026.07.10-v306"
@@ -2744,6 +2790,12 @@ class Miner(BaseMinerNeuron):
                 "https://api.poker44.net/api/v1/benchmark/chunks?sourceDate=2026-07-07",
             ]
             manifest["training_refresh"] = "v334_v11_consensus_lock7_dual25_head8_top8_candidate_2026-07-11"
+        if family == "v373_original_hash_bag_top8":
+            manifest["training_data_sources"] = [
+                "https://api.poker44.net/api/v1/benchmark",
+                "https://api.poker44.net/api/v1/benchmark/chunks?sourceDate=2026-07-11",
+            ]
+            manifest["training_refresh"] = "v373_canonical_frozen_blind_passed_2026-07-12"
         if family == "v113_daily":
             manifest["training_refresh"] = "daily_candidate_2026-06-18"
         if family == "v115_short":
@@ -3284,7 +3336,10 @@ class Miner(BaseMinerNeuron):
         is_v323 = family == "v323_v11_consensus_lock8_v321_top10"
         is_v324 = family == "v324_v11_consensus_lock7_v321_top8"
         is_v334 = family == "v334_v11_consensus_lock7_dual25_top8"
-        if is_v334:
+        is_v373 = family == "v373_original_hash_bag_top8"
+        if is_v373:
+            from poker44.score.original_hash_bag_inference import load_bundle, score_chunks
+        elif is_v334:
             from poker44.score.v334_v11_consensus_lock_inference import load_bundle, score_chunks
         elif is_v324:
             from poker44.score.v324_v11_consensus_lock_inference import load_bundle, score_chunks
@@ -3298,7 +3353,9 @@ class Miner(BaseMinerNeuron):
             from poker44.score.lambdamart_wide_inference import load_bundle, score_chunks
 
         env_prefix = (
-            "POKER44_V334"
+            "POKER44_V373"
+            if is_v373
+            else "POKER44_V334"
             if is_v334
             else "POKER44_V324"
             if is_v324
@@ -3585,6 +3642,7 @@ class Miner(BaseMinerNeuron):
                 "v323_v11_consensus_lock8_v321_top10",
                 "v324_v11_consensus_lock7_v321_top8",
                 "v334_v11_consensus_lock7_dual25_top8",
+                "v373_original_hash_bag_top8",
             }:
                 scores = self._score_v298_lambdamart_wide_model(chunks)
             elif family == "v294_hg2_rebuild":

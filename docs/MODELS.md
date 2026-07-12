@@ -268,3 +268,35 @@ Files:
 
 No competitor implementation or weights, validator-private labels, identities,
 cards, outcomes, wallets, hotkeys, IP addresses, or private data were used.
+
+### `v373_original_hash_bag_top8`
+
+Original canonical hand-bag ensemble trained on natural public Poker44
+`split=train` SourceUnits through source date 2026-07-11. It does not merge
+players, chunks, or source units and does not reapply the validator sanitizer.
+The model combines LightGBM ranking, ExtraTrees motif/redundancy, and
+HistGradientBoosting surfaces using within-batch percentile ranks.
+
+The exact model bytes and top-eight head were frozen before the one-shot
+2026-07-12 release. On 128 untouched natural units it achieved AP `0.986741`,
+recall at 5% FPR `0.984375`, and ranking component `0.640672`, exceeding the
+best reproducible frozen public baseline by `0.201102`. The result and all
+rolling-fold diagnostics are recorded in the public report.
+
+Files:
+
+- `poker44/score/model_view_hand_hash.py`
+- `poker44/score/original_schema_contract_features.py`
+- `poker44/score/sequence_schema.py`
+- `poker44/score/temporal_consistency_features.py`
+- `poker44/score/original_tree_surface_features.py`
+- `poker44/score/original_redundancy_features.py`
+- `poker44/score/original_hash_bag_features.py`
+- `poker44/score/original_hash_bag_inference.py`
+- `scripts/miner_training/build_v362_original_tree_surface_oof.py`
+- `data/models/v373_original_hash_bag_top8/model.pkl`
+- `data/models/v373_original_hash_bag_top8/report.json`
+- `data/models/v373_original_hash_bag_top8/oof_component_predictions.npz`
+
+No competitor code or weights, validator-private labels, identities, cards,
+outcomes, wallets, hotkeys, IP addresses, or private live data were used.

@@ -15,6 +15,7 @@ It contains the model code and artifacts needed for the active Mac and Cherry mo
 - Current live-sized v1.13 challenger family (`v136_live`) trained on public benchmark releases through source date 2026-07-07.
 - Multi-seed live-sized v1.13 challenger family (`v140_multi`) trained on public benchmark releases through source date 2026-07-07.
 - Rank-space live-sized blend family (`v142_rankblend`) combining independently gated public-benchmark rankers.
+- Canonical natural-unit hand-bag ensemble (`v373_original_hash_bag_top8`), frozen before and passed on the one-shot 2026-07-12 blind.
 
 ## Not included
 

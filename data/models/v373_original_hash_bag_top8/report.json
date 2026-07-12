@@ -1,0 +1,3623 @@
+{
+  "benchmark_manifest": {
+    "benchmark_dir": "data/benchmark_v112",
+    "duplicate_sanitized_payloads": 0,
+    "files": [
+      {
+        "bytes": 1181859,
+        "path": "data/benchmark_v112/chunks_2026-05-26.json",
+        "sha256": "25bb7e7c7ee21f86a081028eacf62026667446a073f10b07e6a3e07bf9106efe"
+      },
+      {
+        "bytes": 1121305,
+        "path": "data/benchmark_v112/chunks_2026-05-27.json",
+        "sha256": "fb0b2bec800c16b34c0f6c42022a2e30da8355872f41fb167c99cf2f4f41e382"
+      },
+      {
+        "bytes": 1115383,
+        "path": "data/benchmark_v112/chunks_2026-05-28.json",
+        "sha256": "07adc089dda4dbcbd50d8141336461f6d316e4bce7badf430f0d29e51f16683a"
+      },
+      {
+        "bytes": 1100781,
+        "path": "data/benchmark_v112/chunks_2026-05-29.json",
+        "sha256": "a6b611ba4e9de7a8e495517ed44af77c5c907c493b86dbf987d6d2d58d3db60b"
+      },
+      {
+        "bytes": 1147829,
+        "path": "data/benchmark_v112/chunks_2026-05-30.json",
+        "sha256": "78db7da9b16c3076f6f3758dde9531426e4b731c50049d54549c5a8f1b068e57"
+      },
+      {
+        "bytes": 1107673,
+        "path": "data/benchmark_v112/chunks_2026-05-31.json",
+        "sha256": "393bd3cf68c2bbe3225f91d748c56cf9347ede84f8670638ba4148d9e1d1ed8b"
+      },
+      {
+        "bytes": 1147693,
+        "path": "data/benchmark_v112/chunks_2026-06-01.json",
+        "sha256": "c8f67672f9a5874aca1d0ae6121ed8780ed4ffc8d66301a5b66e67fd36c5ed58"
+      },
+      {
+        "bytes": 1171185,
+        "path": "data/benchmark_v112/chunks_2026-06-02.json",
+        "sha256": "79400748060e1c0d3055ee72957266bff2aa642ee1cb12ad2fae9e49f9de9c42"
+      },
+      {
+        "bytes": 1084217,
+        "path": "data/benchmark_v112/chunks_2026-06-03.json",
+        "sha256": "005401c3b2fbeba475336c1a8086ff3dcbfdbf9b6c25e7fa40fa3d742175ac40"
+      },
+      {
+        "bytes": 1143827,
+        "path": "data/benchmark_v112/chunks_2026-06-04.json",
+        "sha256": "15ac751514ff415ad18e419c9097cf57b2321e356d3c2390ae14e79080d42661"
+      },
+      {
+        "bytes": 1114149,
+        "path": "data/benchmark_v112/chunks_2026-06-05.json",
+        "sha256": "75e3b5fb42eabfe5d626f0292a1506148817213f5708efaebe39240d0575c7fd"
+      },
+      {
+        "bytes": 1143749,
+        "path": "data/benchmark_v112/chunks_2026-06-06.json",
+        "sha256": "4d81d4bc1d43e56cc1d3ec4d278899d131f8d9c06435159218e5c8d3f51716be"
+      },
+      {
+        "bytes": 2507621,
+        "path": "data/benchmark_v112/chunks_2026-06-07.json",
+        "sha256": "4e52dbcbcb59b175a29222e77e2f412ce86977fa21e3598db899b5bbc0eef8de"
+      },
+      {
+        "bytes": 2354773,
+        "path": "data/benchmark_v112/chunks_2026-06-08.json",
+        "sha256": "66e3f4b1efec7b6b186c792f69ee2f8c2f960a0bacd4d4c29a06cd970b80fbb8"
+      },
+      {
+        "bytes": 2328547,
+        "path": "data/benchmark_v112/chunks_2026-06-09.json",
+        "sha256": "48d75cf567d496fab1ebb844bf73be23a001578f60f49e4a01ab95e786ba4655"
+      },
+      {
+        "bytes": 2412417,
+        "path": "data/benchmark_v112/chunks_2026-06-10.json",
+        "sha256": "22c03fc900695cf9f9171d5d1474ac32e5da3cc2deea21c5c7219b9c8505733e"
+      },
+      {
+        "bytes": 2539391,
+        "path": "data/benchmark_v112/chunks_2026-06-11.json",
+        "sha256": "d6f2372bc52bd302d030c7c9410453a932a042b9308d36351127043484ca2409"
+      },
+      {
+        "bytes": 2495413,
+        "path": "data/benchmark_v112/chunks_2026-06-12.json",
+        "sha256": "1b959d32d3d044e58164476b9179c9eede2cf6860df25b09157c37c0e229eca8"
+      },
+      {
+        "bytes": 2399607,
+        "path": "data/benchmark_v112/chunks_2026-06-13.json",
+        "sha256": "59dd50badee386c6e654c0be675d3ed637eeb05432db5ccbeee9264acbb0e89c"
+      },
+      {
+        "bytes": 2458161,
+        "path": "data/benchmark_v112/chunks_2026-06-14.json",
+        "sha256": "cec9889bea553892f4618332976e85127795059d923b505410bf07a95defa0a6"
+      },
+      {
+        "bytes": 2461049,
+        "path": "data/benchmark_v112/chunks_2026-06-15.json",
+        "sha256": "fc55195d73bfdd1754b7916b28bee8947ff6ecd3e7e3a62a68abd31b7ecad1e8"
+      },
+      {
+        "bytes": 2461645,
+        "path": "data/benchmark_v112/chunks_2026-06-16.json",
+        "sha256": "aa84e78b8a90af408d6fe8a2cb8517a2a02f5b1805571bf88cdff9a4c7226f39"
+      },
+      {
+        "bytes": 2546993,
+        "path": "data/benchmark_v112/chunks_2026-06-17.json",
+        "sha256": "3b0e857ba163b675d1d45c1a43bc21dc467e836a59da65144920567655d287af"
+      },
+      {
+        "bytes": 2462803,
+        "path": "data/benchmark_v112/chunks_2026-06-18.json",
+        "sha256": "7443c8495d49fdf4119c2a213a79aa547f5d6f84a14d81c5b2e6821bdbfbe4a6"
+      },
+      {
+        "bytes": 2531175,
+        "path": "data/benchmark_v112/chunks_2026-06-19.json",
+        "sha256": "a1b61620442f25c27fd674059163456cc9c11bede9322e1f037e69ae1ce107e6"
+      },
+      {
+        "bytes": 2489899,
+        "path": "data/benchmark_v112/chunks_2026-06-20.json",
+        "sha256": "d8a9e0549e898f5b99189ce17fa3e53db19632808552c5123f17b7ce60666e5b"
+      },
+      {
+        "bytes": 2527999,
+        "path": "data/benchmark_v112/chunks_2026-06-21.json",
+        "sha256": "1a42a86596a0dab781af8fabbc4002b394cc4779aa4266006969b1e9fa8f7381"
+      },
+      {
+        "bytes": 2374179,
+        "path": "data/benchmark_v112/chunks_2026-06-22.json",
+        "sha256": "6d70f9a63081acf9d7757b04b3e79c391eb6777e1ecb70b2b8361a9e2a8e3847"
+      },
+      {
+        "bytes": 2190165,
+        "path": "data/benchmark_v112/chunks_2026-06-23.json",
+        "sha256": "1eec0e2996b98f775b9e2e22e43653dc61568eac0005aee4f1f6c63ef1cd829e"
+      },
+      {
+        "bytes": 2168493,
+        "path": "data/benchmark_v112/chunks_2026-06-24.json",
+        "sha256": "987f32b5648044f7181a4f2a465ec6402b6cc1dca2bd7a87e55c196a9af37446"
+      },
+      {
+        "bytes": 2352153,
+        "path": "data/benchmark_v112/chunks_2026-06-25.json",
+        "sha256": "1fe0cf12c66332d34f101cbdda7b9a72133d000a3d68a8e640b19f5840afb40d"
+      },
+      {
+        "bytes": 2366563,
+        "path": "data/benchmark_v112/chunks_2026-06-26.json",
+        "sha256": "c86b0da33b49100838fa7481aceffa452b8099e3fb89420318b8f9bd478fe97e"
+      },
+      {
+        "bytes": 2452915,
+        "path": "data/benchmark_v112/chunks_2026-06-27.json",
+        "sha256": "bafe341674402cf8dfc2104c135837d4a60e5ff1a62f036e6ecf293a1d90d8b3"
+      },
+      {
+        "bytes": 2246637,
+        "path": "data/benchmark_v112/chunks_2026-06-28.json",
+        "sha256": "9ae1936b3db3338915717c272d541bd19a59ee551d6e9dbefc6ee13709dbe8bd"
+      },
+      {
+        "bytes": 2409465,
+        "path": "data/benchmark_v112/chunks_2026-06-29.json",
+        "sha256": "f7d8b3cd406768f86dda1f0d42c82dd11322d1e229b3344f95369ce3bb3634b1"
+      },
+      {
+        "bytes": 2355639,
+        "path": "data/benchmark_v112/chunks_2026-06-30.json",
+        "sha256": "584c71209d3c5fc94bf41acf238910da8779a7f247178f2ddd0d7b0d25c7a193"
+      },
+      {
+        "bytes": 2359533,
+        "path": "data/benchmark_v112/chunks_2026-07-01.json",
+        "sha256": "0e63d74109502d1c581ff9fe0315b2cf73238a2600bae96cdbf0b744f75dd9a1"
+      },
+      {
+        "bytes": 2373223,
+        "path": "data/benchmark_v112/chunks_2026-07-02.json",
+        "sha256": "fdcebd36bf5c151ef30e3d5c9fa4d04073f94dc33ff8ec1cac8527445ca7213a"
+      },
+      {
+        "bytes": 2364269,
+        "path": "data/benchmark_v112/chunks_2026-07-03.json",
+        "sha256": "6a2845a489dc6b0ed2f52768377566b0c7edcfc077126f9c4d4b0096ba26abe3"
+      },
+      {
+        "bytes": 2322093,
+        "path": "data/benchmark_v112/chunks_2026-07-04.json",
+        "sha256": "129e2f238b31abac55ca767244a953d00e6b6894ddacaa901c7ca6303668f373"
+      },
+      {
+        "bytes": 2446289,
+        "path": "data/benchmark_v112/chunks_2026-07-05.json",
+        "sha256": "fd4dd5609c2402a2af01090a9d317ce3aefd887d0e4ad1310562476f5c02bce3"
+      },
+      {
+        "bytes": 23996689,
+        "path": "data/benchmark_v112/chunks_2026-07-06.json",
+        "sha256": "8fe9b1ba339d11c9db0f0be1d8134289080f8a7f046575c02538f745044b64ed"
+      },
+      {
+        "bytes": 26789135,
+        "path": "data/benchmark_v112/chunks_2026-07-07.json",
+        "sha256": "886cfec5a478e32878c2f5d5a3aa8b5c962a0b49362cbb2e8bf60326de1ab6b7"
+      },
+      {
+        "bytes": 26704086,
+        "path": "data/benchmark_v112/chunks_2026-07-08.json",
+        "sha256": "8b490a491cc9b97773a7a0f861a41f54643474031af2e7124910fa6002c80a6e"
+      },
+      {
+        "bytes": 28170457,
+        "path": "data/benchmark_v112/chunks_2026-07-09.json",
+        "sha256": "a620fde52494c72e3e4ee0583a54f7f0a2c210278084448101cb06d06f82189d"
+      },
+      {
+        "bytes": 28147210,
+        "path": "data/benchmark_v112/chunks_2026-07-10.json",
+        "sha256": "cae44afa3bb8d1a1f2bfb745eda159f5795ada12536017d53f7824ec979f0349"
+      },
+      {
+        "bytes": 26207099,
+        "path": "data/benchmark_v112/chunks_2026-07-11.json",
+        "sha256": "b2e9b12f329c58808ada3735eec63eaae6c1d0ff71f21de4bcb12ae395d441f6"
+      }
+    ],
+    "hand_overlap_audit": {
+      "cross_date_hashes": 0,
+      "cross_label_hashes": 24840,
+      "cross_split_hashes": 6238,
+      "duplicate_hashes": 24840,
+      "hands": 49680,
+      "max_multiplicity": 2,
+      "unique_model_view_hands": 24840
+    },
+    "input_contract": "canonical_api_miner_visible_no_resanitization",
+    "sanitized_payload_hash": "8459ceca0db492cfe8de571672d448b026d2836913a89be4b5e73dc9ec6ff963",
+    "source_key_hash": "8da0d882aa104930f692639253d55f46927d0cc542f7a41a0d7e710f6a54c808",
+    "source_units": 1460
+  },
+  "blend_strategy": "component_percentile_rank_mean",
+  "created_at_utc": "2026-07-11T21:04:11Z",
+  "evidence_status": "rolling_oof_plus_immutable_future_blind_passed",
+  "family": "v373_original_hash_bag_redundancy_canonical_oof",
+  "feature_extractor": "poker44.score.original_hash_bag_features:chunk_features",
+  "final_components": [
+    {
+      "feature_count": 160,
+      "feature_key_hash": "d0a23d44f4e835ad9eb6d6e5f6250c9c4b9f1ebcc9e42655256c9ee1bade2be7",
+      "feature_selection": {
+        "candidate_prefixes": [
+          "contract__"
+        ],
+        "fit_rows": 1184,
+        "fit_source_key_hash": "7aac16d6fb06098944640417091b630a239d1264078ae28573248de2fc4f8b52",
+        "max_features": 160,
+        "method": "fit_rows_standardized_label_gap",
+        "selected_features": 160
+      },
+      "keys": [
+        "contract__chunk__size_pattern__variety",
+        "contract__chunk__action_pattern__variety",
+        "contract__chunk__street_pattern__variety",
+        "contract__hand__street_diversity__std",
+        "contract__chunk__street_pattern__mode",
+        "contract__chunk__size_pattern__mode",
+        "contract__chunk__action_pattern__mode",
+        "contract__hand__streets__max",
+        "contract__hand__amount_q90__max",
+        "contract__hand__pot_span__q90",
+        "contract__hand__amount_max__max",
+        "contract__hand__actions__max",
+        "contract__hand__pot_before_mean__max",
+        "contract__hand__amount_std__max",
+        "contract__hand__pot_after_mean__max",
+        "contract__hand__pot_span__max",
+        "contract__hand__amount_mean__max",
+        "contract__hand__check_fraction__q50",
+        "contract__hand__actor_longest_run__min",
+        "contract__hand__bet_fraction__q50",
+        "contract__hand__actions__min",
+        "contract__hand__action_diversity__q50",
+        "contract__hand__bet_fraction__std",
+        "contract__hand__passive_fraction__max",
+        "contract__hand__action_longest_run__q90",
+        "contract__hand__action_longest_run__std",
+        "contract__hand__pot_span__q10",
+        "contract__hand__action_diversity__max",
+        "contract__chunk__actor_pattern__variety",
+        "contract__hand__amount_max__q90",
+        "contract__hand__actor_diversity__q90",
+        "contract__hand__fold_fraction__q90",
+        "contract__hand__aggressive_fraction__q10",
+        "contract__hand__raise_target_fraction__q10",
+        "contract__hand__amount_nonzero_fraction__q10",
+        "contract__hand__check_fraction__max",
+        "contract__chunk__actor_pattern__mode",
+        "contract__hand__actor_longest_run__max",
+        "contract__hand__pot_delta_mean__q10",
+        "contract__hand__amount_q90__q10",
+        "contract__hand__pot_before_mean__q10",
+        "contract__hand__aggressive_fraction__min",
+        "contract__hand__raise_target_fraction__min",
+        "contract__hand__amount_nonzero_fraction__max",
+        "contract__hand__pot_after_mean__q10",
+        "contract__hand__amount_mean__q10",
+        "contract__hand__pot_delta_mean__min",
+        "contract__hand__aggressive_fraction__max",
+        "contract__hand__raise_target_fraction__max",
+        "contract__hand__actor_coverage__min",
+        "contract__hand__actor_diversity__min",
+        "contract__hand__fold_fraction__min",
+        "contract__hand__amount_q90__min",
+        "contract__hand__streets__q10",
+        "contract__hand__call_fraction__q10",
+        "contract__hand__call_target_fraction__q10",
+        "contract__hand__passive_fraction__q10",
+        "contract__hand__amount_nonzero_fraction__min",
+        "contract__hand__raise_fraction__q10",
+        "contract__hand__amount_std__q10",
+        "contract__hand__pot_nondecreasing_fraction__min",
+        "contract__hand__stack_mean__min",
+        "contract__hand__pot_span__min",
+        "contract__hand__players__min",
+        "contract__hand__seat_fill__min",
+        "contract__hand__street_diversity__q10",
+        "contract__hand__amount_nonzero_fraction__q50",
+        "contract__hand__actor_switch_fraction__min",
+        "contract__hand__postflop_fraction__q10",
+        "contract__hand__preflop_fraction__q90",
+        "contract__hand__bet_fraction__q10",
+        "contract__hand__fold_fraction__q50",
+        "contract__hand__raise_fraction__max",
+        "contract__hand__stack_std__max",
+        "contract__hand__stack_iqr__max",
+        "contract__hand__amount_mean__min",
+        "contract__hand__amount_max__q10",
+        "contract__hand__fold_fraction__max",
+        "contract__hand__action_diversity__std",
+        "contract__hand__pot_delta_mean__q50",
+        "contract__hand__amount_std__min",
+        "contract__hand__actor_switch_fraction__q50",
+        "contract__hand__action_diversity__q10",
+        "contract__hand__amount_max__min",
+        "contract__hand__street_diversity__max",
+        "contract__hand__action_longest_run__max",
+        "contract__hand__action_diversity__min",
+        "contract__hand__hero_action_fraction__min",
+        "contract__hand__preflop_fraction__min",
+        "contract__hand__postflop_fraction__max",
+        "contract__hand__pot_delta_mean__max",
+        "contract__hand__pot_after_mean__min",
+        "contract__hand__street_diversity__q90",
+        "contract__hand__aggressive_fraction__q50",
+        "contract__hand__raise_target_fraction__q50",
+        "contract__hand__stack_std__q90",
+        "contract__hand__stack_mean__q50",
+        "contract__hand__hero_action_fraction__max",
+        "contract__hand__stack_std__std",
+        "contract__hand__actor_coverage__q50",
+        "contract__hand__stack_std__q50",
+        "contract__hand__pot_before_mean__min",
+        "contract__hand__amount_q90__std",
+        "contract__hand__amount_mean__std",
+        "contract__hand__pot_after_mean__q90",
+        "contract__hand__postflop_fraction__std",
+        "contract__hand__preflop_fraction__std",
+        "contract__hand__amount_std__q90",
+        "contract__hand__bet_fraction__max",
+        "contract__hand__bet_fraction__q90",
+        "contract__hand__call_fraction__max",
+        "contract__hand__amount_std__std",
+        "contract__hand__call_target_fraction__max",
+        "contract__hand__amount_max__std",
+        "contract__hand__pot_before_mean__std",
+        "contract__hand__actor_coverage__std",
+        "contract__hand__raise_fraction__min",
+        "contract__hand__stack_mean__std",
+        "contract__hand__passive_fraction__q90",
+        "contract__hand__actor_diversity__q50",
+        "contract__hand__action_diversity__q90",
+        "contract__hand__amount_mean__q50",
+        "contract__hand__pot_before_mean__q90",
+        "contract__hand__amount_nonzero_fraction__std",
+        "contract__hand__actor_diversity__q10",
+        "contract__hand__pot_nondecreasing_fraction__q50",
+        "contract__hand__stack_iqr__std",
+        "contract__hand__action_longest_run__min",
+        "contract__hand__actor_diversity__std",
+        "contract__hand__pot_after_mean__q50",
+        "contract__hand__stack_iqr__q90",
+        "contract__hand__pot_after_mean__std",
+        "contract__hand__postflop_fraction__q50",
+        "contract__hand__preflop_fraction__q50",
+        "contract__hand__action_longest_run__q50",
+        "contract__hand__pot_before_mean__q50",
+        "contract__hand__fold_fraction__std",
+        "contract__hand__actor_switch_fraction__std",
+        "contract__hand__fold_fraction__q10",
+        "contract__hand__streets__q90",
+        "contract__hand__pot_delta_mean__q90",
+        "contract__hand__hero_action_fraction__q50",
+        "contract__hand__actor_longest_run__std",
+        "contract__chunk__high_aggression_rate",
+        "contract__hand__amount_q90__q50",
+        "contract__hand__raise_fraction__std",
+        "contract__hand__aggressive_fraction__std",
+        "contract__hand__raise_target_fraction__std",
+        "contract__hand__action_longest_run__q10",
+        "contract__hand__call_fraction__std",
+        "contract__hand__pot_span__std",
+        "contract__hand__actions__std",
+        "contract__hand__bet_fraction__mean",
+        "contract__hand__street_diversity__q50",
+        "contract__hand__amount_std__q50",
+        "contract__hand__call_target_fraction__std",
+        "contract__hand__actor_diversity__max",
+        "contract__hand__street_diversity__mean",
+        "contract__hand__amount_max__q50",
+        "contract__hand__amount_mean__q90"
+      ],
+      "model_class": "LGBMRanker",
+      "model_kind": "lgbm_ranker",
+      "name": "lgbm_contract_ranker",
+      "score_method": "predict"
+    },
+    {
+      "feature_count": 256,
+      "feature_key_hash": "85895fdd2d6cc316eecbddcc3d78d828705d975b2a0b5d1ea09e16b55d448249",
+      "feature_selection": {
+        "candidate_prefixes": [
+          "motif__",
+          "redundancy__"
+        ],
+        "fit_rows": 1184,
+        "fit_source_key_hash": "7aac16d6fb06098944640417091b630a239d1264078ae28573248de2fc4f8b52",
+        "max_features": 256,
+        "method": "fit_rows_standardized_label_gap",
+        "selected_features": 256
+      },
+      "keys": [
+        "redundancy__amount_action__exact_repeat_share",
+        "redundancy__street_action__ngram2__nearest__mean",
+        "redundancy__action__exact_repeat_share",
+        "redundancy__street_action__exact_repeat_share",
+        "redundancy__street_action__compression_ratio",
+        "redundancy__amount_action__exact_unique_share",
+        "redundancy__action__compression_ratio",
+        "redundancy__street_action__ngram3__nearest__mean",
+        "redundancy__action__ngram2__nearest__mean",
+        "redundancy__action__ngram3__nearest__mean",
+        "redundancy__action__exact_unique_share",
+        "redundancy__street_action__exact_unique_share",
+        "redundancy__amount_action__compression_ratio",
+        "redundancy__amount_action__ngram2__nearest__mean",
+        "redundancy__amount_action__ngram3__nearest__mean",
+        "redundancy__amount_action__ngram3__nearest__q50",
+        "redundancy__street_action__ngram1__nearest__mean",
+        "redundancy__amount_action__ngram1__nearest__mean",
+        "redundancy__action__ngram3__nearest__q50",
+        "redundancy__amount_action__ngram1__pair_jaccard__std",
+        "redundancy__amount_action__ngram2__nearest__q50",
+        "redundancy__street_action__ngram3__nearest__q50",
+        "redundancy__amount_action__ngram1__pair_jaccard__mean",
+        "redundancy__amount_action__ngram1__pair_jaccard__q90",
+        "redundancy__action__ngram2__nearest__q50",
+        "redundancy__street_action__ngram1__pair_jaccard__mean",
+        "redundancy__street_action__ngram1__nearest__q10",
+        "redundancy__street_action__ngram2__nearest__q50",
+        "redundancy__street_action__ngram1__nearest__std",
+        "redundancy__action__ngram1__pair_jaccard__mean",
+        "redundancy__street_action__ngram2__nearest__std",
+        "redundancy__amount_action__ngram2__pair_jaccard__std",
+        "redundancy__action__exact_entropy",
+        "redundancy__street_action__exact_entropy",
+        "redundancy__amount_action__exact_entropy",
+        "redundancy__street_action__ngram1__pair_jaccard__q50",
+        "redundancy__amount_action__ngram1__nearest__q50",
+        "redundancy__hero_action__ngram2__nearest__q50",
+        "redundancy__amount_action__ngram2__pair_jaccard__q90",
+        "redundancy__street_action__ngram2__nearest__q10",
+        "redundancy__hero_action__ngram2__nearest__mean",
+        "redundancy__action__ngram3__pair_jaccard__q90",
+        "redundancy__amount_action__ngram3__pair_jaccard__q90",
+        "redundancy__action__exact_top_share",
+        "redundancy__street_action__exact_top_share",
+        "redundancy__hero_action__ngram3__nearest__q50",
+        "redundancy__amount_action__exact_top_share",
+        "redundancy__street_action__ngram1__pair_jaccard__std",
+        "redundancy__action__ngram2__pair_jaccard__q90",
+        "motif__seq_motif_entropy_lo",
+        "redundancy__hero_action__ngram1__pair_jaccard__std",
+        "redundancy__action__ngram1__pair_jaccard__q50",
+        "redundancy__street_action__ngram3__pair_jaccard__q90",
+        "redundancy__action__ngram2__pair_jaccard__std",
+        "redundancy__action__ngram3__pair_jaccard__std",
+        "redundancy__action__ngram3__pair_jaccard__mean",
+        "redundancy__hero_action__compression_ratio",
+        "redundancy__amount_action__ngram3__pair_jaccard__std",
+        "redundancy__street_action__ngram3__nearest__q10",
+        "redundancy__hero_action__ngram1__nearest__mean",
+        "redundancy__hero_action__ngram3__pair_jaccard__mean",
+        "redundancy__hero_action__exact_entropy",
+        "redundancy__hero_action__exact_unique_share",
+        "redundancy__hero_action__ngram2__pair_jaccard__std",
+        "redundancy__amount_action__ngram3__pair_jaccard__mean",
+        "redundancy__action__ngram2__pair_jaccard__mean",
+        "redundancy__amount_action__ngram2__pair_jaccard__mean",
+        "redundancy__hero_action__exact_repeat_share",
+        "redundancy__street_action__ngram3__nearest__std",
+        "redundancy__hero_action__ngram3__pair_jaccard__q90",
+        "redundancy__action__ngram3__nearest__q10",
+        "redundancy__hero_action__ngram2__pair_jaccard__q90",
+        "redundancy__street_action__ngram3__pair_jaccard__std",
+        "redundancy__hero_action__ngram3__nearest__mean",
+        "redundancy__street_action__ngram3__pair_jaccard__mean",
+        "redundancy__street_action__ngram2__pair_jaccard__q90",
+        "redundancy__street_action__ngram2__pair_jaccard__std",
+        "redundancy__street_action__ngram2__pair_jaccard__mean",
+        "redundancy__action__ngram2__nearest__q10",
+        "motif__seq_motif_max_share",
+        "redundancy__amount_action__ngram1__pair_jaccard__q50",
+        "redundancy__hero_action__ngram1__nearest__std",
+        "redundancy__amount_action__ngram1__nearest__q10",
+        "redundancy__action__ngram1__pair_jaccard__q10",
+        "redundancy__amount_action__conditional_entropy",
+        "redundancy__hero_action__exact_top_share",
+        "redundancy__street_action__conditional_top_share",
+        "redundancy__action__conditional_top_share",
+        "redundancy__hero_action__ngram1__nearest__q10",
+        "redundancy__action__ngram2__nearest__std",
+        "redundancy__action__conditional_entropy",
+        "redundancy__street_action__conditional_entropy",
+        "redundancy__amount_action__conditional_top_share",
+        "redundancy__hero_action__ngram2__nearest__q10",
+        "redundancy__hero_action__conditional_top_share",
+        "redundancy__amount_action__ngram2__nearest__q10",
+        "redundancy__amount_action__ngram3__nearest__q10",
+        "redundancy__hero_action__ngram3__pair_jaccard__std",
+        "redundancy__action__ngram3__nearest__std",
+        "redundancy__amount_action__ngram1__nearest__std",
+        "redundancy__hero_action__ngram3__nearest__q10",
+        "redundancy__action__ngram2__pair_jaccard__q50",
+        "redundancy__hero_action__ngram2__pair_jaccard__mean",
+        "redundancy__hero_action__ngram1__pair_jaccard__q90",
+        "redundancy__hero_action__conditional_entropy",
+        "redundancy__street_action__ngram2__pair_jaccard__q50",
+        "redundancy__hero_action__ngram1__pair_jaccard__mean",
+        "redundancy__amount_action__ngram2__nearest__std",
+        "redundancy__amount_action__ngram3__pair_jaccard__q50",
+        "redundancy__hero_action__ngram3__pair_jaccard__q50",
+        "redundancy__action__ngram3__pair_jaccard__q50",
+        "redundancy__street_action__ngram1__nearest__q50",
+        "redundancy__street_action__ngram3__pair_jaccard__q50",
+        "redundancy__amount_action__ngram2__pair_jaccard__q50",
+        "redundancy__hero_action__ngram1__pair_jaccard__q50",
+        "redundancy__hero_action__ngram2__nearest__max",
+        "redundancy__hero_action__ngram2__pair_jaccard__max",
+        "redundancy__amount_action__ngram2__pair_jaccard__q10",
+        "redundancy__street_action__ngram2__pair_jaccard__q10",
+        "redundancy__street_action__ngram1__pair_jaccard__q90",
+        "redundancy__hero_action__ngram2__pair_jaccard__q50",
+        "redundancy__hero_action__ngram2__nearest__std",
+        "redundancy__hero_action__ngram3__nearest__max",
+        "redundancy__hero_action__ngram3__pair_jaccard__max",
+        "redundancy__street_action__ngram1__pair_jaccard__q10",
+        "redundancy__action__ngram2__pair_jaccard__q10",
+        "motif__seq_hero_ng3_h53",
+        "redundancy__hero_action__ngram2__nearest__q90",
+        "redundancy__action__ngram1__pair_jaccard__std",
+        "redundancy__action__ngram1__nearest__q10",
+        "motif__seq_hero_ng3_h48",
+        "motif__seq_full_ng2_h35",
+        "motif__seq_hero_ng3_h33",
+        "motif__seq_full_ng2_h27",
+        "motif__seq_full_ng4_h31",
+        "motif__seq_hero_ng3_h28",
+        "motif__seq_full_ng4_h11",
+        "motif__seq_full_ng4_h35",
+        "motif__seq_full_ng2_h16",
+        "motif__seq_full_ng3_h24",
+        "motif__seq_hero_ng3_h14",
+        "motif__seq_full_ng4_h56",
+        "motif__seq_full_ng3_h21",
+        "motif__seq_full_ng1_h26",
+        "redundancy__hero_action__ngram2__pair_jaccard__q10",
+        "motif__seq_full_ng3_h56",
+        "motif__seq_full_ng4_h32",
+        "motif__seq_full_ng3_h01",
+        "motif__seq_full_ng3_h43",
+        "motif__seq_action_share_bet",
+        "motif__seq_full_ng4_h23",
+        "motif__seq_full_ng4_h54",
+        "motif__seq_full_ng2_h51",
+        "motif__seq_hero_ng3_h47",
+        "motif__seq_full_ng3_h52",
+        "motif__seq_full_ng4_h08",
+        "motif__seq_full_ng3_h12",
+        "redundancy__action__ngram1__nearest__mean",
+        "motif__seq_hero_ng3_h57",
+        "motif__seq_hero_ng2_h15",
+        "motif__seq_full_ng1_h09",
+        "motif__seq_full_ng4_h39",
+        "motif__seq_full_ng2_h04",
+        "motif__seq_full_ng3_h46",
+        "motif__seq_full_ng3_h32",
+        "motif__seq_full_ng3_h02",
+        "motif__seq_full_ng4_h04",
+        "motif__seq_full_ng4_h12",
+        "motif__seq_full_ng4_h62",
+        "motif__seq_hero_ng1_h10",
+        "motif__seq_full_ng1_h21",
+        "motif__seq_full_ng2_h40",
+        "motif__seq_full_ng3_h30",
+        "motif__seq_hero_ng3_h08",
+        "motif__seq_full_ng4_h14",
+        "motif__seq_hero_ng2_h61",
+        "redundancy__amount_action__ngram3__pair_jaccard__q10",
+        "motif__seq_full_ng2_h63",
+        "motif__seq_street_share_flop",
+        "motif__seq_full_ng4_h48",
+        "motif__seq_full_ng1_h10",
+        "motif__seq_full_ng2_h31",
+        "motif__seq_full_ng3_h03",
+        "redundancy__street_action__ngram3__nearest__q90",
+        "motif__seq_hero_ng1_h21",
+        "motif__seq_full_ng4_h05",
+        "motif__seq_hero_ng2_h42",
+        "motif__seq_full_ng3_h53",
+        "redundancy__action__ngram3__nearest__q90",
+        "motif__seq_full_ng2_h48",
+        "motif__seq_full_ng3_h08",
+        "motif__seq_hero_ng2_h03",
+        "motif__seq_hero_ng2_h37",
+        "motif__seq_full_ng4_h60",
+        "motif__seq_hero_ng2_h40",
+        "motif__seq_full_ng3_h41",
+        "motif__seq_full_ng2_h47",
+        "redundancy__amount_action__ngram1__pair_jaccard__q10",
+        "motif__seq_hero_ng3_h52",
+        "motif__seq_action_share_raise",
+        "motif__seq_hero_ng3_h40",
+        "motif__seq_full_ng2_h25",
+        "motif__seq_full_ng1_h37",
+        "motif__seq_hero_ng3_h24",
+        "motif__seq_hero_ng3_h62",
+        "motif__seq_full_ng3_h28",
+        "motif__seq_street_share_river",
+        "motif__seq_full_ng3_h07",
+        "motif__seq_hero_ng3_h41",
+        "motif__seq_hero_ng2_h20",
+        "motif__seq_full_ng1_h47",
+        "motif__seq_hero_ng2_h41",
+        "motif__seq_full_ng1_h02",
+        "motif__seq_full_ng3_h34",
+        "motif__seq_hero_ng3_h37",
+        "motif__seq_full_ng2_h43",
+        "motif__seq_full_ng1_h18",
+        "motif__seq_full_ng4_h36",
+        "motif__seq_full_ng4_h30",
+        "motif__seq_full_ng3_h35",
+        "motif__seq_hero_ng1_h47",
+        "motif__seq_full_ng1_h44",
+        "motif__seq_full_ng3_h18",
+        "motif__seq_full_ng4_h55",
+        "motif__seq_hero_ng2_h44",
+        "motif__seq_full_ng4_h41",
+        "motif__seq_full_ng3_h17",
+        "motif__seq_full_ng3_h13",
+        "motif__seq_full_ng4_h28",
+        "motif__seq_hero_ng3_h30",
+        "motif__seq_full_ng3_h10",
+        "motif__seq_hero_ng2_h58",
+        "motif__seq_hero_ng3_h61",
+        "motif__seq_full_ng1_h01",
+        "motif__seq_action_entropy",
+        "motif__seq_full_ng2_h55",
+        "motif__seq_hero_ng2_h01",
+        "motif__seq_hero_ng1_h23",
+        "motif__seq_full_ng1_h14",
+        "motif__seq_full_ng2_h15",
+        "motif__seq_full_ng1_h46",
+        "motif__seq_full_ng2_h61",
+        "motif__seq_full_ng3_h59",
+        "motif__seq_full_ng1_h19",
+        "redundancy__amount_action__ngram3__nearest__q90",
+        "motif__seq_full_ng2_h19",
+        "motif__seq_full_ng2_h60",
+        "motif__seq_full_ng2_h41",
+        "motif__seq_full_ng1_h13",
+        "motif__seq_full_ng2_h49",
+        "motif__seq_hero_ng1_h02",
+        "motif__seq_hero_ng3_h09",
+        "motif__seq_full_ng4_h10",
+        "motif__seq_hero_ng2_h62",
+        "motif__seq_hero_ng1_h13",
+        "motif__seq_full_ng2_h50"
+      ],
+      "model_class": "ExtraTreesClassifier",
+      "model_kind": "extra_trees",
+      "name": "extra_trees_motif_temporal",
+      "score_method": "predict_proba"
+    },
+    {
+      "feature_count": 384,
+      "feature_key_hash": "2e46a22d7bf8ae7c20a782aa3efc5bd6713f9465de8fc61e5e8fb72dae5629f8",
+      "feature_selection": {
+        "candidate_prefixes": [
+          "contract__",
+          "motif__",
+          "redundancy__"
+        ],
+        "fit_rows": 1184,
+        "fit_source_key_hash": "7aac16d6fb06098944640417091b630a239d1264078ae28573248de2fc4f8b52",
+        "max_features": 384,
+        "method": "fit_rows_standardized_label_gap",
+        "selected_features": 384
+      },
+      "keys": [
+        "redundancy__amount_action__exact_repeat_share",
+        "redundancy__street_action__ngram2__nearest__mean",
+        "contract__chunk__size_pattern__variety",
+        "redundancy__action__exact_repeat_share",
+        "redundancy__street_action__exact_repeat_share",
+        "redundancy__street_action__compression_ratio",
+        "contract__chunk__action_pattern__variety",
+        "redundancy__amount_action__exact_unique_share",
+        "contract__chunk__street_pattern__variety",
+        "redundancy__action__compression_ratio",
+        "redundancy__street_action__ngram3__nearest__mean",
+        "redundancy__action__ngram2__nearest__mean",
+        "redundancy__action__ngram3__nearest__mean",
+        "redundancy__action__exact_unique_share",
+        "redundancy__street_action__exact_unique_share",
+        "redundancy__amount_action__compression_ratio",
+        "redundancy__amount_action__ngram2__nearest__mean",
+        "redundancy__amount_action__ngram3__nearest__mean",
+        "redundancy__amount_action__ngram3__nearest__q50",
+        "redundancy__street_action__ngram1__nearest__mean",
+        "redundancy__amount_action__ngram1__nearest__mean",
+        "redundancy__action__ngram3__nearest__q50",
+        "redundancy__amount_action__ngram1__pair_jaccard__std",
+        "redundancy__amount_action__ngram2__nearest__q50",
+        "redundancy__street_action__ngram3__nearest__q50",
+        "redundancy__amount_action__ngram1__pair_jaccard__mean",
+        "redundancy__amount_action__ngram1__pair_jaccard__q90",
+        "contract__hand__street_diversity__std",
+        "redundancy__action__ngram2__nearest__q50",
+        "redundancy__street_action__ngram1__pair_jaccard__mean",
+        "redundancy__street_action__ngram1__nearest__q10",
+        "redundancy__street_action__ngram2__nearest__q50",
+        "redundancy__street_action__ngram1__nearest__std",
+        "redundancy__action__ngram1__pair_jaccard__mean",
+        "redundancy__street_action__ngram2__nearest__std",
+        "redundancy__amount_action__ngram2__pair_jaccard__std",
+        "contract__chunk__street_pattern__mode",
+        "redundancy__action__exact_entropy",
+        "redundancy__street_action__exact_entropy",
+        "redundancy__amount_action__exact_entropy",
+        "redundancy__street_action__ngram1__pair_jaccard__q50",
+        "redundancy__amount_action__ngram1__nearest__q50",
+        "redundancy__hero_action__ngram2__nearest__q50",
+        "redundancy__amount_action__ngram2__pair_jaccard__q90",
+        "redundancy__street_action__ngram2__nearest__q10",
+        "redundancy__hero_action__ngram2__nearest__mean",
+        "contract__chunk__size_pattern__mode",
+        "redundancy__action__ngram3__pair_jaccard__q90",
+        "contract__chunk__action_pattern__mode",
+        "redundancy__amount_action__ngram3__pair_jaccard__q90",
+        "redundancy__action__exact_top_share",
+        "redundancy__street_action__exact_top_share",
+        "redundancy__hero_action__ngram3__nearest__q50",
+        "redundancy__amount_action__exact_top_share",
+        "redundancy__street_action__ngram1__pair_jaccard__std",
+        "redundancy__action__ngram2__pair_jaccard__q90",
+        "contract__hand__streets__max",
+        "motif__seq_motif_entropy_lo",
+        "contract__hand__amount_q90__max",
+        "redundancy__hero_action__ngram1__pair_jaccard__std",
+        "redundancy__action__ngram1__pair_jaccard__q50",
+        "redundancy__street_action__ngram3__pair_jaccard__q90",
+        "redundancy__action__ngram2__pair_jaccard__std",
+        "contract__hand__pot_span__q90",
+        "redundancy__action__ngram3__pair_jaccard__std",
+        "redundancy__action__ngram3__pair_jaccard__mean",
+        "redundancy__hero_action__compression_ratio",
+        "redundancy__amount_action__ngram3__pair_jaccard__std",
+        "redundancy__street_action__ngram3__nearest__q10",
+        "redundancy__hero_action__ngram1__nearest__mean",
+        "redundancy__hero_action__ngram3__pair_jaccard__mean",
+        "redundancy__hero_action__exact_entropy",
+        "redundancy__hero_action__exact_unique_share",
+        "redundancy__hero_action__ngram2__pair_jaccard__std",
+        "redundancy__amount_action__ngram3__pair_jaccard__mean",
+        "redundancy__action__ngram2__pair_jaccard__mean",
+        "redundancy__amount_action__ngram2__pair_jaccard__mean",
+        "redundancy__hero_action__exact_repeat_share",
+        "redundancy__street_action__ngram3__nearest__std",
+        "redundancy__hero_action__ngram3__pair_jaccard__q90",
+        "redundancy__action__ngram3__nearest__q10",
+        "redundancy__hero_action__ngram2__pair_jaccard__q90",
+        "redundancy__street_action__ngram3__pair_jaccard__std",
+        "redundancy__hero_action__ngram3__nearest__mean",
+        "contract__hand__amount_max__max",
+        "redundancy__street_action__ngram3__pair_jaccard__mean",
+        "redundancy__street_action__ngram2__pair_jaccard__q90",
+        "contract__hand__actions__max",
+        "redundancy__street_action__ngram2__pair_jaccard__std",
+        "contract__hand__pot_before_mean__max",
+        "redundancy__street_action__ngram2__pair_jaccard__mean",
+        "contract__hand__amount_std__max",
+        "contract__hand__pot_after_mean__max",
+        "redundancy__action__ngram2__nearest__q10",
+        "motif__seq_motif_max_share",
+        "redundancy__amount_action__ngram1__pair_jaccard__q50",
+        "redundancy__hero_action__ngram1__nearest__std",
+        "redundancy__amount_action__ngram1__nearest__q10",
+        "redundancy__action__ngram1__pair_jaccard__q10",
+        "redundancy__amount_action__conditional_entropy",
+        "redundancy__hero_action__exact_top_share",
+        "redundancy__street_action__conditional_top_share",
+        "redundancy__action__conditional_top_share",
+        "redundancy__hero_action__ngram1__nearest__q10",
+        "redundancy__action__ngram2__nearest__std",
+        "contract__hand__pot_span__max",
+        "contract__hand__amount_mean__max",
+        "redundancy__action__conditional_entropy",
+        "redundancy__street_action__conditional_entropy",
+        "redundancy__amount_action__conditional_top_share",
+        "redundancy__hero_action__ngram2__nearest__q10",
+        "redundancy__hero_action__conditional_top_share",
+        "redundancy__amount_action__ngram2__nearest__q10",
+        "contract__hand__check_fraction__q50",
+        "redundancy__amount_action__ngram3__nearest__q10",
+        "redundancy__hero_action__ngram3__pair_jaccard__std",
+        "redundancy__action__ngram3__nearest__std",
+        "redundancy__amount_action__ngram1__nearest__std",
+        "contract__hand__actor_longest_run__min",
+        "contract__hand__bet_fraction__q50",
+        "contract__hand__actions__min",
+        "redundancy__hero_action__ngram3__nearest__q10",
+        "redundancy__action__ngram2__pair_jaccard__q50",
+        "redundancy__hero_action__ngram2__pair_jaccard__mean",
+        "redundancy__hero_action__ngram1__pair_jaccard__q90",
+        "contract__hand__action_diversity__q50",
+        "contract__hand__bet_fraction__std",
+        "redundancy__hero_action__conditional_entropy",
+        "contract__hand__passive_fraction__max",
+        "redundancy__street_action__ngram2__pair_jaccard__q50",
+        "contract__hand__action_longest_run__q90",
+        "redundancy__hero_action__ngram1__pair_jaccard__mean",
+        "contract__hand__action_longest_run__std",
+        "contract__hand__pot_span__q10",
+        "contract__hand__action_diversity__max",
+        "contract__chunk__actor_pattern__variety",
+        "redundancy__amount_action__ngram2__nearest__std",
+        "contract__hand__amount_max__q90",
+        "contract__hand__actor_diversity__q90",
+        "contract__hand__fold_fraction__q90",
+        "contract__hand__aggressive_fraction__q10",
+        "contract__hand__raise_target_fraction__q10",
+        "contract__hand__amount_nonzero_fraction__q10",
+        "contract__hand__check_fraction__max",
+        "contract__chunk__actor_pattern__mode",
+        "contract__hand__actor_longest_run__max",
+        "contract__hand__pot_delta_mean__q10",
+        "contract__hand__amount_q90__q10",
+        "contract__hand__pot_before_mean__q10",
+        "contract__hand__aggressive_fraction__min",
+        "contract__hand__raise_target_fraction__min",
+        "contract__hand__amount_nonzero_fraction__max",
+        "contract__hand__pot_after_mean__q10",
+        "contract__hand__amount_mean__q10",
+        "contract__hand__pot_delta_mean__min",
+        "contract__hand__aggressive_fraction__max",
+        "contract__hand__raise_target_fraction__max",
+        "contract__hand__actor_coverage__min",
+        "contract__hand__actor_diversity__min",
+        "contract__hand__fold_fraction__min",
+        "redundancy__amount_action__ngram3__pair_jaccard__q50",
+        "contract__hand__amount_q90__min",
+        "contract__hand__streets__q10",
+        "contract__hand__call_fraction__q10",
+        "contract__hand__call_target_fraction__q10",
+        "contract__hand__passive_fraction__q10",
+        "contract__hand__amount_nonzero_fraction__min",
+        "contract__hand__raise_fraction__q10",
+        "contract__hand__amount_std__q10",
+        "contract__hand__pot_nondecreasing_fraction__min",
+        "contract__hand__stack_mean__min",
+        "redundancy__hero_action__ngram3__pair_jaccard__q50",
+        "contract__hand__pot_span__min",
+        "contract__hand__players__min",
+        "contract__hand__seat_fill__min",
+        "contract__hand__street_diversity__q10",
+        "contract__hand__amount_nonzero_fraction__q50",
+        "contract__hand__actor_switch_fraction__min",
+        "contract__hand__postflop_fraction__q10",
+        "contract__hand__preflop_fraction__q90",
+        "contract__hand__bet_fraction__q10",
+        "contract__hand__fold_fraction__q50",
+        "contract__hand__raise_fraction__max",
+        "contract__hand__stack_std__max",
+        "contract__hand__stack_iqr__max",
+        "contract__hand__amount_mean__min",
+        "contract__hand__amount_max__q10",
+        "contract__hand__fold_fraction__max",
+        "contract__hand__action_diversity__std",
+        "contract__hand__pot_delta_mean__q50",
+        "contract__hand__amount_std__min",
+        "redundancy__action__ngram3__pair_jaccard__q50",
+        "contract__hand__actor_switch_fraction__q50",
+        "contract__hand__action_diversity__q10",
+        "contract__hand__amount_max__min",
+        "redundancy__street_action__ngram1__nearest__q50",
+        "redundancy__street_action__ngram3__pair_jaccard__q50",
+        "contract__hand__street_diversity__max",
+        "contract__hand__action_longest_run__max",
+        "contract__hand__action_diversity__min",
+        "contract__hand__hero_action_fraction__min",
+        "contract__hand__preflop_fraction__min",
+        "contract__hand__postflop_fraction__max",
+        "redundancy__amount_action__ngram2__pair_jaccard__q50",
+        "redundancy__hero_action__ngram1__pair_jaccard__q50",
+        "contract__hand__pot_delta_mean__max",
+        "redundancy__hero_action__ngram2__nearest__max",
+        "redundancy__hero_action__ngram2__pair_jaccard__max",
+        "contract__hand__pot_after_mean__min",
+        "contract__hand__street_diversity__q90",
+        "contract__hand__aggressive_fraction__q50",
+        "contract__hand__raise_target_fraction__q50",
+        "contract__hand__stack_std__q90",
+        "contract__hand__stack_mean__q50",
+        "contract__hand__hero_action_fraction__max",
+        "contract__hand__stack_std__std",
+        "contract__hand__actor_coverage__q50",
+        "contract__hand__stack_std__q50",
+        "contract__hand__pot_before_mean__min",
+        "contract__hand__amount_q90__std",
+        "redundancy__amount_action__ngram2__pair_jaccard__q10",
+        "redundancy__street_action__ngram2__pair_jaccard__q10",
+        "contract__hand__amount_mean__std",
+        "contract__hand__pot_after_mean__q90",
+        "contract__hand__postflop_fraction__std",
+        "contract__hand__preflop_fraction__std",
+        "redundancy__street_action__ngram1__pair_jaccard__q90",
+        "contract__hand__amount_std__q90",
+        "contract__hand__bet_fraction__max",
+        "contract__hand__bet_fraction__q90",
+        "redundancy__hero_action__ngram2__pair_jaccard__q50",
+        "contract__hand__call_fraction__max",
+        "contract__hand__amount_std__std",
+        "contract__hand__call_target_fraction__max",
+        "contract__hand__amount_max__std",
+        "redundancy__hero_action__ngram2__nearest__std",
+        "redundancy__hero_action__ngram3__nearest__max",
+        "redundancy__hero_action__ngram3__pair_jaccard__max",
+        "contract__hand__pot_before_mean__std",
+        "redundancy__street_action__ngram1__pair_jaccard__q10",
+        "redundancy__action__ngram2__pair_jaccard__q10",
+        "contract__hand__actor_coverage__std",
+        "contract__hand__raise_fraction__min",
+        "contract__hand__stack_mean__std",
+        "motif__seq_hero_ng3_h53",
+        "contract__hand__passive_fraction__q90",
+        "contract__hand__actor_diversity__q50",
+        "contract__hand__action_diversity__q90",
+        "contract__hand__amount_mean__q50",
+        "redundancy__hero_action__ngram2__nearest__q90",
+        "contract__hand__pot_before_mean__q90",
+        "contract__hand__amount_nonzero_fraction__std",
+        "contract__hand__actor_diversity__q10",
+        "contract__hand__pot_nondecreasing_fraction__q50",
+        "contract__hand__stack_iqr__std",
+        "contract__hand__action_longest_run__min",
+        "contract__hand__actor_diversity__std",
+        "contract__hand__pot_after_mean__q50",
+        "redundancy__action__ngram1__pair_jaccard__std",
+        "contract__hand__stack_iqr__q90",
+        "redundancy__action__ngram1__nearest__q10",
+        "contract__hand__pot_after_mean__std",
+        "motif__seq_hero_ng3_h48",
+        "motif__seq_full_ng2_h35",
+        "motif__seq_hero_ng3_h33",
+        "contract__hand__postflop_fraction__q50",
+        "contract__hand__preflop_fraction__q50",
+        "motif__seq_full_ng2_h27",
+        "contract__hand__action_longest_run__q50",
+        "motif__seq_full_ng4_h31",
+        "motif__seq_hero_ng3_h28",
+        "contract__hand__pot_before_mean__q50",
+        "contract__hand__fold_fraction__std",
+        "motif__seq_full_ng4_h11",
+        "motif__seq_full_ng4_h35",
+        "motif__seq_full_ng2_h16",
+        "motif__seq_full_ng3_h24",
+        "contract__hand__actor_switch_fraction__std",
+        "contract__hand__fold_fraction__q10",
+        "motif__seq_hero_ng3_h14",
+        "contract__hand__streets__q90",
+        "motif__seq_full_ng4_h56",
+        "motif__seq_full_ng3_h21",
+        "contract__hand__pot_delta_mean__q90",
+        "contract__hand__hero_action_fraction__q50",
+        "contract__hand__actor_longest_run__std",
+        "motif__seq_full_ng1_h26",
+        "redundancy__hero_action__ngram2__pair_jaccard__q10",
+        "contract__chunk__high_aggression_rate",
+        "contract__hand__amount_q90__q50",
+        "motif__seq_full_ng3_h56",
+        "contract__hand__raise_fraction__std",
+        "motif__seq_full_ng4_h32",
+        "motif__seq_full_ng3_h01",
+        "contract__hand__aggressive_fraction__std",
+        "contract__hand__raise_target_fraction__std",
+        "motif__seq_full_ng3_h43",
+        "motif__seq_action_share_bet",
+        "motif__seq_full_ng4_h23",
+        "motif__seq_full_ng4_h54",
+        "motif__seq_full_ng2_h51",
+        "contract__hand__action_longest_run__q10",
+        "motif__seq_hero_ng3_h47",
+        "motif__seq_full_ng3_h52",
+        "motif__seq_full_ng4_h08",
+        "motif__seq_full_ng3_h12",
+        "contract__hand__call_fraction__std",
+        "redundancy__action__ngram1__nearest__mean",
+        "contract__hand__pot_span__std",
+        "motif__seq_hero_ng3_h57",
+        "motif__seq_hero_ng2_h15",
+        "contract__hand__actions__std",
+        "motif__seq_full_ng1_h09",
+        "motif__seq_full_ng4_h39",
+        "motif__seq_full_ng2_h04",
+        "motif__seq_full_ng3_h46",
+        "motif__seq_full_ng3_h32",
+        "motif__seq_full_ng3_h02",
+        "contract__hand__bet_fraction__mean",
+        "contract__hand__street_diversity__q50",
+        "motif__seq_full_ng4_h04",
+        "motif__seq_full_ng4_h12",
+        "motif__seq_full_ng4_h62",
+        "motif__seq_hero_ng1_h10",
+        "contract__hand__amount_std__q50",
+        "contract__hand__call_target_fraction__std",
+        "motif__seq_full_ng1_h21",
+        "motif__seq_full_ng2_h40",
+        "motif__seq_full_ng3_h30",
+        "motif__seq_hero_ng3_h08",
+        "motif__seq_full_ng4_h14",
+        "motif__seq_hero_ng2_h61",
+        "redundancy__amount_action__ngram3__pair_jaccard__q10",
+        "contract__hand__actor_diversity__max",
+        "motif__seq_full_ng2_h63",
+        "motif__seq_street_share_flop",
+        "motif__seq_full_ng4_h48",
+        "motif__seq_full_ng1_h10",
+        "contract__hand__street_diversity__mean",
+        "motif__seq_full_ng2_h31",
+        "motif__seq_full_ng3_h03",
+        "redundancy__street_action__ngram3__nearest__q90",
+        "contract__hand__amount_max__q50",
+        "contract__hand__amount_mean__q90",
+        "motif__seq_hero_ng1_h21",
+        "motif__seq_full_ng4_h05",
+        "motif__seq_hero_ng2_h42",
+        "motif__seq_full_ng3_h53",
+        "redundancy__action__ngram3__nearest__q90",
+        "motif__seq_full_ng2_h48",
+        "contract__hand__passive_fraction__std",
+        "contract__hand__check_fraction__q90",
+        "contract__hand__actor_longest_run__q90",
+        "motif__seq_full_ng3_h08",
+        "motif__seq_hero_ng2_h03",
+        "motif__seq_hero_ng2_h37",
+        "motif__seq_full_ng4_h60",
+        "motif__seq_hero_ng2_h40",
+        "motif__seq_full_ng3_h41",
+        "motif__seq_full_ng2_h47",
+        "redundancy__amount_action__ngram1__pair_jaccard__q10",
+        "motif__seq_hero_ng3_h52",
+        "motif__seq_action_share_raise",
+        "motif__seq_hero_ng3_h40",
+        "motif__seq_full_ng2_h25",
+        "motif__seq_full_ng1_h37",
+        "contract__hand__streets__std",
+        "motif__seq_hero_ng3_h24",
+        "motif__seq_hero_ng3_h62",
+        "motif__seq_full_ng3_h28",
+        "motif__seq_street_share_river",
+        "motif__seq_full_ng3_h07",
+        "motif__seq_hero_ng3_h41",
+        "motif__seq_hero_ng2_h20",
+        "motif__seq_full_ng1_h47",
+        "motif__seq_hero_ng2_h41",
+        "motif__seq_full_ng1_h02",
+        "contract__hand__amount_q90__mean",
+        "contract__hand__call_target_fraction__q90",
+        "motif__seq_full_ng3_h34",
+        "motif__seq_hero_ng3_h37",
+        "motif__seq_full_ng2_h43",
+        "motif__seq_full_ng1_h18",
+        "motif__seq_full_ng4_h36"
+      ],
+      "model_class": "HistGradientBoostingClassifier",
+      "model_kind": "hist_gradient",
+      "name": "hist_gradient_selected_all",
+      "score_method": "predict_proba"
+    }
+  ],
+  "final_train_summary": {
+    "bots": 592,
+    "dates": [
+      "2026-05-26",
+      "2026-05-27",
+      "2026-05-28",
+      "2026-05-29",
+      "2026-05-30",
+      "2026-05-31",
+      "2026-06-01",
+      "2026-06-02",
+      "2026-06-03",
+      "2026-06-04",
+      "2026-06-05",
+      "2026-06-06",
+      "2026-06-07",
+      "2026-06-08",
+      "2026-06-09",
+      "2026-06-10",
+      "2026-06-11",
+      "2026-06-12",
+      "2026-06-13",
+      "2026-06-14",
+      "2026-06-15",
+      "2026-06-16",
+      "2026-06-17",
+      "2026-06-18",
+      "2026-06-19",
+      "2026-06-20",
+      "2026-06-21",
+      "2026-06-22",
+      "2026-06-23",
+      "2026-06-24",
+      "2026-06-25",
+      "2026-06-26",
+      "2026-06-27",
+      "2026-06-28",
+      "2026-06-29",
+      "2026-06-30",
+      "2026-07-01",
+      "2026-07-02",
+      "2026-07-03",
+      "2026-07-04",
+      "2026-07-05",
+      "2026-07-06",
+      "2026-07-07",
+      "2026-07-08",
+      "2026-07-09",
+      "2026-07-10",
+      "2026-07-11"
+    ],
+    "groups": 148,
+    "humans": 592,
+    "release_versions": [
+      "v1.12",
+      "v1.13"
+    ],
+    "split_counts": {
+      "train": 1184
+    },
+    "units": 1184
+  },
+  "fold_contract": [
+    {
+      "name": "f1",
+      "test_date": "2026-07-07",
+      "train_through": "2026-07-05",
+      "tune_date": "2026-07-06"
+    },
+    {
+      "name": "f2",
+      "test_date": "2026-07-08",
+      "train_through": "2026-07-06",
+      "tune_date": "2026-07-07"
+    },
+    {
+      "name": "f3",
+      "test_date": "2026-07-09",
+      "train_through": "2026-07-07",
+      "tune_date": "2026-07-08"
+    },
+    {
+      "name": "f4",
+      "test_date": "2026-07-10",
+      "train_through": "2026-07-08",
+      "tune_date": "2026-07-09"
+    },
+    {
+      "name": "f5",
+      "test_date": "2026-07-11",
+      "train_through": "2026-07-09",
+      "tune_date": "2026-07-10"
+    }
+  ],
+  "folds": [
+    {
+      "components": [
+        {
+          "feature_count": 160,
+          "feature_key_hash": "356643756b5cdc4ead58e7098d9c46bbde62304057ad352367e50b36e70149cf",
+          "feature_selection": {
+            "candidate_prefixes": [
+              "contract__"
+            ],
+            "fit_rows": 328,
+            "fit_source_key_hash": "90ec81749e6e08ad6d0fb25d5df4a94328f6a09d5686b64a40d7a6ffc959a11b",
+            "max_features": 160,
+            "method": "fit_rows_standardized_label_gap",
+            "selected_features": 160
+          },
+          "model_class": "LGBMRanker",
+          "model_kind": "lgbm_ranker",
+          "name": "lgbm_contract_ranker",
+          "score_method": "predict"
+        },
+        {
+          "feature_count": 256,
+          "feature_key_hash": "e7c3a45a418101a11b9b1a7c901f75e2bde645e000a97e841e340e4cf257b1a9",
+          "feature_selection": {
+            "candidate_prefixes": [
+              "motif__",
+              "redundancy__"
+            ],
+            "fit_rows": 328,
+            "fit_source_key_hash": "90ec81749e6e08ad6d0fb25d5df4a94328f6a09d5686b64a40d7a6ffc959a11b",
+            "max_features": 256,
+            "method": "fit_rows_standardized_label_gap",
+            "selected_features": 256
+          },
+          "model_class": "ExtraTreesClassifier",
+          "model_kind": "extra_trees",
+          "name": "extra_trees_motif_temporal",
+          "score_method": "predict_proba"
+        },
+        {
+          "feature_count": 384,
+          "feature_key_hash": "bbe624022636624323fa24b83edcae9b34f45f8aef6d83823763cdc64f632e70",
+          "feature_selection": {
+            "candidate_prefixes": [
+              "contract__",
+              "motif__",
+              "redundancy__"
+            ],
+            "fit_rows": 328,
+            "fit_source_key_hash": "90ec81749e6e08ad6d0fb25d5df4a94328f6a09d5686b64a40d7a6ffc959a11b",
+            "max_features": 384,
+            "method": "fit_rows_standardized_label_gap",
+            "selected_features": 384
+          },
+          "model_class": "HistGradientBoostingClassifier",
+          "model_kind": "hist_gradient",
+          "name": "hist_gradient_selected_all",
+          "score_method": "predict_proba"
+        }
+      ],
+      "feature_selection_fit_partition": "fold_train_only",
+      "fold": {
+        "name": "f1",
+        "test_date": "2026-07-07",
+        "train_through": "2026-07-05",
+        "tune_date": "2026-07-06"
+      },
+      "test_predictions": {
+        "blend": {
+          "ap": 0.9453075493327748,
+          "auc": 0.9300781250000001,
+          "recall_at_fpr05": 0.75,
+          "rows": 160
+        },
+        "components": {
+          "extra_trees_motif_temporal": {
+            "ap": 0.91486114102036,
+            "auc": 0.8885937500000001,
+            "recall_at_fpr05": 0.7125,
+            "rows": 160
+          },
+          "hist_gradient_selected_all": {
+            "ap": 0.9401663995931714,
+            "auc": 0.9209375,
+            "recall_at_fpr05": 0.775,
+            "rows": 160
+          },
+          "lgbm_contract_ranker": {
+            "ap": 0.9204624853044395,
+            "auc": 0.9084375,
+            "recall_at_fpr05": 0.675,
+            "rows": 160
+          }
+        }
+      },
+      "test_summary": {
+        "bots": 80,
+        "dates": [
+          "2026-07-07"
+        ],
+        "groups": 20,
+        "humans": 80,
+        "release_versions": [
+          "v1.13"
+        ],
+        "split_counts": {
+          "train": 160
+        },
+        "units": 160
+      },
+      "train_summary": {
+        "bots": 164,
+        "dates": [
+          "2026-05-26",
+          "2026-05-27",
+          "2026-05-28",
+          "2026-05-29",
+          "2026-05-30",
+          "2026-05-31",
+          "2026-06-01",
+          "2026-06-02",
+          "2026-06-03",
+          "2026-06-04",
+          "2026-06-05",
+          "2026-06-06",
+          "2026-06-07",
+          "2026-06-08",
+          "2026-06-09",
+          "2026-06-10",
+          "2026-06-11",
+          "2026-06-12",
+          "2026-06-13",
+          "2026-06-14",
+          "2026-06-15",
+          "2026-06-16",
+          "2026-06-17",
+          "2026-06-18",
+          "2026-06-19",
+          "2026-06-20",
+          "2026-06-21",
+          "2026-06-22",
+          "2026-06-23",
+          "2026-06-24",
+          "2026-06-25",
+          "2026-06-26",
+          "2026-06-27",
+          "2026-06-28",
+          "2026-06-29",
+          "2026-06-30",
+          "2026-07-01",
+          "2026-07-02",
+          "2026-07-03",
+          "2026-07-04",
+          "2026-07-05"
+        ],
+        "groups": 41,
+        "humans": 164,
+        "release_versions": [
+          "v1.12"
+        ],
+        "split_counts": {
+          "train": 328
+        },
+        "units": 328
+      },
+      "tune_predictions": {
+        "blend": {
+          "ap": 0.9088717916417997,
+          "auc": 0.8841911764705884,
+          "recall_at_fpr05": 0.6617647058823529,
+          "rows": 136
+        },
+        "components": {
+          "extra_trees_motif_temporal": {
+            "ap": 0.869879275707887,
+            "auc": 0.8360726643598617,
+            "recall_at_fpr05": 0.5735294117647058,
+            "rows": 136
+          },
+          "hist_gradient_selected_all": {
+            "ap": 0.8820305961347072,
+            "auc": 0.8700259515570934,
+            "recall_at_fpr05": 0.6029411764705882,
+            "rows": 136
+          },
+          "lgbm_contract_ranker": {
+            "ap": 0.870847632020799,
+            "auc": 0.8471020761245674,
+            "recall_at_fpr05": 0.5294117647058824,
+            "rows": 136
+          }
+        }
+      },
+      "tune_role": "monitoring_only_not_selection",
+      "tune_summary": {
+        "bots": 68,
+        "dates": [
+          "2026-07-06"
+        ],
+        "groups": 17,
+        "humans": 68,
+        "release_versions": [
+          "v1.13"
+        ],
+        "split_counts": {
+          "train": 136
+        },
+        "units": 136
+      }
+    },
+    {
+      "components": [
+        {
+          "feature_count": 160,
+          "feature_key_hash": "bdff2f508fa2b4753c8756d8c8c75d0312d6b2bec78e9a9e79bf0ca1c13814e9",
+          "feature_selection": {
+            "candidate_prefixes": [
+              "contract__"
+            ],
+            "fit_rows": 464,
+            "fit_source_key_hash": "59e314d9758c22205096e74ade66fc682e253bb0b5fb849475b8885fb7a817ce",
+            "max_features": 160,
+            "method": "fit_rows_standardized_label_gap",
+            "selected_features": 160
+          },
+          "model_class": "LGBMRanker",
+          "model_kind": "lgbm_ranker",
+          "name": "lgbm_contract_ranker",
+          "score_method": "predict"
+        },
+        {
+          "feature_count": 256,
+          "feature_key_hash": "a7d8122bba55ba44209d7b95dacd13330481c8635ac4d0fae9a40d0c0d15bfed",
+          "feature_selection": {
+            "candidate_prefixes": [
+              "motif__",
+              "redundancy__"
+            ],
+            "fit_rows": 464,
+            "fit_source_key_hash": "59e314d9758c22205096e74ade66fc682e253bb0b5fb849475b8885fb7a817ce",
+            "max_features": 256,
+            "method": "fit_rows_standardized_label_gap",
+            "selected_features": 256
+          },
+          "model_class": "ExtraTreesClassifier",
+          "model_kind": "extra_trees",
+          "name": "extra_trees_motif_temporal",
+          "score_method": "predict_proba"
+        },
+        {
+          "feature_count": 384,
+          "feature_key_hash": "1c9aad620e640ae82fe72357286a1cdc36ed9aad76c33289ea1d6c7dbd6cc8e2",
+          "feature_selection": {
+            "candidate_prefixes": [
+              "contract__",
+              "motif__",
+              "redundancy__"
+            ],
+            "fit_rows": 464,
+            "fit_source_key_hash": "59e314d9758c22205096e74ade66fc682e253bb0b5fb849475b8885fb7a817ce",
+            "max_features": 384,
+            "method": "fit_rows_standardized_label_gap",
+            "selected_features": 384
+          },
+          "model_class": "HistGradientBoostingClassifier",
+          "model_kind": "hist_gradient",
+          "name": "hist_gradient_selected_all",
+          "score_method": "predict_proba"
+        }
+      ],
+      "feature_selection_fit_partition": "fold_train_only",
+      "fold": {
+        "name": "f2",
+        "test_date": "2026-07-08",
+        "train_through": "2026-07-06",
+        "tune_date": "2026-07-07"
+      },
+      "test_predictions": {
+        "blend": {
+          "ap": 0.9520699978493874,
+          "auc": 0.9418282548476455,
+          "recall_at_fpr05": 0.75,
+          "rows": 152
+        },
+        "components": {
+          "extra_trees_motif_temporal": {
+            "ap": 0.8730303265122434,
+            "auc": 0.8452216066481993,
+            "recall_at_fpr05": 0.5526315789473685,
+            "rows": 152
+          },
+          "hist_gradient_selected_all": {
+            "ap": 0.9504937460889702,
+            "auc": 0.9426939058171745,
+            "recall_at_fpr05": 0.7236842105263158,
+            "rows": 152
+          },
+          "lgbm_contract_ranker": {
+            "ap": 0.9413098571908866,
+            "auc": 0.931786703601108,
+            "recall_at_fpr05": 0.6973684210526315,
+            "rows": 152
+          }
+        }
+      },
+      "test_summary": {
+        "bots": 76,
+        "dates": [
+          "2026-07-08"
+        ],
+        "groups": 19,
+        "humans": 76,
+        "release_versions": [
+          "v1.13"
+        ],
+        "split_counts": {
+          "train": 152
+        },
+        "units": 152
+      },
+      "train_summary": {
+        "bots": 232,
+        "dates": [
+          "2026-05-26",
+          "2026-05-27",
+          "2026-05-28",
+          "2026-05-29",
+          "2026-05-30",
+          "2026-05-31",
+          "2026-06-01",
+          "2026-06-02",
+          "2026-06-03",
+          "2026-06-04",
+          "2026-06-05",
+          "2026-06-06",
+          "2026-06-07",
+          "2026-06-08",
+          "2026-06-09",
+          "2026-06-10",
+          "2026-06-11",
+          "2026-06-12",
+          "2026-06-13",
+          "2026-06-14",
+          "2026-06-15",
+          "2026-06-16",
+          "2026-06-17",
+          "2026-06-18",
+          "2026-06-19",
+          "2026-06-20",
+          "2026-06-21",
+          "2026-06-22",
+          "2026-06-23",
+          "2026-06-24",
+          "2026-06-25",
+          "2026-06-26",
+          "2026-06-27",
+          "2026-06-28",
+          "2026-06-29",
+          "2026-06-30",
+          "2026-07-01",
+          "2026-07-02",
+          "2026-07-03",
+          "2026-07-04",
+          "2026-07-05",
+          "2026-07-06"
+        ],
+        "groups": 58,
+        "humans": 232,
+        "release_versions": [
+          "v1.12",
+          "v1.13"
+        ],
+        "split_counts": {
+          "train": 464
+        },
+        "units": 464
+      },
+      "tune_predictions": {
+        "blend": {
+          "ap": 0.9541098845689905,
+          "auc": 0.942109375,
+          "recall_at_fpr05": 0.775,
+          "rows": 160
+        },
+        "components": {
+          "extra_trees_motif_temporal": {
+            "ap": 0.9226643998031385,
+            "auc": 0.89859375,
+            "recall_at_fpr05": 0.7375,
+            "rows": 160
+          },
+          "hist_gradient_selected_all": {
+            "ap": 0.957011116663984,
+            "auc": 0.94921875,
+            "recall_at_fpr05": 0.8375,
+            "rows": 160
+          },
+          "lgbm_contract_ranker": {
+            "ap": 0.9347989713427363,
+            "auc": 0.91953125,
+            "recall_at_fpr05": 0.775,
+            "rows": 160
+          }
+        }
+      },
+      "tune_role": "monitoring_only_not_selection",
+      "tune_summary": {
+        "bots": 80,
+        "dates": [
+          "2026-07-07"
+        ],
+        "groups": 20,
+        "humans": 80,
+        "release_versions": [
+          "v1.13"
+        ],
+        "split_counts": {
+          "train": 160
+        },
+        "units": 160
+      }
+    },
+    {
+      "components": [
+        {
+          "feature_count": 160,
+          "feature_key_hash": "a4488c9e9fdbc7d686b2fbf6a73e7400934ba4df895158b572a9be41bfeff0ff",
+          "feature_selection": {
+            "candidate_prefixes": [
+              "contract__"
+            ],
+            "fit_rows": 624,
+            "fit_source_key_hash": "621c2cfbb059b9e77be95edfb7498ce3ce8df6aa524e8f87e4e181c814651453",
+            "max_features": 160,
+            "method": "fit_rows_standardized_label_gap",
+            "selected_features": 160
+          },
+          "model_class": "LGBMRanker",
+          "model_kind": "lgbm_ranker",
+          "name": "lgbm_contract_ranker",
+          "score_method": "predict"
+        },
+        {
+          "feature_count": 256,
+          "feature_key_hash": "360a5004629ae8518881ee58d858337a2554d8c449ed312c18f62473452724b3",
+          "feature_selection": {
+            "candidate_prefixes": [
+              "motif__",
+              "redundancy__"
+            ],
+            "fit_rows": 624,
+            "fit_source_key_hash": "621c2cfbb059b9e77be95edfb7498ce3ce8df6aa524e8f87e4e181c814651453",
+            "max_features": 256,
+            "method": "fit_rows_standardized_label_gap",
+            "selected_features": 256
+          },
+          "model_class": "ExtraTreesClassifier",
+          "model_kind": "extra_trees",
+          "name": "extra_trees_motif_temporal",
+          "score_method": "predict_proba"
+        },
+        {
+          "feature_count": 384,
+          "feature_key_hash": "3ed2a24acb4247096f1ee35837f53c7842507ab4df0d255fded81b5bf8138db9",
+          "feature_selection": {
+            "candidate_prefixes": [
+              "contract__",
+              "motif__",
+              "redundancy__"
+            ],
+            "fit_rows": 624,
+            "fit_source_key_hash": "621c2cfbb059b9e77be95edfb7498ce3ce8df6aa524e8f87e4e181c814651453",
+            "max_features": 384,
+            "method": "fit_rows_standardized_label_gap",
+            "selected_features": 384
+          },
+          "model_class": "HistGradientBoostingClassifier",
+          "model_kind": "hist_gradient",
+          "name": "hist_gradient_selected_all",
+          "score_method": "predict_proba"
+        }
+      ],
+      "feature_selection_fit_partition": "fold_train_only",
+      "fold": {
+        "name": "f3",
+        "test_date": "2026-07-09",
+        "train_through": "2026-07-07",
+        "tune_date": "2026-07-08"
+      },
+      "test_predictions": {
+        "blend": {
+          "ap": 0.9821928697899627,
+          "auc": 0.9765625,
+          "recall_at_fpr05": 0.8888888888888888,
+          "rows": 144
+        },
+        "components": {
+          "extra_trees_motif_temporal": {
+            "ap": 0.9138401904689667,
+            "auc": 0.8927469135802469,
+            "recall_at_fpr05": 0.7083333333333334,
+            "rows": 144
+          },
+          "hist_gradient_selected_all": {
+            "ap": 0.9804708753968471,
+            "auc": 0.9770447530864198,
+            "recall_at_fpr05": 0.8888888888888888,
+            "rows": 144
+          },
+          "lgbm_contract_ranker": {
+            "ap": 0.9688773083170463,
+            "auc": 0.9600694444444444,
+            "recall_at_fpr05": 0.875,
+            "rows": 144
+          }
+        }
+      },
+      "test_summary": {
+        "bots": 72,
+        "dates": [
+          "2026-07-09"
+        ],
+        "groups": 18,
+        "humans": 72,
+        "release_versions": [
+          "v1.13"
+        ],
+        "split_counts": {
+          "train": 144
+        },
+        "units": 144
+      },
+      "train_summary": {
+        "bots": 312,
+        "dates": [
+          "2026-05-26",
+          "2026-05-27",
+          "2026-05-28",
+          "2026-05-29",
+          "2026-05-30",
+          "2026-05-31",
+          "2026-06-01",
+          "2026-06-02",
+          "2026-06-03",
+          "2026-06-04",
+          "2026-06-05",
+          "2026-06-06",
+          "2026-06-07",
+          "2026-06-08",
+          "2026-06-09",
+          "2026-06-10",
+          "2026-06-11",
+          "2026-06-12",
+          "2026-06-13",
+          "2026-06-14",
+          "2026-06-15",
+          "2026-06-16",
+          "2026-06-17",
+          "2026-06-18",
+          "2026-06-19",
+          "2026-06-20",
+          "2026-06-21",
+          "2026-06-22",
+          "2026-06-23",
+          "2026-06-24",
+          "2026-06-25",
+          "2026-06-26",
+          "2026-06-27",
+          "2026-06-28",
+          "2026-06-29",
+          "2026-06-30",
+          "2026-07-01",
+          "2026-07-02",
+          "2026-07-03",
+          "2026-07-04",
+          "2026-07-05",
+          "2026-07-06",
+          "2026-07-07"
+        ],
+        "groups": 78,
+        "humans": 312,
+        "release_versions": [
+          "v1.12",
+          "v1.13"
+        ],
+        "split_counts": {
+          "train": 624
+        },
+        "units": 624
+      },
+      "tune_predictions": {
+        "blend": {
+          "ap": 0.9455473491093441,
+          "auc": 0.9387984764542936,
+          "recall_at_fpr05": 0.7105263157894737,
+          "rows": 152
+        },
+        "components": {
+          "extra_trees_motif_temporal": {
+            "ap": 0.872430427620239,
+            "auc": 0.8483379501385042,
+            "recall_at_fpr05": 0.5657894736842105,
+            "rows": 152
+          },
+          "hist_gradient_selected_all": {
+            "ap": 0.9625215650907991,
+            "auc": 0.9551592797783933,
+            "recall_at_fpr05": 0.75,
+            "rows": 152
+          },
+          "lgbm_contract_ranker": {
+            "ap": 0.931636958368766,
+            "auc": 0.9217451523545707,
+            "recall_at_fpr05": 0.7236842105263158,
+            "rows": 152
+          }
+        }
+      },
+      "tune_role": "monitoring_only_not_selection",
+      "tune_summary": {
+        "bots": 76,
+        "dates": [
+          "2026-07-08"
+        ],
+        "groups": 19,
+        "humans": 76,
+        "release_versions": [
+          "v1.13"
+        ],
+        "split_counts": {
+          "train": 152
+        },
+        "units": 152
+      }
+    },
+    {
+      "components": [
+        {
+          "feature_count": 160,
+          "feature_key_hash": "dc0c9d5e7db702d95b9b621ddedf542e7a8fb52000d5ab2f759131c85ba237cd",
+          "feature_selection": {
+            "candidate_prefixes": [
+              "contract__"
+            ],
+            "fit_rows": 776,
+            "fit_source_key_hash": "dbc92dece26a8e5dcf8ed6442a5a2d4d5b349d6053f258b4ab94c30ec7e809ce",
+            "max_features": 160,
+            "method": "fit_rows_standardized_label_gap",
+            "selected_features": 160
+          },
+          "model_class": "LGBMRanker",
+          "model_kind": "lgbm_ranker",
+          "name": "lgbm_contract_ranker",
+          "score_method": "predict"
+        },
+        {
+          "feature_count": 256,
+          "feature_key_hash": "69566e887b9590f9f5352907b8f35505117065e052b9ee0dbc509ffb389bc49c",
+          "feature_selection": {
+            "candidate_prefixes": [
+              "motif__",
+              "redundancy__"
+            ],
+            "fit_rows": 776,
+            "fit_source_key_hash": "dbc92dece26a8e5dcf8ed6442a5a2d4d5b349d6053f258b4ab94c30ec7e809ce",
+            "max_features": 256,
+            "method": "fit_rows_standardized_label_gap",
+            "selected_features": 256
+          },
+          "model_class": "ExtraTreesClassifier",
+          "model_kind": "extra_trees",
+          "name": "extra_trees_motif_temporal",
+          "score_method": "predict_proba"
+        },
+        {
+          "feature_count": 384,
+          "feature_key_hash": "ec361b1a6023f4c3154db6fe3906913a8cc99ca6500dfc7831eda291eb4c7fa3",
+          "feature_selection": {
+            "candidate_prefixes": [
+              "contract__",
+              "motif__",
+              "redundancy__"
+            ],
+            "fit_rows": 776,
+            "fit_source_key_hash": "dbc92dece26a8e5dcf8ed6442a5a2d4d5b349d6053f258b4ab94c30ec7e809ce",
+            "max_features": 384,
+            "method": "fit_rows_standardized_label_gap",
+            "selected_features": 384
+          },
+          "model_class": "HistGradientBoostingClassifier",
+          "model_kind": "hist_gradient",
+          "name": "hist_gradient_selected_all",
+          "score_method": "predict_proba"
+        }
+      ],
+      "feature_selection_fit_partition": "fold_train_only",
+      "fold": {
+        "name": "f4",
+        "test_date": "2026-07-10",
+        "train_through": "2026-07-08",
+        "tune_date": "2026-07-09"
+      },
+      "test_predictions": {
+        "blend": {
+          "ap": 0.9878359325709135,
+          "auc": 0.98681640625,
+          "recall_at_fpr05": 0.921875,
+          "rows": 128
+        },
+        "components": {
+          "extra_trees_motif_temporal": {
+            "ap": 0.9554502716089697,
+            "auc": 0.951416015625,
+            "recall_at_fpr05": 0.734375,
+            "rows": 128
+          },
+          "hist_gradient_selected_all": {
+            "ap": 0.9851965996446231,
+            "auc": 0.9833984375,
+            "recall_at_fpr05": 0.90625,
+            "rows": 128
+          },
+          "lgbm_contract_ranker": {
+            "ap": 0.9685220061955293,
+            "auc": 0.96630859375,
+            "recall_at_fpr05": 0.859375,
+            "rows": 128
+          }
+        }
+      },
+      "test_summary": {
+        "bots": 64,
+        "dates": [
+          "2026-07-10"
+        ],
+        "groups": 16,
+        "humans": 64,
+        "release_versions": [
+          "v1.13"
+        ],
+        "split_counts": {
+          "train": 128
+        },
+        "units": 128
+      },
+      "train_summary": {
+        "bots": 388,
+        "dates": [
+          "2026-05-26",
+          "2026-05-27",
+          "2026-05-28",
+          "2026-05-29",
+          "2026-05-30",
+          "2026-05-31",
+          "2026-06-01",
+          "2026-06-02",
+          "2026-06-03",
+          "2026-06-04",
+          "2026-06-05",
+          "2026-06-06",
+          "2026-06-07",
+          "2026-06-08",
+          "2026-06-09",
+          "2026-06-10",
+          "2026-06-11",
+          "2026-06-12",
+          "2026-06-13",
+          "2026-06-14",
+          "2026-06-15",
+          "2026-06-16",
+          "2026-06-17",
+          "2026-06-18",
+          "2026-06-19",
+          "2026-06-20",
+          "2026-06-21",
+          "2026-06-22",
+          "2026-06-23",
+          "2026-06-24",
+          "2026-06-25",
+          "2026-06-26",
+          "2026-06-27",
+          "2026-06-28",
+          "2026-06-29",
+          "2026-06-30",
+          "2026-07-01",
+          "2026-07-02",
+          "2026-07-03",
+          "2026-07-04",
+          "2026-07-05",
+          "2026-07-06",
+          "2026-07-07",
+          "2026-07-08"
+        ],
+        "groups": 97,
+        "humans": 388,
+        "release_versions": [
+          "v1.12",
+          "v1.13"
+        ],
+        "split_counts": {
+          "train": 776
+        },
+        "units": 776
+      },
+      "tune_predictions": {
+        "blend": {
+          "ap": 0.990703524494175,
+          "auc": 0.9892939814814814,
+          "recall_at_fpr05": 0.9305555555555556,
+          "rows": 144
+        },
+        "components": {
+          "extra_trees_motif_temporal": {
+            "ap": 0.9420283521605897,
+            "auc": 0.9284336419753086,
+            "recall_at_fpr05": 0.7638888888888888,
+            "rows": 144
+          },
+          "hist_gradient_selected_all": {
+            "ap": 0.9902433155480018,
+            "auc": 0.9882330246913581,
+            "recall_at_fpr05": 0.9444444444444444,
+            "rows": 144
+          },
+          "lgbm_contract_ranker": {
+            "ap": 0.9745858536756367,
+            "auc": 0.972800925925926,
+            "recall_at_fpr05": 0.8472222222222222,
+            "rows": 144
+          }
+        }
+      },
+      "tune_role": "monitoring_only_not_selection",
+      "tune_summary": {
+        "bots": 72,
+        "dates": [
+          "2026-07-09"
+        ],
+        "groups": 18,
+        "humans": 72,
+        "release_versions": [
+          "v1.13"
+        ],
+        "split_counts": {
+          "train": 144
+        },
+        "units": 144
+      }
+    },
+    {
+      "components": [
+        {
+          "feature_count": 160,
+          "feature_key_hash": "2757a4271237aa880e5034dc5094c4883ef29662accd17a3774e285b90f690af",
+          "feature_selection": {
+            "candidate_prefixes": [
+              "contract__"
+            ],
+            "fit_rows": 920,
+            "fit_source_key_hash": "a82f5d858e604efc9921e5eed2d339bf28c2c9fb1933cbcc99886171ca8cdbb2",
+            "max_features": 160,
+            "method": "fit_rows_standardized_label_gap",
+            "selected_features": 160
+          },
+          "model_class": "LGBMRanker",
+          "model_kind": "lgbm_ranker",
+          "name": "lgbm_contract_ranker",
+          "score_method": "predict"
+        },
+        {
+          "feature_count": 256,
+          "feature_key_hash": "0ff2485668bf8acad40ec69eaddb5ac3e3f630971301c66f6aa1de93d53ae297",
+          "feature_selection": {
+            "candidate_prefixes": [
+              "motif__",
+              "redundancy__"
+            ],
+            "fit_rows": 920,
+            "fit_source_key_hash": "a82f5d858e604efc9921e5eed2d339bf28c2c9fb1933cbcc99886171ca8cdbb2",
+            "max_features": 256,
+            "method": "fit_rows_standardized_label_gap",
+            "selected_features": 256
+          },
+          "model_class": "ExtraTreesClassifier",
+          "model_kind": "extra_trees",
+          "name": "extra_trees_motif_temporal",
+          "score_method": "predict_proba"
+        },
+        {
+          "feature_count": 384,
+          "feature_key_hash": "35e39e28b919c97d8111c0b31d558551099be1a6197d2c7f14f48d40c6a2ed15",
+          "feature_selection": {
+            "candidate_prefixes": [
+              "contract__",
+              "motif__",
+              "redundancy__"
+            ],
+            "fit_rows": 920,
+            "fit_source_key_hash": "a82f5d858e604efc9921e5eed2d339bf28c2c9fb1933cbcc99886171ca8cdbb2",
+            "max_features": 384,
+            "method": "fit_rows_standardized_label_gap",
+            "selected_features": 384
+          },
+          "model_class": "HistGradientBoostingClassifier",
+          "model_kind": "hist_gradient",
+          "name": "hist_gradient_selected_all",
+          "score_method": "predict_proba"
+        }
+      ],
+      "feature_selection_fit_partition": "fold_train_only",
+      "fold": {
+        "name": "f5",
+        "test_date": "2026-07-11",
+        "train_through": "2026-07-09",
+        "tune_date": "2026-07-10"
+      },
+      "test_predictions": {
+        "blend": {
+          "ap": 0.9671285939240384,
+          "auc": 0.9716695501730104,
+          "recall_at_fpr05": 0.8529411764705882,
+          "rows": 136
+        },
+        "components": {
+          "extra_trees_motif_temporal": {
+            "ap": 0.9215814676666283,
+            "auc": 0.9126297577854672,
+            "recall_at_fpr05": 0.6323529411764706,
+            "rows": 136
+          },
+          "hist_gradient_selected_all": {
+            "ap": 0.9697416038161727,
+            "auc": 0.9708044982698962,
+            "recall_at_fpr05": 0.8823529411764706,
+            "rows": 136
+          },
+          "lgbm_contract_ranker": {
+            "ap": 0.9558471110360437,
+            "auc": 0.9701557093425606,
+            "recall_at_fpr05": 0.8970588235294118,
+            "rows": 136
+          }
+        }
+      },
+      "test_summary": {
+        "bots": 68,
+        "dates": [
+          "2026-07-11"
+        ],
+        "groups": 17,
+        "humans": 68,
+        "release_versions": [
+          "v1.13"
+        ],
+        "split_counts": {
+          "train": 136
+        },
+        "units": 136
+      },
+      "train_summary": {
+        "bots": 460,
+        "dates": [
+          "2026-05-26",
+          "2026-05-27",
+          "2026-05-28",
+          "2026-05-29",
+          "2026-05-30",
+          "2026-05-31",
+          "2026-06-01",
+          "2026-06-02",
+          "2026-06-03",
+          "2026-06-04",
+          "2026-06-05",
+          "2026-06-06",
+          "2026-06-07",
+          "2026-06-08",
+          "2026-06-09",
+          "2026-06-10",
+          "2026-06-11",
+          "2026-06-12",
+          "2026-06-13",
+          "2026-06-14",
+          "2026-06-15",
+          "2026-06-16",
+          "2026-06-17",
+          "2026-06-18",
+          "2026-06-19",
+          "2026-06-20",
+          "2026-06-21",
+          "2026-06-22",
+          "2026-06-23",
+          "2026-06-24",
+          "2026-06-25",
+          "2026-06-26",
+          "2026-06-27",
+          "2026-06-28",
+          "2026-06-29",
+          "2026-06-30",
+          "2026-07-01",
+          "2026-07-02",
+          "2026-07-03",
+          "2026-07-04",
+          "2026-07-05",
+          "2026-07-06",
+          "2026-07-07",
+          "2026-07-08",
+          "2026-07-09"
+        ],
+        "groups": 115,
+        "humans": 460,
+        "release_versions": [
+          "v1.12",
+          "v1.13"
+        ],
+        "split_counts": {
+          "train": 920
+        },
+        "units": 920
+      },
+      "tune_predictions": {
+        "blend": {
+          "ap": 0.9877976136108599,
+          "auc": 0.987548828125,
+          "recall_at_fpr05": 0.953125,
+          "rows": 128
+        },
+        "components": {
+          "extra_trees_motif_temporal": {
+            "ap": 0.9525500150910758,
+            "auc": 0.95068359375,
+            "recall_at_fpr05": 0.75,
+            "rows": 128
+          },
+          "hist_gradient_selected_all": {
+            "ap": 0.9877991201252517,
+            "auc": 0.987060546875,
+            "recall_at_fpr05": 0.90625,
+            "rows": 128
+          },
+          "lgbm_contract_ranker": {
+            "ap": 0.9743664183557295,
+            "auc": 0.972412109375,
+            "recall_at_fpr05": 0.875,
+            "rows": 128
+          }
+        }
+      },
+      "tune_role": "monitoring_only_not_selection",
+      "tune_summary": {
+        "bots": 64,
+        "dates": [
+          "2026-07-10"
+        ],
+        "groups": 16,
+        "humans": 64,
+        "release_versions": [
+          "v1.13"
+        ],
+        "split_counts": {
+          "train": 128
+        },
+        "units": 128
+      }
+    }
+  ],
+  "frozen_before_source_date": "2026-07-12",
+  "model_path": "data/models/v373_original_hash_bag_top8/model.pkl",
+  "model_sha256": "e6ff98b667d9d2246b0bef73743d97de052c9a71726a6e6f9409bbbad1363d0e",
+  "official_validation": {
+    "predictions": {
+      "blend": {
+        "ap": 0.899450236010994,
+        "auc": 0.8819575719386684,
+        "recall_at_fpr05": 0.6014492753623188,
+        "rows": 276
+      },
+      "components": {
+        "extra_trees_motif_temporal": {
+          "ap": 0.821766868177662,
+          "auc": 0.7934257508926695,
+          "recall_at_fpr05": 0.43478260869565216,
+          "rows": 276
+        },
+        "hist_gradient_selected_all": {
+          "ap": 0.9001369015246604,
+          "auc": 0.8898340684730099,
+          "recall_at_fpr05": 0.6739130434782609,
+          "rows": 276
+        },
+        "lgbm_contract_ranker": {
+          "ap": 0.9097337958436661,
+          "auc": 0.8894664986347406,
+          "recall_at_fpr05": 0.6521739130434783,
+          "rows": 276
+        }
+      }
+    },
+    "reward": [
+      {
+        "by_date": {
+          "2026-05-26": {
+            "ap": 1.0,
+            "hard_bot_recall": 1.0,
+            "hard_fpr": 1.0,
+            "hard_zero": true,
+            "recall_at_fpr05": 1.0,
+            "reward": 0.0,
+            "rows": 8,
+            "threshold_sanity_quality": 0.0
+          },
+          "2026-05-27": {
+            "ap": 0.95,
+            "hard_bot_recall": 1.0,
+            "hard_fpr": 1.0,
+            "hard_zero": true,
+            "recall_at_fpr05": 0.75,
+            "reward": 0.0,
+            "rows": 8,
+            "threshold_sanity_quality": 0.0
+          },
+          "2026-05-28": {
+            "ap": 1.0,
+            "hard_bot_recall": 1.0,
+            "hard_fpr": 1.0,
+            "hard_zero": true,
+            "recall_at_fpr05": 1.0,
+            "reward": 0.0,
+            "rows": 4,
+            "threshold_sanity_quality": 0.0
+          },
+          "2026-05-29": {
+            "ap": 0.8541666666666666,
+            "hard_bot_recall": 1.0,
+            "hard_fpr": 1.0,
+            "hard_zero": true,
+            "recall_at_fpr05": 0.5,
+            "reward": 0.0,
+            "rows": 8,
+            "threshold_sanity_quality": 0.0
+          },
+          "2026-05-30": {
+            "ap": 1.0,
+            "hard_bot_recall": 1.0,
+            "hard_fpr": 1.0,
+            "hard_zero": true,
+            "recall_at_fpr05": 1.0,
+            "reward": 0.0,
+            "rows": 4,
+            "threshold_sanity_quality": 0.0
+          },
+          "2026-05-31": {
+            "ap": 0.75,
+            "hard_bot_recall": 1.0,
+            "hard_fpr": 1.0,
+            "hard_zero": true,
+            "recall_at_fpr05": 0.5,
+            "reward": 0.0,
+            "rows": 4,
+            "threshold_sanity_quality": 0.0
+          },
+          "2026-06-01": {
+            "ap": 1.0,
+            "hard_bot_recall": 1.0,
+            "hard_fpr": 1.0,
+            "hard_zero": true,
+            "recall_at_fpr05": 1.0,
+            "reward": 0.0,
+            "rows": 6,
+            "threshold_sanity_quality": 0.0
+          },
+          "2026-06-02": {
+            "ap": 1.0,
+            "hard_bot_recall": 1.0,
+            "hard_fpr": 1.0,
+            "hard_zero": true,
+            "recall_at_fpr05": 1.0,
+            "reward": 0.0,
+            "rows": 8,
+            "threshold_sanity_quality": 0.0
+          },
+          "2026-06-03": {
+            "ap": 1.0,
+            "hard_bot_recall": 1.0,
+            "hard_fpr": 1.0,
+            "hard_zero": true,
+            "recall_at_fpr05": 1.0,
+            "reward": 0.0,
+            "rows": 4,
+            "threshold_sanity_quality": 0.0
+          },
+          "2026-06-04": {
+            "ap": 0.95,
+            "hard_bot_recall": 1.0,
+            "hard_fpr": 1.0,
+            "hard_zero": true,
+            "recall_at_fpr05": 0.75,
+            "reward": 0.0,
+            "rows": 8,
+            "threshold_sanity_quality": 0.0
+          },
+          "2026-06-05": {
+            "ap": 1.0,
+            "hard_bot_recall": 1.0,
+            "hard_fpr": 1.0,
+            "hard_zero": true,
+            "recall_at_fpr05": 1.0,
+            "reward": 0.0,
+            "rows": 8,
+            "threshold_sanity_quality": 0.0
+          },
+          "2026-06-06": {
+            "ap": 1.0,
+            "hard_bot_recall": 1.0,
+            "hard_fpr": 1.0,
+            "hard_zero": true,
+            "recall_at_fpr05": 1.0,
+            "reward": 0.0,
+            "rows": 6,
+            "threshold_sanity_quality": 0.0
+          },
+          "2026-06-07": {
+            "ap": 0.9166666666666666,
+            "hard_bot_recall": 1.0,
+            "hard_fpr": 1.0,
+            "hard_zero": true,
+            "recall_at_fpr05": 0.75,
+            "reward": 0.0,
+            "rows": 8,
+            "threshold_sanity_quality": 0.0
+          },
+          "2026-06-08": {
+            "ap": 0.8303571428571428,
+            "hard_bot_recall": 1.0,
+            "hard_fpr": 1.0,
+            "hard_zero": true,
+            "recall_at_fpr05": 0.5,
+            "reward": 0.0,
+            "rows": 8,
+            "threshold_sanity_quality": 0.0
+          },
+          "2026-06-09": {
+            "ap": 0.9166666666666665,
+            "hard_bot_recall": 1.0,
+            "hard_fpr": 1.0,
+            "hard_zero": true,
+            "recall_at_fpr05": 0.6666666666666666,
+            "reward": 0.0,
+            "rows": 6,
+            "threshold_sanity_quality": 0.0
+          },
+          "2026-06-10": {
+            "ap": 0.95,
+            "hard_bot_recall": 1.0,
+            "hard_fpr": 1.0,
+            "hard_zero": true,
+            "recall_at_fpr05": 0.75,
+            "reward": 0.0,
+            "rows": 8,
+            "threshold_sanity_quality": 0.0
+          },
+          "2026-06-11": {
+            "ap": 0.9166666666666666,
+            "hard_bot_recall": 1.0,
+            "hard_fpr": 1.0,
+            "hard_zero": true,
+            "recall_at_fpr05": 0.75,
+            "reward": 0.0,
+            "rows": 8,
+            "threshold_sanity_quality": 0.0
+          },
+          "2026-06-12": {
+            "ap": 1.0,
+            "hard_bot_recall": 1.0,
+            "hard_fpr": 1.0,
+            "hard_zero": true,
+            "recall_at_fpr05": 1.0,
+            "reward": 0.0,
+            "rows": 8,
+            "threshold_sanity_quality": 0.0
+          },
+          "2026-06-13": {
+            "ap": 0.8333333333333333,
+            "hard_bot_recall": 1.0,
+            "hard_fpr": 1.0,
+            "hard_zero": true,
+            "recall_at_fpr05": 0.5,
+            "reward": 0.0,
+            "rows": 4,
+            "threshold_sanity_quality": 0.0
+          },
+          "2026-06-14": {
+            "ap": 1.0,
+            "hard_bot_recall": 1.0,
+            "hard_fpr": 1.0,
+            "hard_zero": true,
+            "recall_at_fpr05": 1.0,
+            "reward": 0.0,
+            "rows": 6,
+            "threshold_sanity_quality": 0.0
+          },
+          "2026-06-15": {
+            "ap": 1.0,
+            "hard_bot_recall": 1.0,
+            "hard_fpr": 1.0,
+            "hard_zero": true,
+            "recall_at_fpr05": 1.0,
+            "reward": 0.0,
+            "rows": 6,
+            "threshold_sanity_quality": 0.0
+          },
+          "2026-06-16": {
+            "ap": 0.7708333333333333,
+            "hard_bot_recall": 1.0,
+            "hard_fpr": 1.0,
+            "hard_zero": true,
+            "recall_at_fpr05": 0.25,
+            "reward": 0.0,
+            "rows": 8,
+            "threshold_sanity_quality": 0.0
+          },
+          "2026-06-17": {
+            "ap": 1.0,
+            "hard_bot_recall": 1.0,
+            "hard_fpr": 1.0,
+            "hard_zero": true,
+            "recall_at_fpr05": 1.0,
+            "reward": 0.0,
+            "rows": 4,
+            "threshold_sanity_quality": 0.0
+          },
+          "2026-06-18": {
+            "ap": 1.0,
+            "hard_bot_recall": 1.0,
+            "hard_fpr": 1.0,
+            "hard_zero": true,
+            "recall_at_fpr05": 1.0,
+            "reward": 0.0,
+            "rows": 8,
+            "threshold_sanity_quality": 0.0
+          },
+          "2026-06-19": {
+            "ap": 1.0,
+            "hard_bot_recall": 1.0,
+            "hard_fpr": 1.0,
+            "hard_zero": true,
+            "recall_at_fpr05": 1.0,
+            "reward": 0.0,
+            "rows": 6,
+            "threshold_sanity_quality": 0.0
+          },
+          "2026-06-20": {
+            "ap": 0.9166666666666665,
+            "hard_bot_recall": 1.0,
+            "hard_fpr": 1.0,
+            "hard_zero": true,
+            "recall_at_fpr05": 0.6666666666666666,
+            "reward": 0.0,
+            "rows": 6,
+            "threshold_sanity_quality": 0.0
+          },
+          "2026-06-21": {
+            "ap": 1.0,
+            "hard_bot_recall": 1.0,
+            "hard_fpr": 1.0,
+            "hard_zero": true,
+            "recall_at_fpr05": 1.0,
+            "reward": 0.0,
+            "rows": 6,
+            "threshold_sanity_quality": 0.0
+          },
+          "2026-06-22": {
+            "ap": 1.0,
+            "hard_bot_recall": 1.0,
+            "hard_fpr": 1.0,
+            "hard_zero": true,
+            "recall_at_fpr05": 1.0,
+            "reward": 0.0,
+            "rows": 4,
+            "threshold_sanity_quality": 0.0
+          },
+          "2026-06-23": {
+            "ap": 0.6388888888888888,
+            "hard_bot_recall": 1.0,
+            "hard_fpr": 1.0,
+            "hard_zero": true,
+            "recall_at_fpr05": 0.0,
+            "reward": 0.0,
+            "rows": 6,
+            "threshold_sanity_quality": 0.0
+          },
+          "2026-06-24": {
+            "ap": 0.75,
+            "hard_bot_recall": 1.0,
+            "hard_fpr": 1.0,
+            "hard_zero": true,
+            "recall_at_fpr05": 0.5,
+            "reward": 0.0,
+            "rows": 4,
+            "threshold_sanity_quality": 0.0
+          },
+          "2026-06-25": {
+            "ap": 1.0,
+            "hard_bot_recall": 1.0,
+            "hard_fpr": 1.0,
+            "hard_zero": true,
+            "recall_at_fpr05": 1.0,
+            "reward": 0.0,
+            "rows": 6,
+            "threshold_sanity_quality": 0.0
+          },
+          "2026-06-26": {
+            "ap": 0.9166666666666665,
+            "hard_bot_recall": 1.0,
+            "hard_fpr": 1.0,
+            "hard_zero": true,
+            "recall_at_fpr05": 0.6666666666666666,
+            "reward": 0.0,
+            "rows": 6,
+            "threshold_sanity_quality": 0.0
+          },
+          "2026-06-27": {
+            "ap": 0.5,
+            "hard_bot_recall": 1.0,
+            "hard_fpr": 1.0,
+            "hard_zero": true,
+            "recall_at_fpr05": 0.0,
+            "reward": 0.0,
+            "rows": 4,
+            "threshold_sanity_quality": 0.0
+          },
+          "2026-06-28": {
+            "ap": 0.9166666666666666,
+            "hard_bot_recall": 1.0,
+            "hard_fpr": 1.0,
+            "hard_zero": true,
+            "recall_at_fpr05": 0.75,
+            "reward": 0.0,
+            "rows": 8,
+            "threshold_sanity_quality": 0.0
+          },
+          "2026-06-29": {
+            "ap": 0.8333333333333333,
+            "hard_bot_recall": 1.0,
+            "hard_fpr": 1.0,
+            "hard_zero": true,
+            "recall_at_fpr05": 0.6666666666666666,
+            "reward": 0.0,
+            "rows": 6,
+            "threshold_sanity_quality": 0.0
+          },
+          "2026-06-30": {
+            "ap": 0.8333333333333333,
+            "hard_bot_recall": 1.0,
+            "hard_fpr": 1.0,
+            "hard_zero": true,
+            "recall_at_fpr05": 0.5,
+            "reward": 0.0,
+            "rows": 4,
+            "threshold_sanity_quality": 0.0
+          },
+          "2026-07-01": {
+            "ap": 0.8666666666666667,
+            "hard_bot_recall": 1.0,
+            "hard_fpr": 1.0,
+            "hard_zero": true,
+            "recall_at_fpr05": 0.6666666666666666,
+            "reward": 0.0,
+            "rows": 6,
+            "threshold_sanity_quality": 0.0
+          },
+          "2026-07-02": {
+            "ap": 1.0,
+            "hard_bot_recall": 1.0,
+            "hard_fpr": 1.0,
+            "hard_zero": true,
+            "recall_at_fpr05": 1.0,
+            "reward": 0.0,
+            "rows": 6,
+            "threshold_sanity_quality": 0.0
+          },
+          "2026-07-03": {
+            "ap": 0.8166666666666667,
+            "hard_bot_recall": 1.0,
+            "hard_fpr": 1.0,
+            "hard_zero": true,
+            "recall_at_fpr05": 0.5,
+            "reward": 0.0,
+            "rows": 8,
+            "threshold_sanity_quality": 0.0
+          },
+          "2026-07-04": {
+            "ap": 1.0,
+            "hard_bot_recall": 1.0,
+            "hard_fpr": 1.0,
+            "hard_zero": true,
+            "recall_at_fpr05": 1.0,
+            "reward": 0.0,
+            "rows": 4,
+            "threshold_sanity_quality": 0.0
+          },
+          "2026-07-05": {
+            "ap": 0.8666666666666667,
+            "hard_bot_recall": 1.0,
+            "hard_fpr": 1.0,
+            "hard_zero": true,
+            "recall_at_fpr05": 0.6666666666666666,
+            "reward": 0.0,
+            "rows": 6,
+            "threshold_sanity_quality": 0.0
+          },
+          "2026-07-06": {
+            "ap": 1.0,
+            "hard_bot_recall": 1.0,
+            "hard_fpr": 1.0,
+            "hard_zero": true,
+            "recall_at_fpr05": 1.0,
+            "reward": 0.0,
+            "rows": 6,
+            "threshold_sanity_quality": 0.0
+          },
+          "2026-07-07": {
+            "ap": 1.0,
+            "hard_bot_recall": 1.0,
+            "hard_fpr": 1.0,
+            "hard_zero": true,
+            "recall_at_fpr05": 1.0,
+            "reward": 0.0,
+            "rows": 2,
+            "threshold_sanity_quality": 0.0
+          },
+          "2026-07-08": {
+            "ap": 1.0,
+            "hard_bot_recall": 1.0,
+            "hard_fpr": 1.0,
+            "hard_zero": true,
+            "recall_at_fpr05": 1.0,
+            "reward": 0.0,
+            "rows": 2,
+            "threshold_sanity_quality": 0.0
+          },
+          "2026-07-09": {
+            "ap": 1.0,
+            "hard_bot_recall": 1.0,
+            "hard_fpr": 1.0,
+            "hard_zero": true,
+            "recall_at_fpr05": 1.0,
+            "reward": 0.0,
+            "rows": 2,
+            "threshold_sanity_quality": 0.0
+          },
+          "2026-07-10": {
+            "ap": 0.8333333333333333,
+            "hard_bot_recall": 1.0,
+            "hard_fpr": 1.0,
+            "hard_zero": true,
+            "recall_at_fpr05": 0.5,
+            "reward": 0.0,
+            "rows": 4,
+            "threshold_sanity_quality": 0.0
+          },
+          "2026-07-11": {
+            "ap": 1.0,
+            "hard_bot_recall": 1.0,
+            "hard_fpr": 1.0,
+            "hard_zero": true,
+            "recall_at_fpr05": 1.0,
+            "reward": 0.0,
+            "rows": 6,
+            "threshold_sanity_quality": 0.0
+          }
+        },
+        "hard_zero_dates": 47,
+        "reward_mean": 0.0,
+        "reward_min": 0.0,
+        "role": "date_local_diagnostic_not_head_selection",
+        "top_n": 8
+      }
+    ],
+    "role": "non_blind_regression_only",
+    "summary": {
+      "bots": 138,
+      "dates": [
+        "2026-05-26",
+        "2026-05-27",
+        "2026-05-28",
+        "2026-05-29",
+        "2026-05-30",
+        "2026-05-31",
+        "2026-06-01",
+        "2026-06-02",
+        "2026-06-03",
+        "2026-06-04",
+        "2026-06-05",
+        "2026-06-06",
+        "2026-06-07",
+        "2026-06-08",
+        "2026-06-09",
+        "2026-06-10",
+        "2026-06-11",
+        "2026-06-12",
+        "2026-06-13",
+        "2026-06-14",
+        "2026-06-15",
+        "2026-06-16",
+        "2026-06-17",
+        "2026-06-18",
+        "2026-06-19",
+        "2026-06-20",
+        "2026-06-21",
+        "2026-06-22",
+        "2026-06-23",
+        "2026-06-24",
+        "2026-06-25",
+        "2026-06-26",
+        "2026-06-27",
+        "2026-06-28",
+        "2026-06-29",
+        "2026-06-30",
+        "2026-07-01",
+        "2026-07-02",
+        "2026-07-03",
+        "2026-07-04",
+        "2026-07-05",
+        "2026-07-06",
+        "2026-07-07",
+        "2026-07-08",
+        "2026-07-09",
+        "2026-07-10",
+        "2026-07-11"
+      ],
+      "groups": 47,
+      "humans": 138,
+      "release_versions": [
+        "v1.12",
+        "v1.13"
+      ],
+      "split_counts": {
+        "validation": 276
+      },
+      "units": 276
+    },
+    "used_for_fit_feature_selection_or_top_n": false
+  },
+  "oof_operating_points": [
+    {
+      "by_date": {
+        "2026-07-07": {
+          "ap": 0.9457345088011124,
+          "hard_bot_recall": 0.0125,
+          "hard_fpr": 0.0,
+          "hard_zero": false,
+          "recall_at_fpr05": 0.75,
+          "reward": 0.9060070780803894,
+          "rows": 160,
+          "threshold_sanity_quality": 1.0
+        },
+        "2026-07-08": {
+          "ap": 0.9521958130830802,
+          "hard_bot_recall": 0.013157894736842105,
+          "hard_fpr": 0.0,
+          "hard_zero": false,
+          "recall_at_fpr05": 0.75,
+          "reward": 0.9082685345790781,
+          "rows": 152,
+          "threshold_sanity_quality": 1.0
+        },
+        "2026-07-09": {
+          "ap": 0.982192869789963,
+          "hard_bot_recall": 0.013888888888888888,
+          "hard_fpr": 0.0,
+          "hard_zero": false,
+          "recall_at_fpr05": 0.8888888888888888,
+          "reward": 0.9604341710931538,
+          "rows": 144,
+          "threshold_sanity_quality": 1.0
+        },
+        "2026-07-10": {
+          "ap": 0.9878089695704908,
+          "hard_bot_recall": 0.015625,
+          "hard_fpr": 0.0,
+          "hard_zero": false,
+          "recall_at_fpr05": 0.921875,
+          "reward": 0.9722956393496717,
+          "rows": 128,
+          "threshold_sanity_quality": 1.0
+        },
+        "2026-07-11": {
+          "ap": 0.9675553690334512,
+          "hard_bot_recall": 0.014705882352941176,
+          "hard_fpr": 0.0,
+          "hard_zero": false,
+          "recall_at_fpr05": 0.8529411764705882,
+          "reward": 0.9445267321028844,
+          "rows": 136,
+          "threshold_sanity_quality": 1.0
+        }
+      },
+      "hard_zero_dates": 0,
+      "reward_mean": 0.9383064310410354,
+      "reward_min": 0.9060070780803894,
+      "role": "date_local_diagnostic_not_head_selection",
+      "top_n": 1
+    },
+    {
+      "by_date": {
+        "2026-07-07": {
+          "ap": 0.9457345088011124,
+          "hard_bot_recall": 0.025,
+          "hard_fpr": 0.0,
+          "hard_zero": false,
+          "recall_at_fpr05": 0.75,
+          "reward": 0.9060070780803894,
+          "rows": 160,
+          "threshold_sanity_quality": 1.0
+        },
+        "2026-07-08": {
+          "ap": 0.9521958130830802,
+          "hard_bot_recall": 0.02631578947368421,
+          "hard_fpr": 0.0,
+          "hard_zero": false,
+          "recall_at_fpr05": 0.75,
+          "reward": 0.9082685345790781,
+          "rows": 152,
+          "threshold_sanity_quality": 1.0
+        },
+        "2026-07-09": {
+          "ap": 0.982192869789963,
+          "hard_bot_recall": 0.027777777777777776,
+          "hard_fpr": 0.0,
+          "hard_zero": false,
+          "recall_at_fpr05": 0.8888888888888888,
+          "reward": 0.9604341710931538,
+          "rows": 144,
+          "threshold_sanity_quality": 1.0
+        },
+        "2026-07-10": {
+          "ap": 0.9878089695704908,
+          "hard_bot_recall": 0.03125,
+          "hard_fpr": 0.0,
+          "hard_zero": false,
+          "recall_at_fpr05": 0.921875,
+          "reward": 0.9722956393496717,
+          "rows": 128,
+          "threshold_sanity_quality": 1.0
+        },
+        "2026-07-11": {
+          "ap": 0.9675553690334512,
+          "hard_bot_recall": 0.029411764705882353,
+          "hard_fpr": 0.0,
+          "hard_zero": false,
+          "recall_at_fpr05": 0.8529411764705882,
+          "reward": 0.9445267321028844,
+          "rows": 136,
+          "threshold_sanity_quality": 1.0
+        }
+      },
+      "hard_zero_dates": 0,
+      "reward_mean": 0.9383064310410354,
+      "reward_min": 0.9060070780803894,
+      "role": "date_local_diagnostic_not_head_selection",
+      "top_n": 2
+    },
+    {
+      "by_date": {
+        "2026-07-07": {
+          "ap": 0.9457345088011124,
+          "hard_bot_recall": 0.0375,
+          "hard_fpr": 0.0,
+          "hard_zero": false,
+          "recall_at_fpr05": 0.75,
+          "reward": 0.9060070780803894,
+          "rows": 160,
+          "threshold_sanity_quality": 1.0
+        },
+        "2026-07-08": {
+          "ap": 0.9521958130830802,
+          "hard_bot_recall": 0.039473684210526314,
+          "hard_fpr": 0.0,
+          "hard_zero": false,
+          "recall_at_fpr05": 0.75,
+          "reward": 0.9082685345790781,
+          "rows": 152,
+          "threshold_sanity_quality": 1.0
+        },
+        "2026-07-09": {
+          "ap": 0.982192869789963,
+          "hard_bot_recall": 0.041666666666666664,
+          "hard_fpr": 0.0,
+          "hard_zero": false,
+          "recall_at_fpr05": 0.8888888888888888,
+          "reward": 0.9604341710931538,
+          "rows": 144,
+          "threshold_sanity_quality": 1.0
+        },
+        "2026-07-10": {
+          "ap": 0.9878089695704908,
+          "hard_bot_recall": 0.046875,
+          "hard_fpr": 0.0,
+          "hard_zero": false,
+          "recall_at_fpr05": 0.921875,
+          "reward": 0.9722956393496717,
+          "rows": 128,
+          "threshold_sanity_quality": 1.0
+        },
+        "2026-07-11": {
+          "ap": 0.9675553690334512,
+          "hard_bot_recall": 0.04411764705882353,
+          "hard_fpr": 0.0,
+          "hard_zero": false,
+          "recall_at_fpr05": 0.8529411764705882,
+          "reward": 0.9445267321028844,
+          "rows": 136,
+          "threshold_sanity_quality": 1.0
+        }
+      },
+      "hard_zero_dates": 0,
+      "reward_mean": 0.9383064310410354,
+      "reward_min": 0.9060070780803894,
+      "role": "date_local_diagnostic_not_head_selection",
+      "top_n": 3
+    },
+    {
+      "by_date": {
+        "2026-07-07": {
+          "ap": 0.9457345088011124,
+          "hard_bot_recall": 0.05,
+          "hard_fpr": 0.0,
+          "hard_zero": false,
+          "recall_at_fpr05": 0.75,
+          "reward": 0.9060070780803894,
+          "rows": 160,
+          "threshold_sanity_quality": 1.0
+        },
+        "2026-07-08": {
+          "ap": 0.9521958130830802,
+          "hard_bot_recall": 0.05263157894736842,
+          "hard_fpr": 0.0,
+          "hard_zero": false,
+          "recall_at_fpr05": 0.75,
+          "reward": 0.9082685345790781,
+          "rows": 152,
+          "threshold_sanity_quality": 1.0
+        },
+        "2026-07-09": {
+          "ap": 0.982192869789963,
+          "hard_bot_recall": 0.05555555555555555,
+          "hard_fpr": 0.0,
+          "hard_zero": false,
+          "recall_at_fpr05": 0.8888888888888888,
+          "reward": 0.9604341710931538,
+          "rows": 144,
+          "threshold_sanity_quality": 1.0
+        },
+        "2026-07-10": {
+          "ap": 0.9878089695704908,
+          "hard_bot_recall": 0.0625,
+          "hard_fpr": 0.0,
+          "hard_zero": false,
+          "recall_at_fpr05": 0.921875,
+          "reward": 0.9722956393496717,
+          "rows": 128,
+          "threshold_sanity_quality": 1.0
+        },
+        "2026-07-11": {
+          "ap": 0.9675553690334512,
+          "hard_bot_recall": 0.058823529411764705,
+          "hard_fpr": 0.0,
+          "hard_zero": false,
+          "recall_at_fpr05": 0.8529411764705882,
+          "reward": 0.9445267321028844,
+          "rows": 136,
+          "threshold_sanity_quality": 1.0
+        }
+      },
+      "hard_zero_dates": 0,
+      "reward_mean": 0.9383064310410354,
+      "reward_min": 0.9060070780803894,
+      "role": "date_local_diagnostic_not_head_selection",
+      "top_n": 4
+    },
+    {
+      "by_date": {
+        "2026-07-07": {
+          "ap": 0.9457345088011124,
+          "hard_bot_recall": 0.0625,
+          "hard_fpr": 0.0,
+          "hard_zero": false,
+          "recall_at_fpr05": 0.75,
+          "reward": 0.9060070780803894,
+          "rows": 160,
+          "threshold_sanity_quality": 1.0
+        },
+        "2026-07-08": {
+          "ap": 0.9521958130830802,
+          "hard_bot_recall": 0.06578947368421052,
+          "hard_fpr": 0.0,
+          "hard_zero": false,
+          "recall_at_fpr05": 0.75,
+          "reward": 0.9082685345790781,
+          "rows": 152,
+          "threshold_sanity_quality": 1.0
+        },
+        "2026-07-09": {
+          "ap": 0.982192869789963,
+          "hard_bot_recall": 0.06944444444444445,
+          "hard_fpr": 0.0,
+          "hard_zero": false,
+          "recall_at_fpr05": 0.8888888888888888,
+          "reward": 0.9604341710931538,
+          "rows": 144,
+          "threshold_sanity_quality": 1.0
+        },
+        "2026-07-10": {
+          "ap": 0.9878089695704908,
+          "hard_bot_recall": 0.078125,
+          "hard_fpr": 0.0,
+          "hard_zero": false,
+          "recall_at_fpr05": 0.921875,
+          "reward": 0.9722956393496717,
+          "rows": 128,
+          "threshold_sanity_quality": 1.0
+        },
+        "2026-07-11": {
+          "ap": 0.9675553690334512,
+          "hard_bot_recall": 0.07352941176470588,
+          "hard_fpr": 0.0,
+          "hard_zero": false,
+          "recall_at_fpr05": 0.8529411764705882,
+          "reward": 0.9445267321028844,
+          "rows": 136,
+          "threshold_sanity_quality": 1.0
+        }
+      },
+      "hard_zero_dates": 0,
+      "reward_mean": 0.9383064310410354,
+      "reward_min": 0.9060070780803894,
+      "role": "date_local_diagnostic_not_head_selection",
+      "top_n": 5
+    },
+    {
+      "by_date": {
+        "2026-07-07": {
+          "ap": 0.9457345088011124,
+          "hard_bot_recall": 0.075,
+          "hard_fpr": 0.0,
+          "hard_zero": false,
+          "recall_at_fpr05": 0.75,
+          "reward": 0.9060070780803894,
+          "rows": 160,
+          "threshold_sanity_quality": 1.0
+        },
+        "2026-07-08": {
+          "ap": 0.9521958130830802,
+          "hard_bot_recall": 0.07894736842105263,
+          "hard_fpr": 0.0,
+          "hard_zero": false,
+          "recall_at_fpr05": 0.75,
+          "reward": 0.9082685345790781,
+          "rows": 152,
+          "threshold_sanity_quality": 1.0
+        },
+        "2026-07-09": {
+          "ap": 0.982192869789963,
+          "hard_bot_recall": 0.08333333333333333,
+          "hard_fpr": 0.0,
+          "hard_zero": false,
+          "recall_at_fpr05": 0.8888888888888888,
+          "reward": 0.9604341710931538,
+          "rows": 144,
+          "threshold_sanity_quality": 1.0
+        },
+        "2026-07-10": {
+          "ap": 0.9878089695704908,
+          "hard_bot_recall": 0.09375,
+          "hard_fpr": 0.0,
+          "hard_zero": false,
+          "recall_at_fpr05": 0.921875,
+          "reward": 0.9722956393496717,
+          "rows": 128,
+          "threshold_sanity_quality": 1.0
+        },
+        "2026-07-11": {
+          "ap": 0.9675553690334512,
+          "hard_bot_recall": 0.08823529411764706,
+          "hard_fpr": 0.0,
+          "hard_zero": false,
+          "recall_at_fpr05": 0.8529411764705882,
+          "reward": 0.9445267321028844,
+          "rows": 136,
+          "threshold_sanity_quality": 1.0
+        }
+      },
+      "hard_zero_dates": 0,
+      "reward_mean": 0.9383064310410354,
+      "reward_min": 0.9060070780803894,
+      "role": "date_local_diagnostic_not_head_selection",
+      "top_n": 6
+    },
+    {
+      "by_date": {
+        "2026-07-07": {
+          "ap": 0.9457345088011124,
+          "hard_bot_recall": 0.1,
+          "hard_fpr": 0.0,
+          "hard_zero": false,
+          "recall_at_fpr05": 0.75,
+          "reward": 0.9060070780803894,
+          "rows": 160,
+          "threshold_sanity_quality": 1.0
+        },
+        "2026-07-08": {
+          "ap": 0.9521958130830802,
+          "hard_bot_recall": 0.10526315789473684,
+          "hard_fpr": 0.0,
+          "hard_zero": false,
+          "recall_at_fpr05": 0.75,
+          "reward": 0.9082685345790781,
+          "rows": 152,
+          "threshold_sanity_quality": 1.0
+        },
+        "2026-07-09": {
+          "ap": 0.982192869789963,
+          "hard_bot_recall": 0.1111111111111111,
+          "hard_fpr": 0.0,
+          "hard_zero": false,
+          "recall_at_fpr05": 0.8888888888888888,
+          "reward": 0.9604341710931538,
+          "rows": 144,
+          "threshold_sanity_quality": 1.0
+        },
+        "2026-07-10": {
+          "ap": 0.9878089695704908,
+          "hard_bot_recall": 0.125,
+          "hard_fpr": 0.0,
+          "hard_zero": false,
+          "recall_at_fpr05": 0.921875,
+          "reward": 0.9722956393496717,
+          "rows": 128,
+          "threshold_sanity_quality": 1.0
+        },
+        "2026-07-11": {
+          "ap": 0.9675553690334512,
+          "hard_bot_recall": 0.11764705882352941,
+          "hard_fpr": 0.0,
+          "hard_zero": false,
+          "recall_at_fpr05": 0.8529411764705882,
+          "reward": 0.9445267321028844,
+          "rows": 136,
+          "threshold_sanity_quality": 1.0
+        }
+      },
+      "hard_zero_dates": 0,
+      "reward_mean": 0.9383064310410354,
+      "reward_min": 0.9060070780803894,
+      "role": "date_local_diagnostic_not_head_selection",
+      "top_n": 8
+    },
+    {
+      "by_date": {
+        "2026-07-07": {
+          "ap": 0.9457345088011124,
+          "hard_bot_recall": 0.125,
+          "hard_fpr": 0.0,
+          "hard_zero": false,
+          "recall_at_fpr05": 0.75,
+          "reward": 0.9060070780803894,
+          "rows": 160,
+          "threshold_sanity_quality": 1.0
+        },
+        "2026-07-08": {
+          "ap": 0.9521958130830802,
+          "hard_bot_recall": 0.13157894736842105,
+          "hard_fpr": 0.0,
+          "hard_zero": false,
+          "recall_at_fpr05": 0.75,
+          "reward": 0.9082685345790781,
+          "rows": 152,
+          "threshold_sanity_quality": 1.0
+        },
+        "2026-07-09": {
+          "ap": 0.982192869789963,
+          "hard_bot_recall": 0.1388888888888889,
+          "hard_fpr": 0.0,
+          "hard_zero": false,
+          "recall_at_fpr05": 0.8888888888888888,
+          "reward": 0.9604341710931538,
+          "rows": 144,
+          "threshold_sanity_quality": 1.0
+        },
+        "2026-07-10": {
+          "ap": 0.9878089695704908,
+          "hard_bot_recall": 0.15625,
+          "hard_fpr": 0.0,
+          "hard_zero": false,
+          "recall_at_fpr05": 0.921875,
+          "reward": 0.9722956393496717,
+          "rows": 128,
+          "threshold_sanity_quality": 1.0
+        },
+        "2026-07-11": {
+          "ap": 0.9675553690334512,
+          "hard_bot_recall": 0.14705882352941177,
+          "hard_fpr": 0.0,
+          "hard_zero": false,
+          "recall_at_fpr05": 0.8529411764705882,
+          "reward": 0.9445267321028844,
+          "rows": 136,
+          "threshold_sanity_quality": 1.0
+        }
+      },
+      "hard_zero_dates": 0,
+      "reward_mean": 0.9383064310410354,
+      "reward_min": 0.9060070780803894,
+      "role": "date_local_diagnostic_not_head_selection",
+      "top_n": 10
+    },
+    {
+      "by_date": {
+        "2026-07-07": {
+          "ap": 0.9457345088011124,
+          "hard_bot_recall": 0.1875,
+          "hard_fpr": 0.0,
+          "hard_zero": false,
+          "recall_at_fpr05": 0.75,
+          "reward": 0.9060070780803894,
+          "rows": 160,
+          "threshold_sanity_quality": 1.0
+        },
+        "2026-07-08": {
+          "ap": 0.9521958130830802,
+          "hard_bot_recall": 0.19736842105263158,
+          "hard_fpr": 0.0,
+          "hard_zero": false,
+          "recall_at_fpr05": 0.75,
+          "reward": 0.9082685345790781,
+          "rows": 152,
+          "threshold_sanity_quality": 1.0
+        },
+        "2026-07-09": {
+          "ap": 0.982192869789963,
+          "hard_bot_recall": 0.20833333333333334,
+          "hard_fpr": 0.0,
+          "hard_zero": false,
+          "recall_at_fpr05": 0.8888888888888888,
+          "reward": 0.9604341710931538,
+          "rows": 144,
+          "threshold_sanity_quality": 1.0
+        },
+        "2026-07-10": {
+          "ap": 0.9878089695704908,
+          "hard_bot_recall": 0.234375,
+          "hard_fpr": 0.0,
+          "hard_zero": false,
+          "recall_at_fpr05": 0.921875,
+          "reward": 0.9722956393496717,
+          "rows": 128,
+          "threshold_sanity_quality": 1.0
+        },
+        "2026-07-11": {
+          "ap": 0.9675553690334512,
+          "hard_bot_recall": 0.22058823529411764,
+          "hard_fpr": 0.0,
+          "hard_zero": false,
+          "recall_at_fpr05": 0.8529411764705882,
+          "reward": 0.9445267321028844,
+          "rows": 136,
+          "threshold_sanity_quality": 1.0
+        }
+      },
+      "hard_zero_dates": 0,
+      "reward_mean": 0.9383064310410354,
+      "reward_min": 0.9060070780803894,
+      "role": "date_local_diagnostic_not_head_selection",
+      "top_n": 15
+    },
+    {
+      "by_date": {
+        "2026-07-07": {
+          "ap": 0.9457345088011124,
+          "hard_bot_recall": 0.25,
+          "hard_fpr": 0.0,
+          "hard_zero": false,
+          "recall_at_fpr05": 0.75,
+          "reward": 0.9060070780803894,
+          "rows": 160,
+          "threshold_sanity_quality": 1.0
+        },
+        "2026-07-08": {
+          "ap": 0.9521958130830802,
+          "hard_bot_recall": 0.2631578947368421,
+          "hard_fpr": 0.0,
+          "hard_zero": false,
+          "recall_at_fpr05": 0.75,
+          "reward": 0.9082685345790781,
+          "rows": 152,
+          "threshold_sanity_quality": 1.0
+        },
+        "2026-07-09": {
+          "ap": 0.982192869789963,
+          "hard_bot_recall": 0.2777777777777778,
+          "hard_fpr": 0.0,
+          "hard_zero": false,
+          "recall_at_fpr05": 0.8888888888888888,
+          "reward": 0.9604341710931538,
+          "rows": 144,
+          "threshold_sanity_quality": 1.0
+        },
+        "2026-07-10": {
+          "ap": 0.9878089695704908,
+          "hard_bot_recall": 0.3125,
+          "hard_fpr": 0.0,
+          "hard_zero": false,
+          "recall_at_fpr05": 0.921875,
+          "reward": 0.9722956393496717,
+          "rows": 128,
+          "threshold_sanity_quality": 1.0
+        },
+        "2026-07-11": {
+          "ap": 0.9675553690334512,
+          "hard_bot_recall": 0.29411764705882354,
+          "hard_fpr": 0.0,
+          "hard_zero": false,
+          "recall_at_fpr05": 0.8529411764705882,
+          "reward": 0.9445267321028844,
+          "rows": 136,
+          "threshold_sanity_quality": 1.0
+        }
+      },
+      "hard_zero_dates": 0,
+      "reward_mean": 0.9383064310410354,
+      "reward_min": 0.9060070780803894,
+      "role": "date_local_diagnostic_not_head_selection",
+      "top_n": 20
+    }
+  ],
+  "oof_operating_points_role": "date_local_diagnostic_not_head_selection",
+  "oof_predictions": {
+    "blend": {
+      "ap": 0.966139677023531,
+      "auc": 0.9606172839506173,
+      "recall_at_fpr05": 0.8305555555555556,
+      "rows": 720
+    },
+    "components": {
+      "extra_trees_motif_temporal": {
+        "ap": 0.9132805778281953,
+        "auc": 0.8959645061728396,
+        "recall_at_fpr05": 0.6472222222222223,
+        "rows": 720
+      },
+      "hist_gradient_selected_all": {
+        "ap": 0.9635451214002423,
+        "auc": 0.957295524691358,
+        "recall_at_fpr05": 0.8277777777777777,
+        "rows": 720
+      },
+      "lgbm_contract_ranker": {
+        "ap": 0.9490581551079705,
+        "auc": 0.9456558641975309,
+        "recall_at_fpr05": 0.7805555555555556,
+        "rows": 720
+      }
+    }
+  },
+  "oof_predictions_path": "data/models/v373_original_hash_bag_top8/oof_component_predictions.npz",
+  "oof_predictions_sha256": "fe51c3bda052106dd806b19e1db01127822abcfc54c9a2f2f419d59b46702d08",
+  "oof_raw_cross_fold_scale_diagnostic": {
+    "blend": {
+      "ap": 0.9646534078625988,
+      "auc": 0.9590624999999999,
+      "recall_at_fpr05": 0.8194444444444444,
+      "rows": 720
+    },
+    "components": {
+      "extra_trees_motif_temporal": {
+        "ap": 0.9093027541410661,
+        "auc": 0.8909104938271605,
+        "recall_at_fpr05": 0.6361111111111111,
+        "rows": 720
+      },
+      "hist_gradient_selected_all": {
+        "ap": 0.9640705421451867,
+        "auc": 0.9580092592592593,
+        "recall_at_fpr05": 0.8305555555555556,
+        "rows": 720
+      },
+      "lgbm_contract_ranker": {
+        "ap": 0.9480741351256823,
+        "auc": 0.944675925925926,
+        "recall_at_fpr05": 0.7611111111111111,
+        "rows": 720
+      }
+    }
+  },
+  "oof_score_space": "within-fold average-tie component percentiles",
+  "oof_source_key_hash": "2f53ac70a271334996dc41225dbf8a5bc2ee879c001b0f7c5c764569adb7ae6a",
+  "oof_source_units": 720,
+  "reward_batch_size": 100,
+  "reward_contract": "poker44.score.scoring:reward",
+  "reward_prevalences": "not_manufactured_from_cross_date_oof",
+  "selected_top_n": 8,
+  "selected_top_n_role": "predeclared_live_batch100_head",
+  "selection_partition": "none_predeclared_before_future_blind",
+  "source_summary": {
+    "bots": 730,
+    "dates": [
+      "2026-05-26",
+      "2026-05-27",
+      "2026-05-28",
+      "2026-05-29",
+      "2026-05-30",
+      "2026-05-31",
+      "2026-06-01",
+      "2026-06-02",
+      "2026-06-03",
+      "2026-06-04",
+      "2026-06-05",
+      "2026-06-06",
+      "2026-06-07",
+      "2026-06-08",
+      "2026-06-09",
+      "2026-06-10",
+      "2026-06-11",
+      "2026-06-12",
+      "2026-06-13",
+      "2026-06-14",
+      "2026-06-15",
+      "2026-06-16",
+      "2026-06-17",
+      "2026-06-18",
+      "2026-06-19",
+      "2026-06-20",
+      "2026-06-21",
+      "2026-06-22",
+      "2026-06-23",
+      "2026-06-24",
+      "2026-06-25",
+      "2026-06-26",
+      "2026-06-27",
+      "2026-06-28",
+      "2026-06-29",
+      "2026-06-30",
+      "2026-07-01",
+      "2026-07-02",
+      "2026-07-03",
+      "2026-07-04",
+      "2026-07-05",
+      "2026-07-06",
+      "2026-07-07",
+      "2026-07-08",
+      "2026-07-09",
+      "2026-07-10",
+      "2026-07-11"
+    ],
+    "groups": 195,
+    "humans": 730,
+    "release_versions": [
+      "v1.12",
+      "v1.13"
+    ],
+    "split_counts": {
+      "train": 1184,
+      "validation": 276
+    },
+    "units": 1460
+  },
+  "training_config": {
+    "all_max_features": 384,
+    "contract_max_features": 160,
+    "extra_estimators": 500,
+    "hgb_iterations": 260,
+    "lgb_estimators": 350,
+    "min_samples_leaf": 8,
+    "motif_temporal_max_features": 256,
+    "seed": 373,
+    "surface_profile": "hash_bag_no_temporal",
+    "workers": 4
+  },
+  "training_data_statement": "Original AceGuard natural-unit tree-surface challenger trained from scratch only on official split=train public Poker44 canonical miner-visible API SourceUnits without reapplying the non-idempotent validator sanitizer. One feature row is one natural SourceUnit; players, chunks and source units are never concatenated. The fixed ensemble contains three independently regularized surfaces: a LightGBM LambdaRank contract surface, an ExtraTrees motif/temporal surface and a HistGradientBoosting selected surface, with included prefixes recorded by the explicit surface profile. Feature selection was fitted independently using only each rolling fold's train rows. Folds f1-f5 exactly match v361; every OOF test prediction came from models fitted only through the fold's earlier train date. Fold tune dates are monitoring-only and do not select features, models or top-N. Top-N was selected once on pooled natural OOF component predictions using per-batch component percentile-rank mean, exact batch100 prevalences 2/5/10/20 and the current Poker44 reward. Official split=validation was excluded from fitting, feature selection and top-N selection and is reported only as a non-blind regression because repository experiments had already inspected that split. The frozen components were refitted on split=train through 2026-07-11. Private live payloads, identities, cards, outcomes, wallets, IPs, pseudo-labels, competitor code and competitor weights were not used. Frozen before sourceDate 2026-07-12; a future sourceDate blind is still required before deployment. Surface profile: hash_bag_no_temporal; the full hash-bag profile erases source hand order, caps the canonical bag at 60 hands, adds exact/near redundancy and conditional-policy features, and excludes every temporal__ feature. The live batch100 head is predeclared as top8; OOF source dates are never mixed to manufacture prevalence stress, and date-local served-head rewards are diagnostic only.",
+  "training_representation": "one_feature_row_per_natural_source_unit_no_player_join",
+  "version": "v373_original_hash_bag_redundancy_canonical_oof_20260711_210411",
+  "view_mode": "hash_bag_full60",
+  "view_score_order": "one_hash_multiscale_row_per_chunk_then_batch_percentile_rank_mean",
+  "blind_evidence": {
+    "source_date": "2026-07-12",
+    "released_at": "2026-07-12T00:05:00.344718Z",
+    "release_sha256": "ec6a11a8c000da441fe23f525dd82d6fd5615db87e06617cd5803484b4d9a7cd",
+    "natural_units": 128,
+    "bots": 64,
+    "humans": 64,
+    "frozen_before_release": true,
+    "one_shot_evaluation": true,
+    "selection_action": "ranking_blind_passed_manual_preflight_required",
+    "ap": 0.9867409688100672,
+    "recall_at_fpr05": 0.984375,
+    "rank_component": 0.6406718390835235,
+    "top8_full_reward_diagnostic": 0.9907458082652861,
+    "best_reproducible_public_rank_component": 0.43957029503177014,
+    "public_margin": 0.2011015440517534
+  },
+  "training_command": "python scripts/miner_training/build_v362_original_tree_surface_oof.py --benchmark-dir data/benchmark_v112 --first-date 2026-05-26 --last-date 2026-07-11 --seed 373 --surface-profile hash_bag_no_temporal --workers 4 --family v373_original_hash_bag_redundancy_canonical_oof --out-dir data/models/v373_original_hash_bag_redundancy_canonical_oof",
+  "public_post_blind_status": "The frozen model and top-eight head passed the immutable one-shot 2026-07-12 blind without retraining; see blind_evidence."
+}
