@@ -107,3 +107,39 @@ def build_runtime_compatible_metagraph(subtensor, netuid: int) -> RuntimeCompati
     )
     metagraph.sync(subtensor=subtensor)
     return metagraph
+
+
+def serve_axon_runtime_compatible(subtensor, netuid: int, axon):
+    """Serve an axon, retrying only the known singleton-composite preflight."""
+    response = subtensor.serve_axon(netuid=int(netuid), axon=axon)
+    if response.success:
+        return response
+
+    message = str(response.message or "")
+    if "Invalid type for data" not in message or "Composite" not in message:
+        raise RuntimeError(f"serve_axon failed: {message}")
+
+    # The first attempt failed before composing or signing an extrinsic: the
+    # SDK could not decode its optional up-to-date check. Skip only that stale
+    # read. Registration and endpoint ownership are still enforced on-chain by
+    # the signed serve_axon call.
+    sentinel = object()
+    previous = subtensor.__dict__.get("get_neuron_for_pubkey_and_subnet", sentinel)
+    subtensor.get_neuron_for_pubkey_and_subnet = (
+        lambda *_args, **_kwargs: type("NullNeuron", (), {"is_null": True})()
+    )
+    try:
+        response = subtensor.serve_axon(
+            netuid=int(netuid),
+            axon=axon,
+            raise_error=True,
+        )
+    finally:
+        if previous is sentinel:
+            del subtensor.__dict__["get_neuron_for_pubkey_and_subnet"]
+        else:
+            subtensor.get_neuron_for_pubkey_and_subnet = previous
+
+    if not response.success:
+        raise RuntimeError(f"serve_axon compatibility retry failed: {response.message}")
+    return response

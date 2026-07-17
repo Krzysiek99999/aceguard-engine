@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import unittest
+from types import SimpleNamespace
 from unittest.mock import patch
 
 from bittensor.core.metagraph import Metagraph
@@ -8,6 +9,7 @@ from bittensor.core.metagraph import Metagraph
 from poker44.utils.metagraph_compat import (
     RuntimeCompatibleMetagraph,
     normalize_neuron_lite_runtime_value,
+    serve_axon_runtime_compatible,
 )
 
 
@@ -56,6 +58,42 @@ class MetagraphCompatibilityTests(unittest.TestCase):
         with patch.object(Metagraph, "sync", side_effect=ValueError("different")):
             with self.assertRaisesRegex(ValueError, "different"):
                 graph.sync()
+
+    def test_serve_retries_only_composite_preflight_and_restores_method(self) -> None:
+        class FakeSubtensor:
+            def __init__(self) -> None:
+                self.calls = 0
+
+            def get_neuron_for_pubkey_and_subnet(self):
+                return "original"
+
+            def serve_axon(self, **kwargs):
+                self.calls += 1
+                if self.calls == 1:
+                    return SimpleNamespace(
+                        success=False,
+                        message="Invalid type for data: 126, type_def: Composite",
+                    )
+                self.asserted_neuron = self.get_neuron_for_pubkey_and_subnet()
+                self.retry_kwargs = kwargs
+                return SimpleNamespace(success=True, message="Success")
+
+        subtensor = FakeSubtensor()
+        response = serve_axon_runtime_compatible(subtensor, 126, object())
+        self.assertTrue(response.success)
+        self.assertTrue(subtensor.asserted_neuron.is_null)
+        self.assertTrue(subtensor.retry_kwargs["raise_error"])
+        self.assertEqual(subtensor.get_neuron_for_pubkey_and_subnet(), "original")
+
+    def test_serve_refuses_unrelated_failure(self) -> None:
+        subtensor = SimpleNamespace(
+            serve_axon=lambda **_kwargs: SimpleNamespace(
+                success=False,
+                message="wallet rejected",
+            )
+        )
+        with self.assertRaisesRegex(RuntimeError, "wallet rejected"):
+            serve_axon_runtime_compatible(subtensor, 126, object())
 
 
 if __name__ == "__main__":

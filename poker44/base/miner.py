@@ -186,7 +186,13 @@ class BaseMinerNeuron(BaseNeuron):
         bt.logging.info(
             f"Serving miner axon {self.axon} on network: {self.config.subtensor.chain_endpoint} with netuid: {self.config.netuid}"
         )
-        self.axon.serve(netuid=self.config.netuid, subtensor=self.subtensor)
+        from poker44.utils.metagraph_compat import serve_axon_runtime_compatible
+
+        serve_axon_runtime_compatible(
+            self.subtensor,
+            netuid=self.config.netuid,
+            axon=self.axon,
+        )
 
         # Start  starts the miner's axon, making it active on the network.
         self.axon.start()
