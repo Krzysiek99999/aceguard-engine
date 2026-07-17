@@ -1173,7 +1173,9 @@ class Miner(BaseMinerNeuron):
     def _implementation_files(self) -> list[Path]:
         files = [
             Path(__file__).resolve(),
+            REPO_ROOT / "poker44" / "base" / "neuron.py",
             REPO_ROOT / "poker44" / "utils" / "model_manifest.py",
+            REPO_ROOT / "poker44" / "utils" / "metagraph_compat.py",
             REPO_ROOT / "poker44" / "validator" / "synapse.py",
             REPO_ROOT / "poker44" / "score" / "calibration.py",
             REPO_ROOT / "poker44" / "score" / "rank_cap_remap.py",

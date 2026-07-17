@@ -18,6 +18,8 @@
 import copy
 import os
 import bittensor as bt
+
+from poker44.utils.metagraph_compat import build_runtime_compatible_metagraph
 from abc import ABC, abstractmethod
 
 # Sync calls set weights and also resyncs the metagraph.
@@ -90,7 +92,10 @@ class BaseNeuron(ABC):
             try:
                 bt.logging.info("Initializing subtensor and metagraph")
                 self.subtensor = bt.Subtensor(config=self.config)
-                self.metagraph = self.subtensor.metagraph(self.config.netuid)
+                self.metagraph = build_runtime_compatible_metagraph(
+                    self.subtensor,
+                    self.config.netuid,
+                )
                 break
             except Exception as e:
                 bt.logging.error(
