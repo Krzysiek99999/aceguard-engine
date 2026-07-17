@@ -1,0 +1,90 @@
+{
+  "automatic_deploy": false,
+  "child_models": {
+    "v394": {
+      "path": "data/models/v403_v402_natural_multisalt60_sequence/20260712_123231/v394_model.pkl",
+      "sha256": "cb5f240923696a3bd4401a97b838a9b9d444ca7b2af8b59dfa746c1524191be1"
+    },
+    "v402": {
+      "path": "data/models/v403_v402_natural_multisalt60_sequence/20260712_123231/v402_model.pkl",
+      "sha256": "82b81f8c6958a278b1223c95346ea6387bbe242e22cb1f7e459de7b2789ff9c2"
+    }
+  },
+  "created_at_utc": "2026-07-12T12:32:31Z",
+  "deployment_authorization": "none",
+  "evidence": {
+    "batching_parity": {
+      "path": "data/observations/live_forward/natural_multisalt_sequence_batching_benchmark_20260712.json",
+      "sha256": "16b0239bbbf1a8114a55c7e3fa79be46a82c5b5b26a6f2abf4d5893d66372900"
+    },
+    "group_bootstrap": {
+      "path": "data/observations/live_forward/v402_multisalt_sequence_group_bootstrap_20260712.json",
+      "sha256": "905018123e5f0fcd51d39e8561b444e40f99c081dce1ef81e14970b8e0c93887"
+    },
+    "natural_live_contract": {
+      "path": "data/observations/live_forward/natural_multisalt80_sequence_live_contract_probe_20260712.json",
+      "sha256": "df5c4aa15aac768c8e9d97a4fd9a04116ac025692afa4b00e429972685861f83"
+    },
+    "oof_complement": {
+      "path": "data/observations/live_forward/v402_multisalt_sequence_complement_oof_20260712.json",
+      "sha256": "e49e728f9151646ab0012adcd12f0159f209c2225cc8487b576c2ff340ba892e"
+    },
+    "view_count_sweep": {
+      "path": "data/observations/live_forward/natural_multisalt_view_count_sweep_20260712.json",
+      "sha256": "55365dadc82517ae395aa925d9e9458f604821449ae1843d54086abaacae034a"
+    }
+  },
+  "evidence_status": "local_candidate_future_blind_and_runtime_smoke_required",
+  "family": "original_v402_natural_multisalt_sequence_ensemble",
+  "frozen_before_source_date": "2026-07-15",
+  "hierarchical_bootstrap": {
+    "delta_quantiles": {
+      "p02_5": 0.009568844635117967,
+      "p05": 0.012766949037754542,
+      "p50": 0.02675393817477798,
+      "p95": 0.04433982468194948,
+      "p97_5": 0.04879415791068343
+    },
+    "mean_delta": 0.02752531594386501,
+    "probability_delta_positive": 0.9956666666666667,
+    "repetitions": 3000,
+    "resampling_unit": "sourceDate with replacement, then whole natural ranking groups with replacement within each sampled sourceDate",
+    "seed": 402395
+  },
+  "model_path": "data/models/v403_v402_natural_multisalt60_sequence/20260712_123231/model.pkl",
+  "model_sha256": "f5b4ea0fed33a31c540cc8f2b8afdd0f934f740b3570fa85b6195d948c76c905",
+  "oof_fixed_minus_v402": {
+    "by_date": {
+      "2026-07-07": 0.04877197282248691,
+      "2026-07-08": 0.031340130199364546,
+      "2026-07-09": 0.024237157058029646,
+      "2026-07-10": 0.005894267273591325,
+      "2026-07-11": 0.04483340782581324,
+      "2026-07-12": 0.017952066105059727
+    },
+    "full_reward_mean": 0.028840340253799224,
+    "full_reward_min": 0.041444391338173237,
+    "negative_dates": 0,
+    "positive_dates": 6,
+    "rank_component_mean": 0.02883816688072427,
+    "rank_component_min": 0.04143135109972329
+  },
+  "selected_top_n": 8,
+  "training_data_statement": "Original AceGuard fixed rank ensemble trained only on official split=train Poker44 canonical miner-visible API SourceUnits through sourceDate 2026-07-12 with sanitize=False. It combines frozen v402 balanced hash-bag/dense ranks and frozen v394 hierarchical natural action-policy sequence ranks at fixed 0.50/0.50. Live-length chunks use twelve deterministic hash-balanced salts with five 40-hand views each; hash selection controls coverage while every selected subsequence is restored to natural hand order. Public 30/40-hand source units therefore remain exactly identical to the rolling-OOF predictor. No private labels, pseudo-labels, identities, cards, outcomes, competitor code or weights, wallets, hotkeys or IP addresses were used for training or selection. Private live payloads were used only for label-blind shape, stability and runtime checks. This local candidate requires a frozen future sourceDate blind and has no deployment authorization.",
+  "version": "v403_20260712_123231",
+  "view_count_selection": {
+    "fixed_to_full80_spearman": 0.9944074407440743,
+    "fixed_to_full80_top9_overlap": 9,
+    "linear_runtime_estimate_seconds": 34.28050890611485,
+    "minimum_alternate_spearman": 0.958874764105018,
+    "minimum_alternate_top9_overlap": 7,
+    "passed_predeclared_stability": true,
+    "salts": 12,
+    "score_std": 0.15298970284430222,
+    "views": 60
+  },
+  "view_weights": [
+    0.5,
+    0.5
+  ]
+}

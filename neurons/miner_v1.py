@@ -60,12 +60,15 @@ This file intentionally supports only the active public model families:
 - v324_v11_consensus_lock7_v321_top<N>
 - v334_v11_consensus_lock7_dual25_top<N>
 - v373_original_hash_bag_top<N>
+- v415_canonical_contract_schema_fit80
+- v417_contract_hedged_rank_ensemble
 - v274_<strategy>_top<N>
 - v276_<strategy>_top<N>
 - v277_<strategy>_top<N>
 - v280_<strategy>_top<N>
 - v294_<strategy>_top<N>
 - v200_<strategy>_top<N>
+- v403_v402_natural_multisalt60_sequence
 
 Deployment secrets, wallet names, host details, audit logs, and private run
 scripts belong outside the public model repository.
@@ -85,6 +88,9 @@ import numpy as np
 
 from poker44.base.miner import BaseMinerNeuron
 from poker44.utils.model_manifest import (
+    V403_PUBLIC_MODEL,
+    V415_PUBLIC_MODEL,
+    V417_PUBLIC_MODEL,
     build_local_model_manifest,
     evaluate_manifest_compliance,
     manifest_digest,
@@ -290,6 +296,16 @@ def _repo_commit() -> str:
 
 
 def _variant_config(name: str) -> dict[str, Any]:
+    public_models = (V403_PUBLIC_MODEL, V415_PUBLIC_MODEL, V417_PUBLIC_MODEL)
+    for public_model in public_models:
+        if name != public_model["variant"]:
+            continue
+        return {
+            "family": public_model["family"],
+            "description": public_model["description"],
+            "default_top_n": public_model["default_top_n"],
+            "model_file": public_model["model_file"],
+        }
     if name == "v5_statistical":
         return {
             "family": "v5",
@@ -1360,6 +1376,26 @@ class Miner(BaseMinerNeuron):
                     REPO_ROOT / "data" / "models" / family / "report.json",
                 ]
             )
+        elif family == V403_PUBLIC_MODEL["family"]:
+            files.extend(
+                REPO_ROOT / relative
+                for relative in V403_PUBLIC_MODEL["package_paths"]
+                if relative != "poker44/score/scoring.py"
+            )
+        elif family in {
+            V415_PUBLIC_MODEL["family"],
+            V417_PUBLIC_MODEL["family"],
+        }:
+            public_model = (
+                V415_PUBLIC_MODEL
+                if family == V415_PUBLIC_MODEL["family"]
+                else V417_PUBLIC_MODEL
+            )
+            files.extend(
+                REPO_ROOT / relative
+                for relative in public_model["package_paths"]
+                if relative != "poker44/score/scoring.py"
+            )
         elif family in {
             "v112_super",
             "v113_daily",
@@ -1954,6 +1990,9 @@ class Miner(BaseMinerNeuron):
             "v324_v11_consensus_lock7_v321_top8",
             "v334_v11_consensus_lock7_dual25_top8",
             "v373_original_hash_bag_top8",
+            V403_PUBLIC_MODEL["family"],
+            V415_PUBLIC_MODEL["family"],
+            V417_PUBLIC_MODEL["family"],
             "v271_v11lock1_v268rest",
             "v274_v11lock1_v273rest",
             "v276_livesized6080100_v273",
@@ -1962,7 +2001,18 @@ class Miner(BaseMinerNeuron):
             "v200_stackseq_last3",
             "v201_stackseq_wide8",
         }:
-            if family == "v142_rankblend":
+            if family in {
+                V403_PUBLIC_MODEL["family"],
+                V415_PUBLIC_MODEL["family"],
+                V417_PUBLIC_MODEL["family"],
+            }:
+                public_model = {
+                    V403_PUBLIC_MODEL["family"]: V403_PUBLIC_MODEL,
+                    V415_PUBLIC_MODEL["family"]: V415_PUBLIC_MODEL,
+                    V417_PUBLIC_MODEL["family"]: V417_PUBLIC_MODEL,
+                }[family]
+                training_statement = str(public_model["training_data_statement"])
+            elif family == "v142_rankblend":
                 training_statement = (
                     "Model trained only on public Poker44 benchmark releaseVersion v1.13 "
                     "through sourceDate 2026-07-07 using miner-visible hand/action payload "
@@ -2630,7 +2680,13 @@ class Miner(BaseMinerNeuron):
                 "model_name": os.getenv("POKER44_MODEL_NAME", f"aceguard-{self.variant}"),
                 "model_version": os.getenv(
                     "POKER44_MODEL_VERSION",
-                    "2026.07.11-v321-original-set-ensemble-top10"
+                    str(V403_PUBLIC_MODEL["model_version"])
+                    if family == V403_PUBLIC_MODEL["family"]
+                    else str(V415_PUBLIC_MODEL["model_version"])
+                    if family == V415_PUBLIC_MODEL["family"]
+                    else str(V417_PUBLIC_MODEL["model_version"])
+                    if family == V417_PUBLIC_MODEL["family"]
+                    else "2026.07.11-v321-original-set-ensemble-top10"
                     if family == "v321_original_handset_multiseed_top10"
                     else "2026.07.11-v323-v11-consensus-lock8-v321-top10"
                     if family == "v323_v11_consensus_lock8_v321_top10"
@@ -2648,6 +2704,15 @@ class Miner(BaseMinerNeuron):
                 ),
                 "framework": framework,
                 "license": "MIT",
+                "artifact_sha256": (
+                    str(V403_PUBLIC_MODEL["model_sha256"])
+                    if family == V403_PUBLIC_MODEL["family"]
+                    else str(V415_PUBLIC_MODEL["model_sha256"])
+                    if family == V415_PUBLIC_MODEL["family"]
+                    else str(V417_PUBLIC_MODEL["model_sha256"])
+                    if family == V417_PUBLIC_MODEL["family"]
+                    else ""
+                ),
                 "repo_url": os.getenv("POKER44_MODEL_REPO_URL", ""),
                 "repo_commit": _repo_commit(),
                 "open_source": True,
@@ -2737,6 +2802,36 @@ class Miner(BaseMinerNeuron):
         manifest["model_family"] = family
         manifest["selection_strategy"] = str(self.variant_cfg.get("strategy", family))
         manifest["selection_top_n"] = int(self.variant_cfg.get("default_top_n", 0))
+        if family == V403_PUBLIC_MODEL["family"]:
+            manifest["training_data_sources"] = list(
+                V403_PUBLIC_MODEL["training_data_sources"]
+            )
+            manifest["training_refresh"] = str(V403_PUBLIC_MODEL["training_refresh"])
+            manifest["frozen_before_source_date"] = str(
+                V403_PUBLIC_MODEL["frozen_before_source_date"]
+            )
+            manifest["blind_evidence_sha256"] = str(
+                V403_PUBLIC_MODEL["blind_report_sha256"]
+            )
+        if family in {
+            V415_PUBLIC_MODEL["family"],
+            V417_PUBLIC_MODEL["family"],
+        }:
+            public_model = (
+                V415_PUBLIC_MODEL
+                if family == V415_PUBLIC_MODEL["family"]
+                else V417_PUBLIC_MODEL
+            )
+            manifest["training_data_sources"] = list(
+                public_model["training_data_sources"]
+            )
+            manifest["training_refresh"] = str(public_model["training_refresh"])
+            manifest["frozen_before_source_date"] = str(
+                public_model["frozen_before_source_date"]
+            )
+            manifest["blind_evidence_sha256"] = str(
+                public_model["blind_report_sha256"]
+            )
         if family == "v294_hg2_rebuild":
             manifest["training_data_sources"] = [
                 "https://api.poker44.net/api/v1/benchmark",
@@ -3328,6 +3423,86 @@ class Miner(BaseMinerNeuron):
             pass
         return [round(float(v), 6) for v in scores]
 
+    def _score_v403_model(self, chunks: list[list[dict[str, Any]]]) -> list[float]:
+        from poker44.score.original_v402_natural_multisalt_sequence_inference import (
+            component_scores,
+            load_bundle,
+        )
+        from poker44.score.rank_cap_remap import rank_cap_remap
+
+        top_n = _env_int("POKER44_V403_TOP_N", 8)
+        if top_n != 8:
+            raise ValueError("v403 frozen operating head requires exact top8")
+        model_file = os.getenv(
+            "POKER44_V403_MODEL_PATH",
+            str(REPO_ROOT / self.variant_cfg["model_file"]),
+        )
+        model_path = Path(model_file)
+        if not model_path.is_file() or model_path.is_symlink():
+            raise ValueError(f"v403 model missing or symlinked: {model_path}")
+        wrapper_sha256 = hashlib.sha256(model_path.read_bytes()).hexdigest()
+        if wrapper_sha256 != str(V403_PUBLIC_MODEL["model_sha256"]):
+            raise ValueError("v403 wrapper model hash mismatch")
+
+        runtime = getattr(self, "_v403_runtime", None)
+        runtime_path = getattr(self, "_v403_runtime_path", None)
+        if runtime is None or runtime_path != str(model_path):
+            runtime = load_bundle(model_path)
+            self._v403_runtime = runtime
+            self._v403_runtime_path = str(model_path)
+
+        components = component_scores(chunks, runtime)
+        raw_scores = np.asarray(components["combined"], dtype=float)
+        if raw_scores.shape != (len(chunks),) or not np.isfinite(raw_scores).all():
+            raise ValueError("v403 returned invalid raw score geometry")
+        self._last_raw_scores = [float(value) for value in raw_scores]
+        self._last_score_extra = {
+            "top_n": 8,
+            "sequence_lanes": int(components["sequence_lanes"]),
+            "wrapper_sha256": wrapper_sha256,
+        }
+        scores = rank_cap_remap(raw_scores, top_n=8)
+        return [round(float(value), 6) for value in scores]
+
+    def _score_contract_public_model(
+        self,
+        chunks: list[list[dict[str, Any]]],
+    ) -> list[float]:
+        from poker44.score.rank_cap_remap import rank_cap_remap
+        from poker44.score.v112_super_inference import load_bundle, score_chunks
+
+        family = self.variant_cfg["family"]
+        if family == V415_PUBLIC_MODEL["family"]:
+            public_model = V415_PUBLIC_MODEL
+        elif family == V417_PUBLIC_MODEL["family"]:
+            public_model = V417_PUBLIC_MODEL
+        else:
+            raise ValueError(f"unsupported public contract family: {family}")
+
+        top_n = int(public_model["default_top_n"])
+        model_path = REPO_ROOT / str(public_model["model_file"])
+        if not model_path.is_file() or model_path.is_symlink():
+            raise ValueError(f"{family} model missing or symlinked: {model_path}")
+        model_sha256 = hashlib.sha256(model_path.read_bytes()).hexdigest()
+        if model_sha256 != str(public_model["model_sha256"]):
+            raise ValueError(f"{family} model hash mismatch")
+
+        runtime = load_bundle(model_path)
+        raw_scores = np.asarray(
+            score_chunks(chunks, runtime, strategy="rank_mean"),
+            dtype=float,
+        )
+        if raw_scores.shape != (len(chunks),) or not np.isfinite(raw_scores).all():
+            raise ValueError(f"{family} returned invalid raw score geometry")
+
+        self._last_raw_scores = [float(value) for value in raw_scores]
+        self._last_score_extra = {
+            "top_n": top_n,
+            "model_sha256": model_sha256,
+        }
+        scores = rank_cap_remap(raw_scores, top_n=top_n)
+        return [round(float(value), 6) for value in scores]
+
     def _score_v298_lambdamart_wide_model(self, chunks: list[list[dict[str, Any]]]) -> list[float]:
         family = self.variant_cfg["family"]
         is_v306 = family == "v306_lambdamart_temporal_seed_ensemble"
@@ -3634,6 +3809,13 @@ class Miner(BaseMinerNeuron):
                 scores = self._score_v287_shape_adaptive_model(chunks)
             elif family == "v297_shape_adaptive_v296_v11_v270":
                 scores = self._score_v297_shape_adaptive_model(chunks)
+            elif family == V403_PUBLIC_MODEL["family"]:
+                scores = self._score_v403_model(chunks)
+            elif family in {
+                V415_PUBLIC_MODEL["family"],
+                V417_PUBLIC_MODEL["family"],
+            }:
+                scores = self._score_contract_public_model(chunks)
             elif family in {
                 "v298_lambdamart_wide_ranker",
                 "v306_lambdamart_temporal_seed_ensemble",

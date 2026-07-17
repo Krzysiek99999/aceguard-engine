@@ -1,0 +1,124 @@
+{
+  "automatic_deploy": false,
+  "automatic_publish": false,
+  "created_at_utc": "2026-07-12T18:04:43Z",
+  "declaration_path": "data/observations/live_forward/v415_canonical_contract_schema_fit80_prebuild_2026-07-16.json",
+  "declaration_sha256": "9e3ca98e81b0c7d9f28d91c1bc8086884b1dfd4159151c693a2a0d1bb4d75b7a",
+  "deployment_authorization": "none",
+  "family": "v415_canonical_contract_schema_fit80",
+  "frozen_before_source_date": "2026-07-16",
+  "hand_overlap_audit": {
+    "cross_date_hashes": 0,
+    "cross_label_hashes": 27340,
+    "cross_split_hashes": 6550,
+    "duplicate_hashes": 27340,
+    "hands": 54680,
+    "max_multiplicity": 2,
+    "unique_model_view_hands": 27340
+  },
+  "metadata": {
+    "calibration_seed": 42,
+    "calibration_size": 0.2,
+    "canonical_api_input": true,
+    "feature_count": 293,
+    "fit_order": "unsorted_train_test_split_return_order",
+    "hgb_iterations": 700,
+    "last_source_date": "2026-07-12",
+    "n_discarded_calibration_units": 318,
+    "n_fit_units": 1270,
+    "n_negative": 794,
+    "n_positive": 794,
+    "n_units": 1588,
+    "sanitize_train": false,
+    "seed": 260,
+    "source_dates": [
+      "2026-05-26",
+      "2026-05-27",
+      "2026-05-28",
+      "2026-05-29",
+      "2026-05-30",
+      "2026-05-31",
+      "2026-06-01",
+      "2026-06-02",
+      "2026-06-03",
+      "2026-06-04",
+      "2026-06-05",
+      "2026-06-06",
+      "2026-06-07",
+      "2026-06-08",
+      "2026-06-09",
+      "2026-06-10",
+      "2026-06-11",
+      "2026-06-12",
+      "2026-06-13",
+      "2026-06-14",
+      "2026-06-15",
+      "2026-06-16",
+      "2026-06-17",
+      "2026-06-18",
+      "2026-06-19",
+      "2026-06-20",
+      "2026-06-21",
+      "2026-06-22",
+      "2026-06-23",
+      "2026-06-24",
+      "2026-06-25",
+      "2026-06-26",
+      "2026-06-27",
+      "2026-06-28",
+      "2026-06-29",
+      "2026-06-30",
+      "2026-07-01",
+      "2026-07-02",
+      "2026-07-03",
+      "2026-07-04",
+      "2026-07-05",
+      "2026-07-06",
+      "2026-07-07",
+      "2026-07-08",
+      "2026-07-09",
+      "2026-07-10",
+      "2026-07-11",
+      "2026-07-12"
+    ],
+    "source_key_sha256": "cfc9fd8fb79b6140208b0c668e381955adaee3c2b5364f547f062fb309caddf3",
+    "split_counts": {
+      "train": 1304,
+      "validation": 284
+    },
+    "top1_hyperparams": true,
+    "tree_estimators": 900
+  },
+  "model_path": "data/models/v415_canonical_contract_schema_fit80/20260712_preblind/model.pkl",
+  "model_sha256": "7840708c2284cf2eeea4420429692714db1d35b013baa65dab1b5b5a3eedd1f6",
+  "next_required_step": "immutable one-shot public sourceDate 2026-07-16 blind before any retraining, publication, or one-slot canary consideration",
+  "selection_evidence": [
+    {
+      "path": "data/observations/live_forward/v409_schema_contract_transfer_multiseed_20260712.json",
+      "sha256": "39058468ee1425264fddd7a75b5fe59384df6d723b060c7c211723afbf06b4b3"
+    },
+    {
+      "path": "data/observations/live_forward/v410_schema_contract_exact_protocol_20260712.json",
+      "sha256": "874300d0ed553cfff73a94fa07adc4a9af78ad0277eac10606b79a2e5c2876b4"
+    },
+    {
+      "path": "data/observations/live_forward/v411_schema_fit_utilization_multiseed_20260712.json",
+      "sha256": "f72fc32c466e582c8f2509bca2da9e569058bdd99c007a0c8cdb5b78e42052c5"
+    },
+    {
+      "path": "data/observations/live_forward/v412_schema_contract_legacy_universe_exact_20260712.json",
+      "sha256": "b7546bc65d42c5169a74157b34580e8bb3c0b8a459c7531547160c05efd5cdf3"
+    },
+    {
+      "path": "data/observations/live_forward/v413_schema_contract_legacy_order_exact_20260712.json",
+      "sha256": "3a4f8b9aba92859259b0a52f87a4ae93fa6680563f378adda065bc64550769a7"
+    },
+    {
+      "path": "data/observations/live_forward/v414_schema_legacy_allfit_exact_20260712.json",
+      "sha256": "27c898a2eb4e0df5cf50dd1cd89772cba2ede2ac4cf4141f58c1583e492d82d1"
+    }
+  ],
+  "training_contract": "canonical public Poker44 miner-visible API SourceUnits through 2026-07-12; sanitize=False; train+validation public splits; deterministic unsorted fit80; no batch-z",
+  "training_data_statement": "Trained only on public Poker44 benchmark labels through 2026-07-12. No wallets, hotkeys, IP addresses, forward-audit labels, validator-private labels, pseudo-labels, or competitor model weights are used.",
+  "version": "v415_canonical_contract_schema_fit80_20260712_preblind"
+}
